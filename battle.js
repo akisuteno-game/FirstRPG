@@ -28,6 +28,7 @@ enemyName.innerText = enemy.name;
 // ===== 攻撃 =====
 function attack(){
   if(playerGauge < 100) return;
+  if(player.hp <= 0) return;
 
   playerGauge = 0;
 
@@ -42,6 +43,9 @@ function attack(){
 
   enemy.hp -= dmg;
 
+  // 🔥 下限0
+  if(enemy.hp < 0) enemy.hp = 0;
+
   if(enemy.hp <= 0){
     win();
   }
@@ -49,21 +53,27 @@ function attack(){
 
 // ===== 敵攻撃 =====
 function enemyAttack(){
+  if(player.hp <= 0) return;
+
   player.hp -= enemy.atk;
+
+  // 🔥 下限0
+  if(player.hp < 0) player.hp = 0;
+
   text.innerText = enemy.name + "の攻撃 " + enemy.atk;
 
   if(player.hp <= 0){
     text.innerText = "ゲームオーバー";
+    btn.disabled = true;
   }
 }
 
 // ===== 勝利 =====
 function win(){
 
-  // ドロップ
   addItem(enemy.drop,1);
 
-  // 🔥 戦闘後回復（最大HPの10%）
+  // 戦闘後回復（10%）
   let heal = player.maxHP * 0.1;
   player.hp += heal;
 
@@ -78,8 +88,10 @@ function win(){
 
 // ===== ループ =====
 function loop(){
-  playerGauge += player.speed;
-  enemy.gauge += enemy.speed;
+  if(player.hp > 0 && enemy.hp > 0){
+    playerGauge += player.speed;
+    enemy.gauge += enemy.speed;
+  }
 
   if(playerGauge > 100) playerGauge = 100;
 
@@ -95,9 +107,8 @@ function loop(){
 // ===== UI更新 =====
 function update(){
 
-  // 🔥 小数対策（表示だけ丸める）
   enemyHP.innerText =
-    Math.floor(enemy.hp) + "/" + enemy.maxHP;
+    Math.max(0, Math.floor(enemy.hp)) + "/" + enemy.maxHP;
 
   enemyBar.style.width =
     (enemy.hp/enemy.maxHP*100) + "%";
@@ -105,16 +116,16 @@ function update(){
   enemyGaugeBar.style.width = enemy.gauge + "%";
 
   playerHP.innerText =
-    Math.floor(player.hp) + "/" + player.maxHP;
+    Math.max(0, Math.floor(player.hp)) + "/" + player.maxHP;
 
   playerHPBar.style.width =
     (player.hp/player.maxHP*100) + "%";
 
   playerGaugeBar.style.width = playerGauge + "%";
 
-  btn.disabled = playerGauge < 100;
+  btn.disabled = playerGauge < 100 || player.hp <= 0;
 
-  // HP色変化
+  // HP色
   let r = player.hp/player.maxHP;
 
   if(r < 0.1) playerHPBar.style.background = "red";
