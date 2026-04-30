@@ -10,7 +10,7 @@ enemy.gauge = 0;
 
 let playerGauge = 0;
 
-// ===== 表示用関数（🔥これが重要）=====
+// ===== 表示用 =====
 function hp(v){
   return Math.max(0, Math.floor(v));
 }
@@ -47,9 +47,11 @@ function attack(){
   }
 
   enemy.hp -= dmg;
-  if(enemy.hp < 0) enemy.hp = 0;
 
-  if(enemy.hp <= 0){
+  // 🔥 下限0
+  enemy.hp = Math.max(0, enemy.hp);
+
+  if(enemy.hp === 0){
     win();
   }
 }
@@ -59,11 +61,13 @@ function enemyAttack(){
   if(player.hp <= 0) return;
 
   player.hp -= enemy.atk;
-  if(player.hp < 0) player.hp = 0;
+
+  // 🔥 下限0
+  player.hp = Math.max(0, player.hp);
 
   text.innerText = enemy.name + "の攻撃 " + enemy.atk;
 
-  if(player.hp <= 0){
+  if(player.hp === 0){
     text.innerText = "ゲームオーバー";
     btn.disabled = true;
   }
@@ -93,7 +97,7 @@ function loop(){
     enemy.gauge += enemy.speed;
   }
 
-  if(playerGauge > 100) playerGauge = 100;
+  playerGauge = Math.min(100, playerGauge);
 
   if(enemy.gauge >= 100){
     enemy.gauge = 0;
@@ -107,18 +111,17 @@ function loop(){
 // ===== UI更新 =====
 function update(){
 
-  // 🔥 全部この関数通す
   enemyHP.innerText = hp(enemy.hp) + "/" + enemy.maxHP;
   playerHP.innerText = hp(player.hp) + "/" + player.maxHP;
 
+  // 🔥 バーも0〜100%に制限
   enemyBar.style.width =
-    (enemy.hp/enemy.maxHP*100) + "%";
-
-  enemyGaugeBar.style.width = enemy.gauge + "%";
+    Math.max(0, enemy.hp/enemy.maxHP*100) + "%";
 
   playerHPBar.style.width =
-    (player.hp/player.maxHP*100) + "%";
+    Math.max(0, player.hp/player.maxHP*100) + "%";
 
+  enemyGaugeBar.style.width = enemy.gauge + "%";
   playerGaugeBar.style.width = playerGauge + "%";
 
   btn.disabled = playerGauge < 100 || player.hp <= 0;
