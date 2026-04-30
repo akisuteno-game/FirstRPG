@@ -48,7 +48,7 @@ function attack(){
     text.innerText = "攻撃 " + dmg;
   }
 
-  // 🔥 先に死亡判定
+  // 先に死亡判定
   if(enemy.hp - dmg <= 0){
     enemy.hp = 0;
     win();
@@ -60,18 +60,23 @@ function attack(){
 
 // ===== 敵攻撃 =====
 function enemyAttack(){
-  if(player.hp <= 0) return;
-  if(battleEnd) return;
+  if(player.hp <= 0 || battleEnd) return;
 
-  // 🔥 先に死亡判定
+  // 🔥 死亡判定
   if(player.hp - enemy.atk <= 0){
     player.hp = 0;
 
-    text.innerText = enemy.name + "の攻撃 " + enemy.atk;
     text.innerText = "ゲームオーバー";
-
     btn.disabled = true;
     battleEnd = true;
+
+    save();
+
+    // 🔥 1秒後に戻る
+    setTimeout(()=>{
+      location.href = "index.html";
+    }, 1000);
+
     return;
   }
 
@@ -114,7 +119,7 @@ function loop(){
     }
   }
 
-  // 🔥 念のため最終防御
+  // 最終防御
   player.hp = Math.max(0, player.hp);
   enemy.hp = Math.max(0, enemy.hp);
 
