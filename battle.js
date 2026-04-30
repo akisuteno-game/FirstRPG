@@ -1,7 +1,8 @@
 load();
 
 const params = new URLSearchParams(location.search);
-const id = params.get("enemy");
+let id = parseInt(params.get("enemy"));
+if(isNaN(id)) id = 0;
 
 let enemy = {...enemies[id]};
 enemy.maxHP = enemy.hp;
@@ -9,6 +10,7 @@ enemy.gauge = 0;
 
 let playerGauge = 0;
 
+// ===== UI取得 =====
 const enemyName = document.getElementById("enemyName");
 const enemyHP = document.getElementById("enemyHP");
 const enemyBar = document.getElementById("enemyBar");
@@ -31,11 +33,11 @@ function attack(){
 
   let dmg = player.atk;
 
-  if(Math.random()*100 < player.critRate){
-    dmg = Math.floor(dmg*player.critDmg);
-    text.innerText = "クリティカル！ "+dmg;
+  if(Math.random()*100 < player.crit){
+    dmg = Math.floor(dmg * 2);
+    text.innerText = "クリティカル！ " + dmg;
   } else {
-    text.innerText = "攻撃 "+dmg;
+    text.innerText = "攻撃 " + dmg;
   }
 
   enemy.hp -= dmg;
@@ -48,7 +50,7 @@ function attack(){
 // ===== 敵攻撃 =====
 function enemyAttack(){
   player.hp -= enemy.atk;
-  text.innerText = enemy.name+"の攻撃 "+enemy.atk;
+  text.innerText = enemy.name + "の攻撃 " + enemy.atk;
 
   if(player.hp <= 0){
     text.innerText = "ゲームオーバー";
@@ -58,13 +60,9 @@ function enemyAttack(){
 // ===== 勝利 =====
 function win(){
   addItem(enemy.drop,1);
-
-  if(Math.random()<0.2){
-    addItem(enemy.rare,1);
-  }
+  text.innerText = "勝利！";
 
   save();
-  text.innerText = "勝利！";
 }
 
 // ===== ループ =====
@@ -83,22 +81,34 @@ function loop(){
   requestAnimationFrame(loop);
 }
 
-// ===== UI =====
+// ===== UI更新 =====
 function update(){
-  enemyHP.innerText = enemy.hp+"/"+enemy.maxHP;
-  enemyBar.style.width = (enemy.hp/enemy.maxHP*100)+"%";
-  enemyGaugeBar.style.width = enemy.gauge+"%";
 
-  playerHP.innerText = player.hp+"/"+player.maxHP;
-  playerHPBar.style.width = (player.hp/player.maxHP*100)+"%";
-  playerGaugeBar.style.width = playerGauge+"%";
+  // 🔥 小数対策（表示だけ丸める）
+  enemyHP.innerText =
+    Math.floor(enemy.hp) + "/" + enemy.maxHP;
+
+  enemyBar.style.width =
+    (enemy.hp/enemy.maxHP*100) + "%";
+
+  enemyGaugeBar.style.width = enemy.gauge + "%";
+
+  playerHP.innerText =
+    Math.floor(player.hp) + "/" + player.maxHP;
+
+  playerHPBar.style.width =
+    (player.hp/player.maxHP*100) + "%";
+
+  playerGaugeBar.style.width = playerGauge + "%";
 
   btn.disabled = playerGauge < 100;
 
+  // HP色変化
   let r = player.hp/player.maxHP;
-  if(r<0.1) playerHPBar.style.background="red";
-  else if(r<0.5) playerHPBar.style.background="orange";
-  else playerHPBar.style.background="lime";
+
+  if(r < 0.1) playerHPBar.style.background = "red";
+  else if(r < 0.5) playerHPBar.style.background = "orange";
+  else playerHPBar.style.background = "lime";
 }
 
 // ===== その他 =====
@@ -109,7 +119,8 @@ function addItem(n,c){
 
 function back(){
   save();
-  location.href="index.html";
+  location.href = "index.html";
 }
 
+// ===== スタート =====
 loop();
