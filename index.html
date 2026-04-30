@@ -2,52 +2,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>RPG 強化版</title>
+<title>RPG 進化版</title>
 
 <style>
 body {
-  background: #111;
-  color: #eee;
-  font-family: monospace;
-  margin: 0;
+  background:#111;
+  color:#eee;
+  font-family:monospace;
+  margin:0;
 }
 
-#container {
-  display: flex;
-}
+#container { display:flex; }
 
 #statusPanel {
-  width: 200px;
-  border-right: 2px solid #444;
-  padding: 10px;
-  background: #1a1a1a;
+  width:220px;
+  border-right:2px solid #444;
+  padding:10px;
+  background:#1a1a1a;
 }
 
-#game {
-  flex: 1;
-  padding: 10px;
-}
+#game { flex:1; padding:10px; }
 
 button {
-  margin: 5px;
-  padding: 8px;
-  background: #333;
-  color: white;
-  border: 1px solid #888;
+  margin:5px;
+  padding:8px;
+  background:#333;
+  color:white;
+  border:1px solid #888;
 }
 
-.bar {
-  width: 100%;
-  height: 12px;
-  background: #333;
-  margin-bottom: 5px;
-}
-
-.fill {
-  height: 100%;
-  background: lime;
-  width: 100%;
-}
+.bar { width:100%; height:12px; background:#333; }
+.fill { height:100%; width:100%; background:lime; }
 
 #menu {
   margin-top:10px;
@@ -62,30 +47,27 @@ button {
 
 <div id="container">
 
-<!-- ステータス -->
 <div id="statusPanel">
   <h3>ステータス</h3>
-
   Lv:<span id="level"></span><br>
 
   HP:
   <div class="bar"><div id="hpBar" class="fill"></div></div>
   <span id="playerHP"></span><br>
 
-  攻撃:<span id="atk"></span><br><br>
+  攻撃:<span id="atk"></span><br>
+  クリ率:<span id="critRate"></span>%<br>
+  クリ倍率:<span id="critDmg"></span>x<br><br>
 
   EXP:<span id="exp"></span>/<span id="nextExp"></span><br><br>
 
-  <b>素材</b><br>
+  <b>素材</b>
   <div id="items"></div>
 </div>
 
-<!-- ゲーム -->
 <div id="game">
 
 <div id="enemyName"></div>
-
-HP:
 <div class="bar"><div id="enemyBar" class="fill"></div></div>
 <span id="enemyHP"></span><br><br>
 
@@ -111,16 +93,18 @@ let player = {
   level:1,
   exp:0,
   nextExp:10,
+  critRate:10, // %
+  critDmg:1.5,
   items:{}
 };
 
-// ===== 敵（増やした） =====
+// ===== 敵 =====
 const enemies = [
-  {name:"スライム", hp:10, drop:"ゼリー"},
-  {name:"ゴブリン", hp:15, drop:"牙"},
-  {name:"オーク", hp:20, drop:"骨"},
-  {name:"魔法使い", hp:18, drop:"魔石"},
-  {name:"ドラゴン", hp:30, drop:"鱗"}
+  {name:"スライム", hp:10, drop:"ゼリー", rare:"スライム核"},
+  {name:"ゴブリン", hp:15, drop:"牙", rare:"鋭い牙"},
+  {name:"オーク", hp:20, drop:"骨", rare:"巨大骨"},
+  {name:"魔法使い", hp:18, drop:"魔石", rare:"濃縮魔石"},
+  {name:"ドラゴン", hp:30, drop:"鱗", rare:"竜の心臓"}
 ];
 
 let enemy;
@@ -139,8 +123,17 @@ function setText(msg){
 
 // ===== 攻撃 =====
 function attack(){
-  enemy.hp -= player.atk;
-  setText("攻撃 "+player.atk);
+  let dmg = player.atk;
+
+  // クリティカル
+  if(Math.random()*100 < player.critRate){
+    dmg = Math.floor(dmg * player.critDmg);
+    setText("クリティカル！ "+dmg);
+  } else {
+    setText("攻撃 "+dmg);
+  }
+
+  enemy.hp -= dmg;
 
   if(enemy.hp <= 0){
     win();
@@ -155,19 +148,17 @@ function win(){
 
   addItem(enemy.drop,1);
 
+  if(Math.random()<0.2){
+    addItem(enemy.rare,1);
+    setText("レアドロップ！");
+  }
+
   if(player.exp >= player.nextExp){
     player.level++;
     player.exp = 0;
-
-    // レベルアップ仕様変更
     player.nextExp = Math.floor(player.nextExp * 1.5);
-
     player.maxHP += 5;
     player.hp = player.maxHP;
-
-    setText("レベルアップ！");
-  } else {
-    setText("勝利！");
   }
 
   setTimeout(spawn,1000);
@@ -184,6 +175,8 @@ function openUpgrade(){
   let html = "<h3>強化</h3>";
   html += "攻撃+1（ゼリー2）<button onclick='upAtk()'>+</button><br>";
   html += "HP+5（牙2）<button onclick='upHP()'>+</button><br>";
+  html += "クリ率+5%（魔石2）<button onclick='upCrit()'>+</button><br>";
+  html += "クリ倍率+0.5（鱗2）<button onclick='upCritDmg()'>+</button><br>";
   document.getElementById("menu").innerHTML = html;
 }
 
@@ -191,7 +184,6 @@ function upAtk(){
   if((player.items["ゼリー"]||0)<2) return;
   player.items["ゼリー"]-=2;
   player.atk++;
-  update();
 }
 
 function upHP(){
@@ -199,7 +191,18 @@ function upHP(){
   player.items["牙"]-=2;
   player.maxHP+=5;
   player.hp=player.maxHP;
-  update();
+}
+
+function upCrit(){
+  if((player.items["魔石"]||0)<2) return;
+  player.items["魔石"]-=2;
+  player.critRate+=5;
+}
+
+function upCritDmg(){
+  if((player.items["鱗"]||0)<2) return;
+  player.items["鱗"]-=2;
+  player.critDmg+=0.5;
 }
 
 // ===== 設定 =====
@@ -238,18 +241,29 @@ function update(){
   document.getElementById("level").innerText = player.level;
   document.getElementById("playerHP").innerText = player.hp+"/"+player.maxHP;
   document.getElementById("atk").innerText = player.atk;
-
+  document.getElementById("critRate").innerText = player.critRate;
+  document.getElementById("critDmg").innerText = player.critDmg;
   document.getElementById("exp").innerText = player.exp;
   document.getElementById("nextExp").innerText = player.nextExp;
 
-  // HPバー
-  document.getElementById("hpBar").style.width =
-    (player.hp/player.maxHP*100)+"%";
+  // HPバー割合
+  let hpRatio = player.hp/player.maxHP;
+
+  let bar = document.getElementById("hpBar");
+  bar.style.width = (hpRatio*100)+"%";
+
+  // 色変化
+  if(hpRatio < 0.1){
+    bar.style.background = "red";
+  } else if(hpRatio < 0.5){
+    bar.style.background = "orange";
+  } else {
+    bar.style.background = "lime";
+  }
 
   document.getElementById("enemyBar").style.width =
     (enemy.hp/enemy.maxHP*100)+"%";
 
-  // 素材
   let html="";
   for(let k in player.items){
     html += k+"："+player.items[k]+"<br>";
