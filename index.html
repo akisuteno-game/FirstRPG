@@ -2,124 +2,242 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>UIバトルRPG</title>
+<title>ゲージRPG+</title>
 
 <style>
 body {
-  background: black;
-  color: white;
+  background: radial-gradient(#111, #000);
+  color: #0f0;
   font-family: monospace;
   text-align: center;
 }
 
 #game {
-  width: 400px;
+  width: 420px;
   margin: auto;
-}
-
-#enemy {
-  font-size: 24px;
-  margin: 20px;
-}
-
-#status {
-  border: 2px solid white;
+  border: 2px solid #0f0;
   padding: 10px;
+  background: #000;
+}
+
+.bar {
+  height: 12px;
+  background: #222;
+  margin: 5px 0;
+}
+
+.fill {
+  height: 100%;
+  background: lime;
+  width: 0%;
+  transition: width 0.1s;
+}
+
+.enemy {
+  font-size: 22px;
   margin: 10px;
 }
 
 #text {
-  border: 2px solid white;
-  padding: 10px;
+  border: 1px solid #0f0;
   height: 60px;
-  margin: 10px;
+  padding: 5px;
+  margin: 10px 0;
 }
 
-#commands button {
-  width: 45%;
+button {
+  width: 30%;
   margin: 5px;
   padding: 10px;
   background: black;
-  color: white;
-  border: 2px solid white;
+  color: #0f0;
+  border: 1px solid #0f0;
+}
+
+button:disabled {
+  opacity: 0.3;
 }
 </style>
 </head>
 
 <body>
 
-<h2>⚔ バトルRPG</h2>
+<h2>⚔ ゲージRPG+</h2>
 
 <div id="game">
 
-  <div id="enemy">スライム</div>
+<div class="enemy" id="enemyName"></div>
+<div>HP: <span id="enemyHP"></span></div>
+<div class="bar"><div id="enemyGauge" class="fill"></div></div>
 
-  <div id="status">
-    HP: <span id="playerHP">20</span>
-  </div>
+<hr>
 
-  <div id="text">敵が現れた！</div>
+<div>Lv:<span id="level"></span> HP:<span id="playerHP"></span></div>
+<div class="bar"><div id="playerGauge" class="fill"></div></div>
 
-  <div id="commands">
-    <button onclick="attack()">たたかう</button>
-    <button onclick="run()">にげる</button>
-  </div>
+<div id="text"></div>
+
+<div>
+  <button id="atkBtn" onclick="attack()">攻撃</button>
+  <button id="skillBtn" onclick="skill()">スキル</button>
+  <button onclick="save()">セーブ</button>
+</div>
 
 </div>
 
 <script>
-let playerHP = 20;
-let enemyHP = 15;
+// ===== データ =====
+let player = {
+  hp: 20,
+  maxHP: 20,
+  level: 1,
+  exp: 0,
+  gauge: 0
+};
 
+let enemies = [
+  {name:"スライム", hp:10, speed:1},
+  {name:"ゴブリン", hp:15, speed:1.5},
+  {name:"ドラゴン", hp:30, speed:0.6}
+];
+
+let enemy;
+
+// ===== 初期化 =====
+function spawn(){
+  enemy = {...enemies[Math.floor(Math.random()*enemies.length)]};
+  enemy.gauge = 0;
+  setText(enemy.name+" が現れた！");
+}
+
+// ===== テキスト（タイプ風） =====
 function setText(msg){
-  document.getElementById("text").innerText = msg;
+  let el = document.getElementById("text");
+  el.innerText = "";
+  let i = 0;
+  let interval = setInterval(()=>{
+    el.innerText += msg[i];
+    i++;
+    if(i>=msg.length) clearInterval(interval);
+  },30);
 }
 
-function update(){
-  document.getElementById("playerHP").innerText = playerHP;
-}
-
+// ===== 行動 =====
 function attack(){
-  let dmg = Math.floor(Math.random()*5)+1;
-  enemyHP -= dmg;
-  setText("攻撃！ " + dmg + "ダメージ！");
+  if(player.gauge < 100) return;
+  player.gauge = 0;
 
-  if(enemyHP <= 0){
-    setText("敵を倒した！");
-    setTimeout(resetBattle, 1500);
-    return;
+  let dmg = rand(3,6);
+  enemy.hp -= dmg;
+  setText("攻撃！ "+dmg+"ダメージ");
+
+  if(enemy.hp <= 0){
+    win();
   }
+}
 
-  setTimeout(enemyTurn, 1000);
+function skill(){
+  if(player.gauge < 100) return;
+  player.gauge = 0;
+
+  let dmg = rand(6,12);
+  enemy.hp -= dmg;
+  setText("必殺技！ "+dmg+"ダメージ");
+
+  if(enemy.hp <= 0){
+    win();
+  }
 }
 
 function enemyTurn(){
-  let dmg = Math.floor(Math.random()*4)+1;
-  playerHP -= dmg;
+  let dmg = rand(2,5);
+  player.hp -= dmg;
+  setText(enemy.name+" の攻撃！ "+dmg);
 
-  setText("敵の攻撃！ " + dmg + "ダメージ！");
+  if(player.hp <= 0){
+    setText("ゲームオーバー");
+  }
+}
 
-  if(playerHP <= 0){
-    setText("やられた...");
-    return;
+// ===== 勝利 =====
+function win(){
+  let gain = 5;
+  player.exp += gain;
+
+  if(player.exp >= 10){
+    player.level++;
+    player.exp = 0;
+    player.maxHP += 5;
+    player.hp = player.maxHP;
+    setText("レベルアップ！ Lv."+player.level);
+  } else {
+    setText("勝利！ EXP+"+gain);
+  }
+
+  setTimeout(spawn,1000);
+}
+
+// ===== ループ =====
+function loop(){
+  player.gauge += 1.2;
+  enemy.gauge += enemy.speed;
+
+  if(player.gauge > 100) player.gauge = 100;
+
+  if(enemy.gauge >= 100){
+    enemy.gauge = 0;
+    enemyTurn();
   }
 
   update();
+  requestAnimationFrame(loop);
 }
 
-function run(){
-  setText("にげた！");
-  setTimeout(resetBattle, 1000);
+// ===== UI =====
+function update(){
+  set("playerHP", player.hp);
+  set("enemyHP", enemy.hp);
+  set("level", player.level);
+
+  width("playerGauge", player.gauge);
+  width("enemyGauge", enemy.gauge);
+
+  // ボタン制御
+  document.getElementById("atkBtn").disabled = player.gauge < 100;
+  document.getElementById("skillBtn").disabled = player.gauge < 100;
+
+  document.getElementById("enemyName").innerText = enemy.name;
 }
 
-function resetBattle(){
-  enemyHP = 15;
-  playerHP = 20;
-  update();
-  setText("新しい敵が現れた！");
+function set(id,val){
+  document.getElementById(id).innerText = val;
 }
 
-update();
+function width(id,val){
+  document.getElementById(id).style.width = val+"%";
+}
+
+function rand(a,b){
+  return Math.floor(Math.random()*(b-a+1))+a;
+}
+
+// ===== セーブ =====
+function save(){
+  localStorage.setItem("rpgSave", JSON.stringify(player));
+  setText("セーブした！");
+}
+
+function load(){
+  let data = localStorage.getItem("rpgSave");
+  if(data){
+    player = JSON.parse(data);
+  }
+}
+
+// ===== スタート =====
+load();
+spawn();
+loop();
 </script>
 
 </body>
