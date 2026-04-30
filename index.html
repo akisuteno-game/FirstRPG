@@ -4,50 +4,54 @@
 <meta charset="UTF-8">
 <title>敵選択</title>
 
-<style>
-body {
-  background:#111;
-  color:#eee;
-  font-family:monospace;
-  text-align:center;
-}
-button {
-  margin:5px;
-  padding:10px;
-  background:#333;
-  color:white;
-  border:1px solid #888;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <h2>敵を選択</h2>
+
+<!-- ステータス表示 -->
+<div id="status"></div>
+
+<hr>
+
+<!-- 敵一覧 -->
 <div id="list"></div>
 
+<!-- 設定 -->
+<br>
+<button onclick="save()">保存</button>
+<button onclick="resetData()">データ削除</button>
+
 <script src="data.js"></script>
+<script src="player.js"></script>
+<script src="main.js"></script>
 
 <script>
-window.onload = function(){
+// ===== ステータス表示 =====
+function drawStatus(){
+  const s = document.getElementById("status");
 
-  const list = document.getElementById("list");
+  s.innerHTML =
+    "HP: " + player.hp + "/" + player.maxHP + "<br>" +
+    "攻撃: " + player.atk + "<br>" +
+    "クリ率: " + player.crit + "%<br>" +
+    "素材: " + JSON.stringify(player.items);
+}
 
-  for(let i=0;i<enemies.length;i++){
-    let e = enemies[i];
+// ===== データ削除 =====
+function resetData(){
+  localStorage.removeItem("player");
+  location.reload();
+}
 
-    let btn = document.createElement("button");
-    btn.innerText = e.name;
+// ===== 初期表示 =====
+setInterval(()=>{
+  fixHP();
+  drawStatus();
+}, 500);
 
-    btn.onclick = function(){
-      location.href = "battle.html?enemy="+e.id;
-    };
-
-    list.appendChild(btn);
-    list.appendChild(document.createElement("br"));
-  }
-
-};
 </script>
 
 </body>
