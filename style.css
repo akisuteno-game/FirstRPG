@@ -5,7 +5,7 @@ body {
   margin:0;
 }
 
-/* 左パネル */
+/* 左ステータス */
 #side {
   position:fixed;
   left:0;
@@ -18,30 +18,50 @@ body {
   box-sizing:border-box;
 }
 
-/* メイン画面 */
+/* メイン */
 #main {
   margin-left:220px;
-  text-align:center;
-  padding:10px;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
+/* 3分割 */
+.section {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+/* HPバー */
+.bar {
+  width:220px;
+  height:16px;
+  background:#333;
+  position:relative;
+}
+
+/* 中身 */
+.fill {
+  height:100%;
+  width:0%;
+  background:lime;
+}
+
+/* HP数字（バー上） */
+.hpText {
+  position:absolute;
+  width:100%;
+  text-align:center;
+  top:-18px;
+  font-size:14px;
+}
 button {
   margin:5px;
   padding:10px;
   background:#333;
   color:white;
   border:1px solid #888;
-}
-
-.bar {
-  width:200px;
-  height:12px;
-  background:#333;
-  margin:auto;
-}
-
-.fill {
-  height:100%;
-  width:0%;
-  background:lime;
 }
