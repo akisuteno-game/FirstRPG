@@ -48,12 +48,14 @@ function attack(){
     text.innerText = "攻撃 " + dmg;
   }
 
-  enemy.hp -= dmg;
-  enemy.hp = Math.max(0, enemy.hp);
-
-  if(enemy.hp === 0){
+  // 🔥 先に死亡判定
+  if(enemy.hp - dmg <= 0){
+    enemy.hp = 0;
     win();
+    return;
   }
+
+  enemy.hp -= dmg;
 }
 
 // ===== 敵攻撃 =====
@@ -61,16 +63,20 @@ function enemyAttack(){
   if(player.hp <= 0) return;
   if(battleEnd) return;
 
-  player.hp -= enemy.atk;
-  player.hp = Math.max(0, player.hp);
+  // 🔥 先に死亡判定
+  if(player.hp - enemy.atk <= 0){
+    player.hp = 0;
 
-  text.innerText = enemy.name + "の攻撃 " + enemy.atk;
-
-  if(player.hp === 0){
+    text.innerText = enemy.name + "の攻撃 " + enemy.atk;
     text.innerText = "ゲームオーバー";
+
     btn.disabled = true;
     battleEnd = true;
+    return;
   }
+
+  player.hp -= enemy.atk;
+  text.innerText = enemy.name + "の攻撃 " + enemy.atk;
 }
 
 // ===== 勝利 =====
@@ -108,7 +114,7 @@ function loop(){
     }
   }
 
-  // 🔥 最強防御（毎フレーム強制補正）
+  // 🔥 念のため最終防御
   player.hp = Math.max(0, player.hp);
   enemy.hp = Math.max(0, enemy.hp);
 
