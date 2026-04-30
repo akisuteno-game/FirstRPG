@@ -1,6 +1,7 @@
 let player = {
-  hp:20,maxHP:20,atk:3,
-  critRate:10,critDmg:1.5,
+  hp:20,maxHP:20,
+  atk:3,
+  crit:10,
   speed:1.2,
   items:{}
 };
