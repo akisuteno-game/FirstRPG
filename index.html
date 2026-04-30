@@ -26,6 +26,12 @@ button {
   color:#0f0;
   border:1px solid #0f0;
 }
+
+#menu {
+  margin-top:10px;
+  border:1px solid #0f0;
+  padding:5px;
+}
 </style>
 </head>
 
@@ -47,6 +53,7 @@ SP:<span id="sp"></span>
 <button onclick="attack()">攻撃</button>
 <button onclick="openSkill()">スキル</button>
 <button onclick="openEquip()">装備</button>
+<button onclick="showStatus()">ステータス</button>
 <button onclick="save()">セーブ</button>
 
 <div id="menu"></div>
@@ -191,6 +198,25 @@ function equipA(i){
   player.equip.armor = i;
   player.hp = getMaxHP();
   update();
+}
+
+// ===== ステータス表示 =====
+function showStatus(){
+  let text = "<h3>ステータス</h3>";
+
+  text += "Lv: " + player.level + "<br>";
+  text += "HP: " + player.hp + " / " + getMaxHP() + "<br>";
+  text += "攻撃力: " + getAtk() + "<br>";
+  text += "SP: " + player.sp + "<br><br>";
+
+  text += "武器: " + weapons[player.equip.weapon].name + "<br>";
+  text += "防具: " + armors[player.equip.armor].name + "<br><br>";
+
+  text += "スキル<br>";
+  text += "攻撃UP: Lv" + player.skills.atkUp + "<br>";
+  text += "HP強化: Lv" + player.skills.hpUp + "<br>";
+
+  document.getElementById("menu").innerHTML = text;
 }
 
 // ===== UI =====
