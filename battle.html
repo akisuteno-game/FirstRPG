@@ -9,6 +9,13 @@
 
 <body>
 
+<div id="side">
+  <h3>ステータス</h3>
+  <div id="status"></div>
+</div>
+
+<div id="main">
+
 <h2 id="enemyName"></h2>
 
 HP:
@@ -38,9 +45,29 @@ HP:
 
 <div id="text"></div>
 
+</div>
+
 <script src="data.js"></script>
 <script src="player.js"></script>
 <script src="battle.js"></script>
+
+<script>
+// 左ステータス更新
+function drawStatus(){
+  const s = document.getElementById("status");
+
+  s.innerHTML =
+    "HP: " + player.hp + "/" + player.maxHP + "<br>" +
+    "攻撃: " + player.atk + "<br>" +
+    "クリ率: " + player.crit + "%<br>" +
+    "素材:<br>" + JSON.stringify(player.items);
+}
+
+setInterval(()=>{
+  fixHP();
+  drawStatus();
+}, 300);
+</script>
 
 </body>
 </html>
