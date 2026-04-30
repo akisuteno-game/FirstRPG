@@ -39,21 +39,23 @@ function resetData(){
 }
 
 // ===== 回復設定 =====
-const healRate = 0.02; // 2%/秒
+const healPercentPerSec = 0.02; // 最大HPの2%/秒
 
 let lastTime = performance.now();
 
 // ===== UI更新 =====
 function update(delta){
 
-  // 自動回復（戦闘してない時＝index画面）
-  let heal = player.maxHP * healRate * (delta/1000);
-  player.hp += heal;
+  // ==== 自動回復 ====
+  let healAmount = player.maxHP * healPercentPerSec * (delta / 1000);
+  player.hp += healAmount;
 
+  // 上限制限
   if(player.hp > player.maxHP){
     player.hp = player.maxHP;
   }
 
+  // ==== 表示 ====
   document.getElementById("hp").innerText =
     Math.floor(player.hp)+"/"+player.maxHP;
 
@@ -61,13 +63,13 @@ function update(delta){
   document.getElementById("crit").innerText = player.crit;
 
   // HPバー
-  let r = player.hp/player.maxHP;
+  let ratio = player.hp / player.maxHP;
   let bar = document.getElementById("hpBar");
 
-  bar.style.width = (r*100)+"%";
+  bar.style.width = (ratio*100)+"%";
 
-  if(r<0.1) bar.style.background="red";
-  else if(r<0.5) bar.style.background="orange";
+  if(ratio < 0.1) bar.style.background="red";
+  else if(ratio < 0.5) bar.style.background="orange";
   else bar.style.background="lime";
 
   // 素材
