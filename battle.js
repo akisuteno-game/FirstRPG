@@ -10,6 +10,11 @@ enemy.gauge = 0;
 
 let playerGauge = 0;
 
+// ===== 表示用関数（🔥これが重要）=====
+function hp(v){
+  return Math.max(0, Math.floor(v));
+}
+
 // ===== UI取得 =====
 const enemyName = document.getElementById("enemyName");
 const enemyHP = document.getElementById("enemyHP");
@@ -42,8 +47,6 @@ function attack(){
   }
 
   enemy.hp -= dmg;
-
-  // 🔥 下限0
   if(enemy.hp < 0) enemy.hp = 0;
 
   if(enemy.hp <= 0){
@@ -56,8 +59,6 @@ function enemyAttack(){
   if(player.hp <= 0) return;
 
   player.hp -= enemy.atk;
-
-  // 🔥 下限0
   if(player.hp < 0) player.hp = 0;
 
   text.innerText = enemy.name + "の攻撃 " + enemy.atk;
@@ -73,7 +74,6 @@ function win(){
 
   addItem(enemy.drop,1);
 
-  // 戦闘後回復（10%）
   let heal = player.maxHP * 0.1;
   player.hp += heal;
 
@@ -107,16 +107,14 @@ function loop(){
 // ===== UI更新 =====
 function update(){
 
-  enemyHP.innerText =
-    Math.max(0, Math.floor(enemy.hp)) + "/" + enemy.maxHP;
+  // 🔥 全部この関数通す
+  enemyHP.innerText = hp(enemy.hp) + "/" + enemy.maxHP;
+  playerHP.innerText = hp(player.hp) + "/" + player.maxHP;
 
   enemyBar.style.width =
     (enemy.hp/enemy.maxHP*100) + "%";
 
   enemyGaugeBar.style.width = enemy.gauge + "%";
-
-  playerHP.innerText =
-    Math.max(0, Math.floor(player.hp)) + "/" + player.maxHP;
 
   playerHPBar.style.width =
     (player.hp/player.maxHP*100) + "%";
@@ -125,7 +123,6 @@ function update(){
 
   btn.disabled = playerGauge < 100 || player.hp <= 0;
 
-  // HP色
   let r = player.hp/player.maxHP;
 
   if(r < 0.1) playerHPBar.style.background = "red";
