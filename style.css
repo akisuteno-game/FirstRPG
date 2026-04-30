@@ -2,6 +2,20 @@ body {
   background:#111;
   color:#eee;
   font-family:monospace;
+}
+
+.container {
+  display:flex;
+}
+
+.left {
+  width:200px;
+  padding:10px;
+  border-right:1px solid #555;
+}
+
+.right {
+  flex:1;
   text-align:center;
 }
 
@@ -14,10 +28,9 @@ button {
 }
 
 .bar {
-  width:200px;
-  height:12px;
+  width:150px;
+  height:10px;
   background:#333;
-  margin:auto;
 }
 
 .fill {
