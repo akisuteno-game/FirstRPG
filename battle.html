@@ -3,47 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <title>バトル</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- 左 -->
 <div id="side">
   <h3>ステータス</h3>
   <div id="status"></div>
 </div>
 
+<!-- メイン -->
 <div id="main">
 
-<h2 id="enemyName"></h2>
+  <!-- 上：敵 -->
+  <div class="section">
+    <h2 id="enemyName"></h2>
 
-HP:
-<div class="bar"><div id="enemyBar" class="fill"></div></div>
-<span id="enemyHP"></span><br>
+    <div class="bar">
+      <div id="enemyBar" class="fill"></div>
+      <div id="enemyHP" class="hpText"></div>
+    </div>
 
-ゲージ:
-<div class="bar"><div id="enemyGauge" class="fill"></div></div>
+    ゲージ
+    <div class="bar">
+      <div id="enemyGauge" class="fill"></div>
+    </div>
+  </div>
 
-<hr>
+  <!-- 中：操作 -->
+  <div class="section">
+    <button id="attackBtn" onclick="attack()">攻撃</button>
+    <button onclick="upgrade()">強化</button>
+    <button onclick="back()">戻る</button>
 
-あなた
+    <div id="text"></div>
+  </div>
 
-HP:
-<div class="bar"><div id="playerBar" class="fill"></div></div>
-<span id="playerHP"></span><br>
+  <!-- 下：プレイヤー -->
+  <div class="section">
+    あなた
 
-ゲージ:
-<div class="bar"><div id="playerGauge" class="fill"></div></div><br>
+    <div class="bar">
+      <div id="playerBar" class="fill"></div>
+      <div id="playerHP" class="hpText"></div>
+    </div>
 
-攻撃:<span id="atk"></span><br>
-クリ率:<span id="crit"></span>%<br><br>
+    ゲージ
+    <div class="bar">
+      <div id="playerGauge" class="fill"></div>
+    </div>
 
-<button id="attackBtn" onclick="attack()">攻撃</button>
-<button onclick="upgrade()">強化</button>
-<button onclick="back()">戻る</button>
-
-<div id="text"></div>
+    攻撃:<span id="atk"></span><br>
+    クリ率:<span id="crit"></span>%
+  </div>
 
 </div>
 
@@ -52,7 +66,7 @@ HP:
 <script src="battle.js"></script>
 
 <script>
-// 左ステータス更新
+// 左ステータス
 function drawStatus(){
   const s = document.getElementById("status");
 
@@ -66,7 +80,7 @@ function drawStatus(){
 setInterval(()=>{
   fixHP();
   drawStatus();
-}, 300);
+},300);
 </script>
 
 </body>
