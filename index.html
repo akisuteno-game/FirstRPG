@@ -2,16 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>RPG 進化版</title>
+<title>RPGi</title>
 
 <style>
-body {
-  background:#111;
-  color:#eee;
-  font-family:monospace;
-  margin:0;
-}
-
+body { background:#111; color:#eee; font-family:monospace; margin:0; }
 #container { display:flex; }
 
 #statusPanel {
@@ -31,8 +25,8 @@ button {
   border:1px solid #888;
 }
 
-.bar { width:100%; height:12px; background:#333; }
-.fill { height:100%; width:100%; background:lime; }
+.bar { width:100%; height:12px; background:#333; margin-bottom:5px; }
+.fill { height:100%; width:0%; background:cyan; }
 
 #menu {
   margin-top:10px;
@@ -49,6 +43,7 @@ button {
 
 <div id="statusPanel">
   <h3>ステータス</h3>
+
   Lv:<span id="level"></span><br>
 
   HP:
@@ -59,6 +54,9 @@ button {
   クリ率:<span id="critRate"></span>%<br>
   クリ倍率:<span id="critDmg"></span>x<br><br>
 
+  <b>行動ゲージ</b>
+  <div class="bar"><div id="playerGaugeBar" class="fill"></div></div>
+
   EXP:<span id="exp"></span>/<span id="nextExp"></span><br><br>
 
   <b>素材</b>
@@ -68,12 +66,18 @@ button {
 <div id="game">
 
 <div id="enemyName"></div>
+
+HP:
 <div class="bar"><div id="enemyBar" class="fill"></div></div>
-<span id="enemyHP"></span><br><br>
+<span id="enemyHP"></span>
+
+<div class="bar"><div id="enemyGaugeBar" class="fill"></div></div>
+
+<br>
 
 <div id="text"></div>
 
-<button onclick="attack()">攻撃</button>
+<button id="attackBtn" onclick="attack()">攻撃</button>
 <button onclick="openUpgrade()">強化</button>
 <button onclick="openSetting()">設定</button>
 
@@ -87,47 +91,39 @@ button {
 
 // ===== プレイヤー =====
 let player = {
-  hp:20,
-  maxHP:20,
-  atk:3,
-  level:1,
-  exp:0,
-  nextExp:10,
-  critRate:10, // %
-  critDmg:1.5,
+  hp:20,maxHP:20,atk:3,
+  level:1,exp:0,nextExp:10,
+  critRate:10,critDmg:1.5,
+  gauge:0,speed:1.2,
   items:{}
 };
 
 // ===== 敵 =====
 const enemies = [
-  {name:"スライム", hp:10, drop:"ゼリー", rare:"スライム核"},
-  {name:"ゴブリン", hp:15, drop:"牙", rare:"鋭い牙"},
-  {name:"オーク", hp:20, drop:"骨", rare:"巨大骨"},
-  {name:"魔法使い", hp:18, drop:"魔石", rare:"濃縮魔石"},
-  {name:"ドラゴン", hp:30, drop:"鱗", rare:"竜の心臓"}
+  {name:"スライム", hp:10, drop:"ゼリー", rare:"核", speed:1},
+  {name:"ゴブリン", hp:15, drop:"牙", rare:"鋭牙", speed:1.3},
+  {name:"ドラゴン", hp:30, drop:"鱗", rare:"心臓", speed:0.7}
 ];
 
 let enemy;
 
 // ===== 初期化 =====
 function spawn(){
-  enemy = {...enemies[Math.floor(Math.random()*enemies.length)]};
+  enemy = {...enemies[Math.random()*enemies.length|0]};
   enemy.maxHP = enemy.hp;
+  enemy.gauge = 0;
   setText(enemy.name+" 出現！");
-}
-
-// ===== テキスト =====
-function setText(msg){
-  document.getElementById("text").innerText = msg;
 }
 
 // ===== 攻撃 =====
 function attack(){
-  let dmg = player.atk;
+  if(player.gauge < 100) return;
 
-  // クリティカル
+  player.gauge = 0;
+
+  let dmg = player.atk;
   if(Math.random()*100 < player.critRate){
-    dmg = Math.floor(dmg * player.critDmg);
+    dmg = Math.floor(dmg*player.critDmg);
     setText("クリティカル！ "+dmg);
   } else {
     setText("攻撃 "+dmg);
@@ -135,102 +131,54 @@ function attack(){
 
   enemy.hp -= dmg;
 
-  if(enemy.hp <= 0){
-    win();
-  }
+  if(enemy.hp <= 0) win();
+}
 
-  update();
+// ===== 敵攻撃 =====
+function enemyAttack(){
+  let dmg = Math.floor(Math.random()*4)+1;
+  player.hp -= dmg;
+  setText(enemy.name+" の攻撃 "+dmg);
+
+  if(player.hp <= 0){
+    setText("ゲームオーバー");
+  }
 }
 
 // ===== 勝利 =====
 function win(){
   player.exp += 5;
-
   addItem(enemy.drop,1);
 
   if(Math.random()<0.2){
     addItem(enemy.rare,1);
-    setText("レアドロップ！");
   }
 
   if(player.exp >= player.nextExp){
     player.level++;
-    player.exp = 0;
-    player.nextExp = Math.floor(player.nextExp * 1.5);
-    player.maxHP += 5;
-    player.hp = player.maxHP;
+    player.exp=0;
+    player.nextExp=Math.floor(player.nextExp*1.5);
+    player.maxHP+=5;
+    player.hp=player.maxHP;
   }
 
   setTimeout(spawn,1000);
 }
 
-// ===== アイテム =====
-function addItem(name,num){
-  if(!player.items[name]) player.items[name]=0;
-  player.items[name]+=num;
-}
+// ===== ループ（重要） =====
+function loop(){
+  player.gauge += player.speed;
+  enemy.gauge += enemy.speed;
 
-// ===== 強化 =====
-function openUpgrade(){
-  let html = "<h3>強化</h3>";
-  html += "攻撃+1（ゼリー2）<button onclick='upAtk()'>+</button><br>";
-  html += "HP+5（牙2）<button onclick='upHP()'>+</button><br>";
-  html += "クリ率+5%（魔石2）<button onclick='upCrit()'>+</button><br>";
-  html += "クリ倍率+0.5（鱗2）<button onclick='upCritDmg()'>+</button><br>";
-  document.getElementById("menu").innerHTML = html;
-}
+  if(player.gauge > 100) player.gauge = 100;
 
-function upAtk(){
-  if((player.items["ゼリー"]||0)<2) return;
-  player.items["ゼリー"]-=2;
-  player.atk++;
-}
-
-function upHP(){
-  if((player.items["牙"]||0)<2) return;
-  player.items["牙"]-=2;
-  player.maxHP+=5;
-  player.hp=player.maxHP;
-}
-
-function upCrit(){
-  if((player.items["魔石"]||0)<2) return;
-  player.items["魔石"]-=2;
-  player.critRate+=5;
-}
-
-function upCritDmg(){
-  if((player.items["鱗"]||0)<2) return;
-  player.items["鱗"]-=2;
-  player.critDmg+=0.5;
-}
-
-// ===== 設定 =====
-function openSetting(){
-  let html = "<h3>設定</h3>";
-  html += "<button onclick='save()'>セーブ</button><br>";
-  html += "<button onclick='resetData()'>データ削除</button>";
-  document.getElementById("menu").innerHTML = html;
-}
-
-// ===== セーブ =====
-function save(){
-  localStorage.setItem("save", JSON.stringify(player));
-  setText("セーブ完了");
-}
-
-function load(){
-  let data = localStorage.getItem("save");
-  if(data){
-    player = JSON.parse(data);
-    if(!player.items) player.items = {};
+  if(enemy.gauge >= 100){
+    enemy.gauge = 0;
+    enemyAttack();
   }
-}
 
-// ===== 削除 =====
-function resetData(){
-  localStorage.clear();
-  location.reload();
+  update();
+  requestAnimationFrame(loop);
 }
 
 // ===== UI =====
@@ -240,29 +188,29 @@ function update(){
 
   document.getElementById("level").innerText = player.level;
   document.getElementById("playerHP").innerText = player.hp+"/"+player.maxHP;
+
   document.getElementById("atk").innerText = player.atk;
   document.getElementById("critRate").innerText = player.critRate;
   document.getElementById("critDmg").innerText = player.critDmg;
+
   document.getElementById("exp").innerText = player.exp;
   document.getElementById("nextExp").innerText = player.nextExp;
 
-  // HPバー割合
-  let hpRatio = player.hp/player.maxHP;
-
+  // HPバー色
+  let ratio = player.hp/player.maxHP;
   let bar = document.getElementById("hpBar");
-  bar.style.width = (hpRatio*100)+"%";
+  bar.style.width = ratio*100+"%";
 
-  // 色変化
-  if(hpRatio < 0.1){
-    bar.style.background = "red";
-  } else if(hpRatio < 0.5){
-    bar.style.background = "orange";
-  } else {
-    bar.style.background = "lime";
-  }
+  if(ratio < 0.1) bar.style.background="red";
+  else if(ratio < 0.5) bar.style.background="orange";
+  else bar.style.background="lime";
 
-  document.getElementById("enemyBar").style.width =
-    (enemy.hp/enemy.maxHP*100)+"%";
+  // ゲージ
+  document.getElementById("playerGaugeBar").style.width = player.gauge+"%";
+  document.getElementById("enemyGaugeBar").style.width = enemy.gauge+"%";
+
+  // ボタン制御
+  document.getElementById("attackBtn").disabled = player.gauge < 100;
 
   let html="";
   for(let k in player.items){
@@ -271,10 +219,55 @@ function update(){
   document.getElementById("items").innerHTML = html;
 }
 
+// ===== その他 =====
+function addItem(n,c){
+  if(!player.items[n]) player.items[n]=0;
+  player.items[n]+=c;
+}
+
+function setText(t){
+  document.getElementById("text").innerText = t;
+}
+
+function openUpgrade(){
+  let html="<h3>強化</h3>";
+  html+="クリ率+5%（核2）<button onclick='upCrit()'>+</button>";
+  document.getElementById("menu").innerHTML=html;
+}
+
+function upCrit(){
+  if((player.items["核"]||0)<2) return;
+  player.items["核"]-=2;
+  player.critRate+=5;
+}
+
+function openSetting(){
+  document.getElementById("menu").innerHTML=
+    "<button onclick='save()'>セーブ</button><br>"+
+    "<button onclick='resetData()'>削除</button>";
+}
+
+function save(){
+  localStorage.setItem("save",JSON.stringify(player));
+}
+
+function load(){
+  let d=localStorage.getItem("save");
+  if(d){
+    player=JSON.parse(d);
+    if(!player.items) player.items={};
+  }
+}
+
+function resetData(){
+  localStorage.clear();
+  location.reload();
+}
+
 // ===== スタート =====
 load();
 spawn();
-update();
+loop();
 
 </script>
 
