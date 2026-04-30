@@ -2,7 +2,27 @@ body {
   background:#111;
   color:#eee;
   font-family:monospace;
+  margin:0;
+}
+
+/* 左パネル */
+#side {
+  position:fixed;
+  left:0;
+  top:0;
+  width:200px;
+  height:100vh;
+  background:#181818;
+  border-right:2px solid #333;
+  padding:10px;
+  box-sizing:border-box;
+}
+
+/* メイン画面 */
+#main {
+  margin-left:220px;
   text-align:center;
+  padding:10px;
 }
 
 button {
