@@ -9,15 +9,26 @@ body {
   background: #111;
   color: #eee;
   font-family: monospace;
-  text-align: center;
+  margin: 0;
 }
 
-#game {
-  width: 420px;
-  margin: auto;
-  border: 2px solid #666;
+/* レイアウト */
+#container {
+  display: flex;
+}
+
+/* 左：ステータス */
+#statusPanel {
+  width: 200px;
+  border-right: 2px solid #444;
   padding: 10px;
   background: #1a1a1a;
+}
+
+/* 右：ゲーム */
+#game {
+  flex: 1;
+  padding: 10px;
 }
 
 button {
@@ -39,26 +50,35 @@ button {
 
 <body>
 
-<h2>⚔ RPG</h2>
+<div id="container">
 
+<!-- 左：常時ステータス -->
+<div id="statusPanel">
+  <h3>ステータス</h3>
+  Lv:<span id="level"></span><br>
+  HP:<span id="playerHP"></span><br>
+  攻撃:<span id="atk"></span><br><br>
+
+  <b>素材</b><br>
+  <div id="items"></div>
+</div>
+
+<!-- 右：ゲーム -->
 <div id="game">
 
 <div id="enemyName"></div>
 HP:<span id="enemyHP"></span><br><br>
-
-Lv:<span id="level"></span>
-HP:<span id="playerHP"></span><br>
-素材:<span id="mat"></span><br>
 
 <div id="text"></div>
 
 <button onclick="attack()">攻撃</button>
 <button onclick="openUpgrade()">強化</button>
 <button onclick="openGacha()">ガチャ</button>
-<button onclick="showStatus()">ステータス</button>
-<button onclick="save()">セーブ</button>
+<button onclick="openSetting()">設定</button>
 
 <div id="menu"></div>
+
+</div>
 
 </div>
 
@@ -71,7 +91,6 @@ let player = {
   atk:3,
   level:1,
   exp:0,
-  mat:0,
   items:{}
 };
 
@@ -97,10 +116,8 @@ function setText(msg){
 
 // ===== 攻撃 =====
 function attack(){
-  let dmg = player.atk;
-  enemy.hp -= dmg;
-
-  setText("攻撃 "+dmg);
+  enemy.hp -= player.atk;
+  setText("攻撃 "+player.atk);
 
   if(enemy.hp <= 0){
     win();
@@ -113,11 +130,9 @@ function attack(){
 function win(){
   player.exp += 5;
 
-  // 通常ドロップ
   addItem(enemy.drop,1);
 
-  // レアドロップ（20%）
-  if(Math.random() < 0.2){
+  if(Math.random()<0.2){
     addItem("レア素材",1);
     setText("レアドロップ！");
   } else {
@@ -126,15 +141,15 @@ function win(){
 
   if(player.exp >= 10){
     player.level++;
-    player.exp = 0;
-    player.maxHP += 5;
-    player.hp = player.maxHP;
+    player.exp=0;
+    player.maxHP+=5;
+    player.hp=player.maxHP;
   }
 
   setTimeout(spawn,1000);
 }
 
-// ===== アイテム追加 =====
+// ===== アイテム =====
 function addItem(name,num){
   if(!player.items[name]) player.items[name]=0;
   player.items[name]+=num;
@@ -149,17 +164,17 @@ function openUpgrade(){
 }
 
 function upAtk(){
-  if((player.items["ゼリー"]||0) < 2) return;
-  player.items["ゼリー"] -= 2;
-  player.atk += 1;
+  if((player.items["ゼリー"]||0)<2) return;
+  player.items["ゼリー"]-=2;
+  player.atk++;
   update();
 }
 
 function upHP(){
-  if((player.items["牙"]||0) < 2) return;
-  player.items["牙"] -= 2;
-  player.maxHP += 5;
-  player.hp = player.maxHP;
+  if((player.items["牙"]||0)<2) return;
+  player.items["牙"]-=2;
+  player.maxHP+=5;
+  player.hp=player.maxHP;
   update();
 }
 
@@ -171,58 +186,27 @@ function openGacha(){
 }
 
 function gacha(){
-  if((player.items["レア素材"]||0) < 1) return;
-
+  if((player.items["レア素材"]||0)<1) return;
   player.items["レア素材"]--;
 
-  let r = Math.random();
-
-  if(r < 0.5){
-    player.atk += 2;
+  if(Math.random()<0.5){
+    player.atk+=2;
     setText("攻撃+2！");
   } else {
-    player.maxHP += 10;
-    player.hp = player.maxHP;
+    player.maxHP+=10;
+    player.hp=player.maxHP;
     setText("HP+10！");
   }
 
   update();
 }
 
-// ===== ステータス =====
-function showStatus(){
-  let text = "<h3>ステータス</h3>";
-
-  text += "Lv:"+player.level+"<br>";
-  text += "HP:"+player.hp+"/"+player.maxHP+"<br>";
-  text += "攻撃:"+player.atk+"<br><br>";
-
-  text += "アイテム<br>";
-  for(let key in player.items){
-    text += key+"："+player.items[key]+"<br>";
-  }
-
-  document.getElementById("menu").innerHTML = text;
-}
-
-// ===== UI =====
-function update(){
-  document.getElementById("enemyName").innerText = enemy.name;
-  document.getElementById("enemyHP").innerText = enemy.hp;
-  document.getElementById("level").innerText = player.level;
-  document.getElementById("playerHP").innerText = player.hp+"/"+player.maxHP;
-
-  if(player.hp < player.maxHP/2){
-    document.getElementById("playerHP").style.color = "red";
-  } else {
-    document.getElementById("playerHP").style.color = "white";
-  }
-
-  let total = 0;
-  for(let k in player.items){
-    total += player.items[k];
-  }
-  document.getElementById("mat").innerText = total;
+// ===== 設定 =====
+function openSetting(){
+  let html = "<h3>設定</h3>";
+  html += "<button onclick='save()'>セーブ</button><br>";
+  html += "<button onclick='resetData()'>データ削除</button>";
+  document.getElementById("menu").innerHTML = html;
 }
 
 // ===== セーブ =====
@@ -235,10 +219,35 @@ function load(){
   let data = localStorage.getItem("save");
   if(data){
     player = JSON.parse(data);
-
-    // undefined対策
-    if(player.mat === undefined) player.mat = 0;
     if(!player.items) player.items = {};
+  }
+}
+
+// ===== 削除 =====
+function resetData(){
+  localStorage.clear();
+  location.reload();
+}
+
+// ===== UI =====
+function update(){
+  document.getElementById("enemyName").innerText = enemy.name;
+  document.getElementById("enemyHP").innerText = enemy.hp;
+
+  document.getElementById("level").innerText = player.level;
+  document.getElementById("playerHP").innerText = player.hp+"/"+player.maxHP;
+  document.getElementById("atk").innerText = player.atk;
+
+  let html="";
+  for(let k in player.items){
+    html += k+"："+player.items[k]+"<br>";
+  }
+  document.getElementById("items").innerHTML = html;
+
+  if(player.hp < player.maxHP/2){
+    document.getElementById("playerHP").style.color="red";
+  } else {
+    document.getElementById("playerHP").style.color="white";
   }
 }
 
