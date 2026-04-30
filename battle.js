@@ -14,9 +14,8 @@ let id = parseInt(params.get("enemy"));
 if(isNaN(id)) id = 0;
 
 let enemyData = enemies[id];
-
 if(!enemyData){
-  alert("このモンスターは未実装！");
+  alert("未実装の敵です");
   location.href = "index.html";
 }
 
@@ -49,9 +48,7 @@ enemyName.innerText = enemy.name;
 
 // ===== 攻撃 =====
 function attack(){
-  if(playerGauge < 100) return;
-  if(player.hp <= 0) return;
-  if(battleEnd) return;
+  if(playerGauge < 100 || player.hp <= 0 || battleEnd) return;
 
   playerGauge = 0;
 
@@ -64,6 +61,7 @@ function attack(){
     text.innerText = "攻撃 " + dmg;
   }
 
+  // 先に死亡判定
   if(enemy.hp - dmg <= 0){
     enemy.hp = 0;
     win();
@@ -77,6 +75,7 @@ function attack(){
 function enemyAttack(){
   if(player.hp <= 0 || battleEnd) return;
 
+  // 先に死亡判定
   if(player.hp - enemy.atk <= 0){
     player.hp = 0;
 
@@ -103,14 +102,14 @@ function win(){
 
   addItem(enemy.drop,1);
 
-  let heal = player.maxHP * 0.1;
+  let heal = Math.floor(player.maxHP * 0.1);
   player.hp += heal;
 
   if(player.hp > player.maxHP){
     player.hp = player.maxHP;
   }
 
-  text.innerText = "勝利！ HP回復 +" + Math.floor(heal);
+  text.innerText = "勝利！ HP回復 +" + heal;
 
   save();
 }
@@ -132,26 +131,25 @@ function loop(){
     }
   }
 
-  // 🔥 完全防御
-  player.hp = Math.max(0, player.hp);
-  enemy.hp = Math.max(0, enemy.hp);
+  // 🔥 HP完全固定（これでマイナス絶対防止）
+  fixHP();
+  enemy.hp = Math.max(0, Math.floor(enemy.hp));
 
   update();
   requestAnimationFrame(loop);
 }
 
-// ===== UI更新（🔥完全修正版）=====
+// ===== UI更新 =====
 function update(){
 
-  // 🔥 念のためここでも補正
-  player.hp = Math.max(0, player.hp);
-  enemy.hp = Math.max(0, enemy.hp);
+  fixHP();
+  enemy.hp = Math.max(0, Math.floor(enemy.hp));
 
-  enemyHP.innerText = hp(enemy.hp) + "/" + enemy.maxHP;
-  playerHP.innerText = hp(player.hp) + "/" + player.maxHP;
+  enemyHP.innerText = enemy.hp + "/" + enemy.maxHP;
+  playerHP.innerText = player.hp + "/" + player.maxHP;
 
-  let pr = Math.max(0, player.hp / player.maxHP);
-  let er = Math.max(0, enemy.hp / enemy.maxHP);
+  let pr = player.hp / player.maxHP;
+  let er = enemy.hp / enemy.maxHP;
 
   playerHPBar.style.width = (pr * 100) + "%";
   enemyBar.style.width = (er * 100) + "%";
@@ -161,12 +159,12 @@ function update(){
 
   btn.disabled = playerGauge < 100 || player.hp <= 0 || battleEnd;
 
-  // ===== プレイヤー色 =====
+  // プレイヤー色
   if(pr < 0.1) playerHPBar.style.background = "red";
   else if(pr < 0.5) playerHPBar.style.background = "orange";
   else playerHPBar.style.background = "lime";
 
-  // ===== 敵の色（🔥追加）=====
+  // 敵色
   if(er < 0.1) enemyBar.style.background = "red";
   else if(er < 0.5) enemyBar.style.background = "orange";
   else enemyBar.style.background = "lime";
