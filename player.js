@@ -7,17 +7,19 @@ let player = {
   items:{}
 };
 
+// ===== HP補正（🔥最重要）=====
+function fixHP(){
+  // 小数切り捨て
+  player.hp = Math.floor(player.hp);
+
+  // 下限・上限
+  if(player.hp < 0) player.hp = 0;
+  if(player.hp > player.maxHP) player.hp = player.maxHP;
+}
+
 // ===== 保存 =====
 function save(){
-
-  // 🔥 HPは必ず0以上＆整数
-  player.hp = Math.max(0, Math.floor(player.hp));
-
-  // 🔥 念のため上限も守る
-  if(player.hp > player.maxHP){
-    player.hp = player.maxHP;
-  }
-
+  fixHP(); // 🔥 必ず通す
   localStorage.setItem("player", JSON.stringify(player));
 }
 
@@ -28,14 +30,8 @@ function load(){
   if(d){
     player = JSON.parse(d);
 
-    // 🔥 itemsが壊れてる場合の保険
     if(!player.items) player.items = {};
 
-    // 🔥 HP完全補正（ここ超重要）
-    player.hp = Math.max(0, Math.floor(player.hp));
-
-    if(player.hp > player.maxHP){
-      player.hp = player.maxHP;
-    }
+    fixHP(); // 🔥 読み込み時も補正
   }
 }
