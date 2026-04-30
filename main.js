@@ -40,7 +40,7 @@ function resetData(){
 }
 
 // ===== 回復設定 =====
-const healPercentPerSec = 0.05;
+const healPercentPerSec = 0.1;
 
 // ===== 回復フラグ（ここが重要）=====
 let canHeal = true;
