@@ -1,45 +1,28 @@
 load();
 
-// ===== 敵データ =====
-const enemies = [
-  {id:0,name:"スライム",hp:20,atk:2,speed:1,drop:"ゼリー"},
-  {id:1,name:"ゴブリン",hp:35,atk:4,speed:1.2,drop:"牙"},
-  {id:2,name:"オーク",hp:60,atk:7,speed:0.8,drop:"骨"},
-  {id:3,name:"ドラゴン",hp:120,atk:12,speed:1,drop:"鱗"}
-];
-
-// ===== 敵取得 =====
 const params = new URLSearchParams(location.search);
 let id = parseInt(params.get("enemy"));
 if(isNaN(id)) id = 0;
 
-let enemyData = enemies[id];
-if(!enemyData){
-  alert("未実装の敵です");
-  location.href = "index.html";
-}
-
-let enemy = {...enemyData};
+let enemy = {...enemies[id]};
 enemy.maxHP = enemy.hp;
 enemy.gauge = 0;
 
 let playerGauge = 0;
 let battleEnd = false;
 
-// ===== 表示用 =====
-function hp(v){
-  return Math.max(0, Math.floor(v));
-}
-
 // ===== UI =====
 const enemyName = document.getElementById("enemyName");
 const enemyHP = document.getElementById("enemyHP");
 const enemyBar = document.getElementById("enemyBar");
-const enemyGaugeBar = document.getElementById("enemyGauge");
+const enemyGauge = document.getElementById("enemyGauge");
 
 const playerHP = document.getElementById("playerHP");
-const playerHPBar = document.getElementById("playerHPBar");
+const playerBar = document.getElementById("playerBar");
 const playerGaugeBar = document.getElementById("playerGauge");
+
+const atk = document.getElementById("atk");
+const crit = document.getElementById("crit");
 
 const text = document.getElementById("text");
 const btn = document.getElementById("attackBtn");
@@ -48,7 +31,7 @@ enemyName.innerText = enemy.name;
 
 // ===== 攻撃 =====
 function attack(){
-  if(playerGauge < 100 || player.hp <= 0 || battleEnd) return;
+  if(playerGauge < 100 || battleEnd) return;
 
   playerGauge = 0;
 
@@ -61,7 +44,6 @@ function attack(){
     text.innerText = "攻撃 " + dmg;
   }
 
-  // 先に死亡判定
   if(enemy.hp - dmg <= 0){
     enemy.hp = 0;
     win();
@@ -73,14 +55,11 @@ function attack(){
 
 // ===== 敵攻撃 =====
 function enemyAttack(){
-  if(player.hp <= 0 || battleEnd) return;
+  if(battleEnd) return;
 
-  // 先に死亡判定
   if(player.hp - enemy.atk <= 0){
     player.hp = 0;
-
     text.innerText = "ゲームオーバー";
-    btn.disabled = true;
     battleEnd = true;
 
     save();
@@ -101,29 +80,28 @@ function win(){
   battleEnd = true;
 
   addItem(enemy.drop,1);
-
-  let heal = Math.floor(player.maxHP * 0.1);
-  player.hp += heal;
-
-  if(player.hp > player.maxHP){
-    player.hp = player.maxHP;
-  }
-
-  text.innerText = "勝利！ HP回復 +" + heal;
+  text.innerText = "勝利！ " + enemy.drop + "ゲット";
 
   save();
+}
+
+// ===== 強化 =====
+function upgrade(){
+  if((player.items["ゼリー"]||0) >= 2){
+    player.items["ゼリー"] -= 2;
+    player.atk++;
+    text.innerText = "攻撃アップ！";
+  }
 }
 
 // ===== ループ =====
 function loop(){
 
   if(!battleEnd){
-    if(player.hp > 0 && enemy.hp > 0){
-      playerGauge += player.speed;
-      enemy.gauge += enemy.speed;
-    }
+    playerGauge += player.speed;
+    enemy.gauge += enemy.speed;
 
-    playerGauge = Math.min(100, playerGauge);
+    if(playerGauge > 100) playerGauge = 100;
 
     if(enemy.gauge >= 100){
       enemy.gauge = 0;
@@ -131,7 +109,6 @@ function loop(){
     }
   }
 
-  // 🔥 HP完全固定（これでマイナス絶対防止）
   fixHP();
   enemy.hp = Math.max(0, Math.floor(enemy.hp));
 
@@ -142,29 +119,27 @@ function loop(){
 // ===== UI更新 =====
 function update(){
 
-  fixHP();
-  enemy.hp = Math.max(0, Math.floor(enemy.hp));
-
   enemyHP.innerText = enemy.hp + "/" + enemy.maxHP;
   playerHP.innerText = player.hp + "/" + player.maxHP;
 
   let pr = player.hp / player.maxHP;
   let er = enemy.hp / enemy.maxHP;
 
-  playerHPBar.style.width = (pr * 100) + "%";
+  playerBar.style.width = (pr * 100) + "%";
   enemyBar.style.width = (er * 100) + "%";
 
   playerGaugeBar.style.width = playerGauge + "%";
-  enemyGaugeBar.style.width = enemy.gauge + "%";
+  enemyGauge.style.width = enemy.gauge + "%";
 
-  btn.disabled = playerGauge < 100 || player.hp <= 0 || battleEnd;
+  atk.innerText = player.atk;
+  crit.innerText = player.crit;
 
-  // プレイヤー色
-  if(pr < 0.1) playerHPBar.style.background = "red";
-  else if(pr < 0.5) playerHPBar.style.background = "orange";
-  else playerHPBar.style.background = "lime";
+  btn.disabled = playerGauge < 100 || battleEnd;
 
-  // 敵色
+  if(pr < 0.1) playerBar.style.background = "red";
+  else if(pr < 0.5) playerBar.style.background = "orange";
+  else playerBar.style.background = "lime";
+
   if(er < 0.1) enemyBar.style.background = "red";
   else if(er < 0.5) enemyBar.style.background = "orange";
   else enemyBar.style.background = "lime";
