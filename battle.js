@@ -59,8 +59,19 @@ function enemyAttack(){
 
 // ===== 勝利 =====
 function win(){
+
+  // ドロップ
   addItem(enemy.drop,1);
-  text.innerText = "勝利！";
+
+  // 🔥 戦闘後回復（最大HPの10%）
+  let heal = player.maxHP * 0.1;
+  player.hp += heal;
+
+  if(player.hp > player.maxHP){
+    player.hp = player.maxHP;
+  }
+
+  text.innerText = "勝利！ HP回復 +" + Math.floor(heal);
 
   save();
 }
