@@ -1,24 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My RPG</title>
+  <meta charset="UTF-8">
+  <title>ミニRPG</title>
+  <style>
+    body { text-align: center; }
+    button { font-size: 20px; margin: 5px; padding: 10px; }
+  </style>
 </head>
 <body>
-  <h1>スライム戦</h1>
-  <p id="enemy">敵HP: 10</p>
-  <button onclick="attack()">攻撃</button>
 
-  <script>
-    let hp = 10;
+<h2>ミニRPG</h2>
+<p id="status">Lv:1 EXP:0</p>
 
-    function attack() {
-      hp--;
-      document.getElementById("enemy").innerText = "敵HP: " + hp;
+<canvas id="game" width="400" height="300" style="border:1px solid black;"></canvas>
 
-      if (hp <= 0) {
-        alert("勝った！");
-      }
+<br>
+
+<!-- 操作ボタン -->
+<div>
+  <button onclick="move('up')">↑</button><br>
+  <button onclick="move('left')">←</button>
+  <button onclick="move('down')">↓</button>
+  <button onclick="move('right')">→</button>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+// プレイヤー
+let player = { x: 50, y: 50, size: 20 };
+
+// 敵
+let enemy = { x: 200, y: 150, size: 20 };
+
+// ステータス
+let exp = 0;
+let level = 1;
+
+// タッチ操作
+function move(dir) {
+  if (dir === "up") player.y -= 10;
+  if (dir === "down") player.y += 10;
+  if (dir === "left") player.x -= 10;
+  if (dir === "right") player.x += 10;
+}
+
+// キーボード（PC用）
+document.addEventListener("keydown", function(e) {
+  if (e.key === "ArrowUp") move("up");
+  if (e.key === "ArrowDown") move("down");
+  if (e.key === "ArrowLeft") move("left");
+  if (e.key === "ArrowRight") move("right");
+});
+
+// 当たり判定
+function isColliding(a, b) {
+  return a.x < b.x + b.size &&
+         a.x + a.size > b.x &&
+         a.y < b.y + b.size &&
+         a.y + a.size > b.y;
+}
+
+// メインループ
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 敵
+  ctx.fillStyle = "red";
+  ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+
+  // プレイヤー
+  ctx.fillStyle = "black";
+  ctx.fillRect(player.x, player.y, player.size, player.size);
+
+  // 衝突
+  if (isColliding(player, enemy)) {
+    exp += 5;
+    alert("勝利！EXP +5");
+
+    if (exp >= 10) {
+      level++;
+      exp = 0;
+      alert("レベルアップ！ Lv." + level);
     }
-  </script>
+
+    enemy.x = Math.random() * 350;
+    enemy.y = Math.random() * 250;
+  }
+
+  document.getElementById("status").innerText =
+    "Lv:" + level + " EXP:" + exp;
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
 </body>
 </html>
