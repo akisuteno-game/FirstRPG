@@ -8,7 +8,7 @@ enemies.forEach(e=>{
   btn.textContent = e.name;
 
   btn.onclick = ()=>{
-    save(); // 戦闘前に保存
+    save();
     location.href = "battle.html?enemy="+e.id;
   };
 
@@ -39,41 +39,37 @@ function resetData(){
   location.reload();
 }
 
-// ===== 回復設定 =====
-const healPercentPerSec = 0.1;
-
-// ===== 回復フラグ（ここが重要）=====
-let canHeal = true;
+// ===== 回復設定（🔥ここが変更点）=====
+const healPercentPerSec = 0.10; // 最大HPの10%/秒
 
 let lastTime = performance.now();
 
 // ===== UI更新 =====
 function update(delta){
 
-  // 🔥 非戦闘時のみ回復
-  if(canHeal){
-    let heal = player.maxHP * healPercentPerSec * (delta/1000);
-    player.hp += heal;
+  // 自動回復
+  let heal = player.maxHP * healPercentPerSec * (delta/1000);
+  player.hp += heal;
 
-    if(player.hp > player.maxHP){
-      player.hp = player.maxHP;
-    }
+  if(player.hp > player.maxHP){
+    player.hp = player.maxHP;
   }
 
+  // 表示（整数）
   document.getElementById("hp").innerText =
-    Math.floor(player.hp)+"/"+player.maxHP;
+    Math.max(0, Math.floor(player.hp)) + "/" + player.maxHP;
 
   document.getElementById("atk").innerText = player.atk;
   document.getElementById("crit").innerText = player.crit;
 
   // HPバー
-  let r = player.hp/player.maxHP;
+  let ratio = player.hp/player.maxHP;
   let bar = document.getElementById("hpBar");
 
-  bar.style.width = (r*100)+"%";
+  bar.style.width = (ratio*100)+"%";
 
-  if(r<0.1) bar.style.background="red";
-  else if(r<0.5) bar.style.background="orange";
+  if(ratio < 0.1) bar.style.background="red";
+  else if(ratio < 0.5) bar.style.background="orange";
   else bar.style.background="lime";
 
   // 素材
