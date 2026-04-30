@@ -1,3 +1,5 @@
+load();
+
 const list = document.getElementById("list");
 
 enemies.forEach(e=>{
