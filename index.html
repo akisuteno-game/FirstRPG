@@ -3,19 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <title>敵選択</title>
-<link rel="stylesheet" href="style.css">
+<style>
+body {
+  background:#111;
+  color:#eee;
+  font-family:monospace;
+  text-align:center;
+}
+button {
+  margin:5px;
+  padding:10px;
+  background:#333;
+  color:white;
+  border:1px solid #888;
+}
+</style>
 </head>
+
 <body>
 
 <h2>敵を選択</h2>
 <div id="list"></div>
 
-<script src="data.js"></script>
-<script src="player.js"></script>
-
 <script>
-window.onload = () => {
+// ===== データ =====
+const enemies = [
+  {id:0,name:"スライム",hp:10,atk:2},
+  {id:1,name:"ゴブリン",hp:15,atk:3},
+  {id:2,name:"オーク",hp:25,atk:4},
+  {id:3,name:"ドラゴン",hp:40,atk:6}
+];
 
+// ===== 初期化 =====
+window.onload = () => {
   const list = document.getElementById("list");
 
   enemies.forEach(e=>{
@@ -29,7 +49,6 @@ window.onload = () => {
     list.appendChild(btn);
     list.appendChild(document.createElement("br"));
   });
-
 };
 </script>
 
