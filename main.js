@@ -38,10 +38,24 @@ function resetData(){
   location.reload();
 }
 
+// ===== 回復設定 =====
+const healRate = 0.02; // 2%/秒
+
+let lastTime = performance.now();
+
 // ===== UI更新 =====
-function update(){
+function update(delta){
+
+  // 自動回復（戦闘してない時＝index画面）
+  let heal = player.maxHP * healRate * (delta/1000);
+  player.hp += heal;
+
+  if(player.hp > player.maxHP){
+    player.hp = player.maxHP;
+  }
+
   document.getElementById("hp").innerText =
-    player.hp+"/"+player.maxHP;
+    Math.floor(player.hp)+"/"+player.maxHP;
 
   document.getElementById("atk").innerText = player.atk;
   document.getElementById("crit").innerText = player.crit;
@@ -65,9 +79,12 @@ function update(){
 }
 
 // ===== ループ =====
-function loop(){
-  update();
+function loop(now){
+  let delta = now - lastTime;
+  lastTime = now;
+
+  update(delta);
   requestAnimationFrame(loop);
 }
 
-loop();
+loop(performance.now());
