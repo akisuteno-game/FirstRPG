@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My RPG</title>
+</head>
+<body>
+  <h1>スライム戦</h1>
+  <p id="enemy">敵HP: 10</p>
+  <button onclick="attack()">攻撃</button>
+
+  <script>
+    let hp = 10;
+
+    function attack() {
+      hp--;
+      document.getElementById("enemy").innerText = "敵HP: " + hp;
+
+      if (hp <= 0) {
+        alert("勝った！");
+      }
+    }
+  </script>
+</body>
+</html>
