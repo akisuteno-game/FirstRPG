@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>敵選択</title>
+
 <style>
 body {
   background:#111;
@@ -18,37 +19,39 @@ button {
   border:1px solid #888;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <h2>敵を選択</h2>
 <div id="list"></div>
 
 <script>
-// ===== データ =====
-const enemies = [
-  {id:0,name:"スライム",hp:10,atk:2},
-  {id:1,name:"ゴブリン",hp:15,atk:3},
-  {id:2,name:"オーク",hp:25,atk:4},
-  {id:3,name:"ドラゴン",hp:40,atk:6}
-];
+window.onload = function(){
 
-// ===== 初期化 =====
-window.onload = () => {
+  const enemies = [
+    {id:0,name:"スライム"},
+    {id:1,name:"ゴブリン"},
+    {id:2,name:"オーク"},
+    {id:3,name:"ドラゴン"}
+  ];
+
   const list = document.getElementById("list");
 
-  enemies.forEach(e=>{
-    const btn = document.createElement("button");
-    btn.textContent = e.name;
+  for(let i=0;i<enemies.length;i++){
+    let e = enemies[i];
 
-    btn.onclick = ()=>{
+    let btn = document.createElement("button");
+    btn.innerText = e.name;
+
+    btn.onclick = function(){
       location.href = "battle.html?enemy="+e.id;
     };
 
     list.appendChild(btn);
     list.appendChild(document.createElement("br"));
-  });
+  }
+
 };
 </script>
 
