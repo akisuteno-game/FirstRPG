@@ -1,10 +1,27 @@
 load();
 
+// ===== 敵データ（🔥ここ追加）=====
+const enemies = [
+  {id:0,name:"スライム",hp:20,atk:2,speed:1,drop:"ゼリー"},
+  {id:1,name:"ゴブリン",hp:35,atk:4,speed:1.2,drop:"牙"},
+  {id:2,name:"オーク",hp:60,atk:7,speed:0.8,drop:"骨"},
+  {id:3,name:"ドラゴン",hp:120,atk:12,speed:1,drop:"鱗"}
+];
+
+// ===== URLから敵取得 =====
 const params = new URLSearchParams(location.search);
 let id = parseInt(params.get("enemy"));
 if(isNaN(id)) id = 0;
 
-let enemy = {...enemies[id]};
+// 🔥 安全取得
+let enemyData = enemies[id];
+
+if(!enemyData){
+  alert("このモンスターは未実装！");
+  location.href = "index.html";
+}
+
+let enemy = {...enemyData};
 enemy.maxHP = enemy.hp;
 enemy.gauge = 0;
 
@@ -48,7 +65,6 @@ function attack(){
     text.innerText = "攻撃 " + dmg;
   }
 
-  // 先に死亡判定
   if(enemy.hp - dmg <= 0){
     enemy.hp = 0;
     win();
@@ -62,7 +78,6 @@ function attack(){
 function enemyAttack(){
   if(player.hp <= 0 || battleEnd) return;
 
-  // 🔥 死亡判定
   if(player.hp - enemy.atk <= 0){
     player.hp = 0;
 
@@ -72,7 +87,6 @@ function enemyAttack(){
 
     save();
 
-    // 🔥 1秒後に戻る
     setTimeout(()=>{
       location.href = "index.html";
     }, 1000);
@@ -119,7 +133,6 @@ function loop(){
     }
   }
 
-  // 最終防御
   player.hp = Math.max(0, player.hp);
   enemy.hp = Math.max(0, enemy.hp);
 
