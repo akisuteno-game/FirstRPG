@@ -1,6 +1,6 @@
 load();
 
-// ===== 敵データ（🔥ここ追加）=====
+// ===== 敵データ =====
 const enemies = [
   {id:0,name:"スライム",hp:20,atk:2,speed:1,drop:"ゼリー"},
   {id:1,name:"ゴブリン",hp:35,atk:4,speed:1.2,drop:"牙"},
@@ -8,12 +8,11 @@ const enemies = [
   {id:3,name:"ドラゴン",hp:120,atk:12,speed:1,drop:"鱗"}
 ];
 
-// ===== URLから敵取得 =====
+// ===== 敵取得 =====
 const params = new URLSearchParams(location.search);
 let id = parseInt(params.get("enemy"));
 if(isNaN(id)) id = 0;
 
-// 🔥 安全取得
 let enemyData = enemies[id];
 
 if(!enemyData){
@@ -133,6 +132,7 @@ function loop(){
     }
   }
 
+  // 🔥 完全防御
   player.hp = Math.max(0, player.hp);
   enemy.hp = Math.max(0, enemy.hp);
 
@@ -140,28 +140,36 @@ function loop(){
   requestAnimationFrame(loop);
 }
 
-// ===== UI更新 =====
+// ===== UI更新（🔥完全修正版）=====
 function update(){
+
+  // 🔥 念のためここでも補正
+  player.hp = Math.max(0, player.hp);
+  enemy.hp = Math.max(0, enemy.hp);
 
   enemyHP.innerText = hp(enemy.hp) + "/" + enemy.maxHP;
   playerHP.innerText = hp(player.hp) + "/" + player.maxHP;
 
-  enemyBar.style.width =
-    Math.max(0, enemy.hp/enemy.maxHP*100) + "%";
+  let pr = Math.max(0, player.hp / player.maxHP);
+  let er = Math.max(0, enemy.hp / enemy.maxHP);
 
-  playerHPBar.style.width =
-    Math.max(0, player.hp/player.maxHP*100) + "%";
+  playerHPBar.style.width = (pr * 100) + "%";
+  enemyBar.style.width = (er * 100) + "%";
 
-  enemyGaugeBar.style.width = enemy.gauge + "%";
   playerGaugeBar.style.width = playerGauge + "%";
+  enemyGaugeBar.style.width = enemy.gauge + "%";
 
   btn.disabled = playerGauge < 100 || player.hp <= 0 || battleEnd;
 
-  let r = player.hp/player.maxHP;
-
-  if(r < 0.1) playerHPBar.style.background = "red";
-  else if(r < 0.5) playerHPBar.style.background = "orange";
+  // ===== プレイヤー色 =====
+  if(pr < 0.1) playerHPBar.style.background = "red";
+  else if(pr < 0.5) playerHPBar.style.background = "orange";
   else playerHPBar.style.background = "lime";
+
+  // ===== 敵の色（🔥追加）=====
+  if(er < 0.1) enemyBar.style.background = "red";
+  else if(er < 0.5) enemyBar.style.background = "orange";
+  else enemyBar.style.background = "lime";
 }
 
 // ===== その他 =====
