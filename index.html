@@ -2,58 +2,50 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>敵選択</title>
-
-<style>
-body {
-  background:#111;
-  color:#eee;
-  font-family:monospace;
-  text-align:center;
-}
-button {
-  margin:5px;
-  padding:10px;
-  background:#333;
-  color:white;
-  border:1px solid #888;
-}
-</style>
-
+<title>RPG</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>敵を選択</h2>
-<div id="list"></div>
+<div class="container">
 
-<script>
-window.onload = function(){
+  <!-- 左：ステータス -->
+  <div class="left">
+    <h3>ステータス</h3>
 
-  const enemies = [
-    {id:0,name:"スライム"},
-    {id:1,name:"ゴブリン"},
-    {id:2,name:"オーク"},
-    {id:3,name:"ドラゴン"}
-  ];
+    HP:
+    <div class="bar"><div id="hpBar" class="fill"></div></div>
+    <span id="hp"></span><br><br>
 
-  const list = document.getElementById("list");
+    攻撃:<span id="atk"></span><br>
+    クリ率:<span id="crit"></span>%<br><br>
 
-  for(let i=0;i<enemies.length;i++){
-    let e = enemies[i];
+    <h4>素材</h4>
+    <div id="items"></div>
+  </div>
 
-    let btn = document.createElement("button");
-    btn.innerText = e.name;
+  <!-- 右：操作 -->
+  <div class="right">
+    <h2>敵を選択</h2>
+    <div id="list"></div>
 
-    btn.onclick = function(){
-      location.href = "battle.html?enemy="+e.id;
-    };
+    <hr>
 
-    list.appendChild(btn);
-    list.appendChild(document.createElement("br"));
-  }
+    <h3>強化</h3>
+    <button onclick="upgradeAtk()">攻撃+1（ゼリー2）</button><br>
+    <button onclick="upgradeCrit()">クリ率+1%（牙2）</button><br><br>
 
-};
-</script>
+    <h3>設定</h3>
+    <button onclick="save()">保存</button>
+    <button onclick="resetData()">データ削除</button>
+  </div>
+
+</div>
+
+<script src="data.js"></script>
+<script src="player.js"></script>
+<script src="main.js"></script>
 
 </body>
 </html>
