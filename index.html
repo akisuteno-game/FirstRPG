@@ -13,12 +13,8 @@ body {
 }
 
 #game {
-  background: #222;
+  background: #111;
   border: 3px solid white;
-}
-
-#ui {
-  margin-top: 10px;
 }
 
 button {
@@ -37,9 +33,9 @@ button {
 <h2>⚔ ミニRPG</h2>
 <p id="status">Lv:1 EXP:0</p>
 
-<canvas id="game" width="400" height="300"></canvas>
+<canvas id="game" width="400" height="320"></canvas>
 
-<div id="ui">
+<div>
   <button onclick="move('up')">↑</button><br>
   <button onclick="move('left')">←</button>
   <button onclick="move('down')">↓</button>
@@ -50,19 +46,62 @@ button {
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-let player = { x: 50, y: 50, size: 20 };
-let enemy = { x: 200, y: 150, size: 20 };
+const TILE = 40;
+
+// マップ（0=草、1=壁）
+const map = [
+  [1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,0,0,0,1],
+  [1,0,0,1,1,0,0,0,0,1],
+  [1,0,0,0,0,0,1,0,0,1],
+  [1,0,1,0,0,0,1,0,0,1],
+  [1,0,1,0,0,0,0,0,0,1],
+  [1,0,0,0,1,0,0,1,0,1],
+  [1,0,0,0,0,0,0,1,0,1],
+  [1,0,0,0,0,1,0,0,0,1],
+  [1,1,1,1,1,1,1,1,1,1]
+];
+
+// 画像
+const playerImg = new Image();
+playerImg.src = "https://i.imgur.com/6X12J5K.png"; // キャラ
+
+const enemyImg = new Image();
+enemyImg.src = "https://i.imgur.com/Z6X8KZP.png"; // スライム
+
+const grassImg = new Image();
+grassImg.src = "https://i.imgur.com/8QxY5ZK.png";
+
+const wallImg = new Image();
+wallImg.src = "https://i.imgur.com/3sKX4XG.png";
+
+// プレイヤー
+let player = { x: 1, y: 1 };
+
+// 敵
+let enemy = { x: 5, y: 5 };
 
 let exp = 0;
 let level = 1;
 
+// 移動
 function move(dir) {
-  if (dir === "up") player.y -= 10;
-  if (dir === "down") player.y += 10;
-  if (dir === "left") player.x -= 10;
-  if (dir === "right") player.x += 10;
+  let nx = player.x;
+  let ny = player.y;
+
+  if (dir === "up") ny--;
+  if (dir === "down") ny++;
+  if (dir === "left") nx--;
+  if (dir === "right") nx++;
+
+  // 壁チェック
+  if (map[ny][nx] === 0) {
+    player.x = nx;
+    player.y = ny;
+  }
 }
 
+// キーボード
 document.addEventListener("keydown", function(e) {
   if (e.key === "ArrowUp") move("up");
   if (e.key === "ArrowDown") move("down");
@@ -70,41 +109,26 @@ document.addEventListener("keydown", function(e) {
   if (e.key === "ArrowRight") move("right");
 });
 
-function isColliding(a, b) {
-  return a.x < b.x + b.size &&
-         a.x + a.size > b.x &&
-         a.y < b.y + b.size &&
-         a.y + a.size > b.y;
-}
-
+// 描画
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // 背景グリッド（それっぽさUP）
-  ctx.strokeStyle = "#444";
-  for (let i = 0; i < 400; i += 40) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i, 300);
-    ctx.stroke();
-  }
-  for (let i = 0; i < 300; i += 40) {
-    ctx.beginPath();
-    ctx.moveTo(0, i);
-    ctx.lineTo(400, i);
-    ctx.stroke();
+  // マップ描画
+  for (let y = 0; y < map.length; y++) {
+    for (let x = 0; x < map[y].length; x++) {
+      let img = map[y][x] === 0 ? grassImg : wallImg;
+      ctx.drawImage(img, x*TILE, y*TILE, TILE, TILE);
+    }
   }
 
   // 敵
-  ctx.fillStyle = "lime";
-  ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
+  ctx.drawImage(enemyImg, enemy.x*TILE, enemy.y*TILE, TILE, TILE);
 
   // プレイヤー
-  ctx.fillStyle = "white";
-  ctx.fillRect(player.x, player.y, player.size, player.size);
+  ctx.drawImage(playerImg, player.x*TILE, player.y*TILE, TILE, TILE);
 
-  // 戦闘
-  if (isColliding(player, enemy)) {
+  // 衝突
+  if (player.x === enemy.x && player.y === enemy.y) {
     exp += 5;
     alert("勝利！");
 
@@ -114,8 +138,8 @@ function draw() {
       alert("レベルアップ！");
     }
 
-    enemy.x = Math.random() * 350;
-    enemy.y = Math.random() * 250;
+    enemy.x = Math.floor(Math.random()*8)+1;
+    enemy.y = Math.floor(Math.random()*8)+1;
   }
 
   document.getElementById("status").innerText =
