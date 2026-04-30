@@ -9,13 +9,13 @@ enemy.maxHP = enemy.hp;
 enemy.gauge = 0;
 
 let playerGauge = 0;
+let battleEnd = false; // 🔥 これが重要
 
-// ===== 表示用 =====
 function hp(v){
   return Math.max(0, Math.floor(v));
 }
 
-// ===== UI取得 =====
+// ===== UI =====
 const enemyName = document.getElementById("enemyName");
 const enemyHP = document.getElementById("enemyHP");
 const enemyBar = document.getElementById("enemyBar");
@@ -34,6 +34,7 @@ enemyName.innerText = enemy.name;
 function attack(){
   if(playerGauge < 100) return;
   if(player.hp <= 0) return;
+  if(battleEnd) return;
 
   playerGauge = 0;
 
@@ -47,8 +48,6 @@ function attack(){
   }
 
   enemy.hp -= dmg;
-
-  // 🔥 下限0
   enemy.hp = Math.max(0, enemy.hp);
 
   if(enemy.hp === 0){
@@ -59,10 +58,9 @@ function attack(){
 // ===== 敵攻撃 =====
 function enemyAttack(){
   if(player.hp <= 0) return;
+  if(battleEnd) return;
 
   player.hp -= enemy.atk;
-
-  // 🔥 下限0
   player.hp = Math.max(0, player.hp);
 
   text.innerText = enemy.name + "の攻撃 " + enemy.atk;
@@ -70,11 +68,13 @@ function enemyAttack(){
   if(player.hp === 0){
     text.innerText = "ゲームオーバー";
     btn.disabled = true;
+    battleEnd = true; // 🔥 完全停止
   }
 }
 
 // ===== 勝利 =====
 function win(){
+  battleEnd = true; // 🔥 完全停止
 
   addItem(enemy.drop,1);
 
@@ -92,16 +92,19 @@ function win(){
 
 // ===== ループ =====
 function loop(){
-  if(player.hp > 0 && enemy.hp > 0){
-    playerGauge += player.speed;
-    enemy.gauge += enemy.speed;
-  }
 
-  playerGauge = Math.min(100, playerGauge);
+  if(!battleEnd){
+    if(player.hp > 0 && enemy.hp > 0){
+      playerGauge += player.speed;
+      enemy.gauge += enemy.speed;
+    }
 
-  if(enemy.gauge >= 100){
-    enemy.gauge = 0;
-    enemyAttack();
+    playerGauge = Math.min(100, playerGauge);
+
+    if(enemy.gauge >= 100){
+      enemy.gauge = 0;
+      enemyAttack();
+    }
   }
 
   update();
@@ -114,7 +117,6 @@ function update(){
   enemyHP.innerText = hp(enemy.hp) + "/" + enemy.maxHP;
   playerHP.innerText = hp(player.hp) + "/" + player.maxHP;
 
-  // 🔥 バーも0〜100%に制限
   enemyBar.style.width =
     Math.max(0, enemy.hp/enemy.maxHP*100) + "%";
 
@@ -124,7 +126,7 @@ function update(){
   enemyGaugeBar.style.width = enemy.gauge + "%";
   playerGaugeBar.style.width = playerGauge + "%";
 
-  btn.disabled = playerGauge < 100 || player.hp <= 0;
+  btn.disabled = playerGauge < 100 || player.hp <= 0 || battleEnd;
 
   let r = player.hp/player.maxHP;
 
