@@ -10,8 +10,13 @@ let player = {
 // ===== 保存 =====
 function save(){
 
-  // 🔥 小数完全排除
-  player.hp = Math.floor(player.hp);
+  // 🔥 HPは必ず0以上＆整数
+  player.hp = Math.max(0, Math.floor(player.hp));
+
+  // 🔥 念のため上限も守る
+  if(player.hp > player.maxHP){
+    player.hp = player.maxHP;
+  }
 
   localStorage.setItem("player", JSON.stringify(player));
 }
@@ -23,9 +28,14 @@ function load(){
   if(d){
     player = JSON.parse(d);
 
+    // 🔥 itemsが壊れてる場合の保険
     if(!player.items) player.items = {};
 
-    // 🔥 念のためここでも潰す
-    player.hp = Math.floor(player.hp);
+    // 🔥 HP完全補正（ここ超重要）
+    player.hp = Math.max(0, Math.floor(player.hp));
+
+    if(player.hp > player.maxHP){
+      player.hp = player.maxHP;
+    }
   }
 }
