@@ -10,7 +10,7 @@ let player = {
 // ===== 保存 =====
 function save(){
 
-  // 🔥 保存前に整数化（これが最重要）
+  // 🔥 小数完全排除
   player.hp = Math.floor(player.hp);
 
   localStorage.setItem("player", JSON.stringify(player));
@@ -25,7 +25,7 @@ function load(){
 
     if(!player.items) player.items = {};
 
-    // 🔥 読み込み時も安全に整数化
+    // 🔥 念のためここでも潰す
     player.hp = Math.floor(player.hp);
   }
 }
