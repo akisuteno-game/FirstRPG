@@ -2,25 +2,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>RPG</title>
+<title>UIバトルRPG</title>
 
 <style>
 body {
   background: black;
   color: white;
-  text-align: center;
   font-family: monospace;
+  text-align: center;
 }
 
 #game {
-  background: #111;
-  border: 3px solid white;
+  width: 400px;
+  margin: auto;
 }
 
-button {
-  font-size: 18px;
+#enemy {
+  font-size: 24px;
+  margin: 20px;
+}
+
+#status {
+  border: 2px solid white;
+  padding: 10px;
+  margin: 10px;
+}
+
+#text {
+  border: 2px solid white;
+  padding: 10px;
+  height: 60px;
+  margin: 10px;
+}
+
+#commands button {
+  width: 45%;
   margin: 5px;
-  padding: 10px 20px;
+  padding: 10px;
   background: black;
   color: white;
   border: 2px solid white;
@@ -30,125 +48,78 @@ button {
 
 <body>
 
-<h2>⚔ ミニRPG</h2>
-<p id="status">Lv:1 EXP:0</p>
+<h2>⚔ バトルRPG</h2>
 
-<canvas id="game" width="400" height="320"></canvas>
+<div id="game">
 
-<div>
-  <button onclick="move('up')">↑</button><br>
-  <button onclick="move('left')">←</button>
-  <button onclick="move('down')">↓</button>
-  <button onclick="move('right')">→</button>
+  <div id="enemy">スライム</div>
+
+  <div id="status">
+    HP: <span id="playerHP">20</span>
+  </div>
+
+  <div id="text">敵が現れた！</div>
+
+  <div id="commands">
+    <button onclick="attack()">たたかう</button>
+    <button onclick="run()">にげる</button>
+  </div>
+
 </div>
 
 <script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+let playerHP = 20;
+let enemyHP = 15;
 
-const TILE = 40;
-
-// マップ（0=草、1=壁）
-const map = [
-  [1,1,1,1,1,1,1,1,1,1],
-  [1,0,0,0,0,0,0,0,0,1],
-  [1,0,0,1,1,0,0,0,0,1],
-  [1,0,0,0,0,0,1,0,0,1],
-  [1,0,1,0,0,0,1,0,0,1],
-  [1,0,1,0,0,0,0,0,0,1],
-  [1,0,0,0,1,0,0,1,0,1],
-  [1,0,0,0,0,0,0,1,0,1],
-  [1,0,0,0,0,1,0,0,0,1],
-  [1,1,1,1,1,1,1,1,1,1]
-];
-
-// 画像
-const playerImg = new Image();
-playerImg.src = "https://i.imgur.com/6X12J5K.png"; // キャラ
-
-const enemyImg = new Image();
-enemyImg.src = "https://i.imgur.com/Z6X8KZP.png"; // スライム
-
-const grassImg = new Image();
-grassImg.src = "https://i.imgur.com/8QxY5ZK.png";
-
-const wallImg = new Image();
-wallImg.src = "https://i.imgur.com/3sKX4XG.png";
-
-// プレイヤー
-let player = { x: 1, y: 1 };
-
-// 敵
-let enemy = { x: 5, y: 5 };
-
-let exp = 0;
-let level = 1;
-
-// 移動
-function move(dir) {
-  let nx = player.x;
-  let ny = player.y;
-
-  if (dir === "up") ny--;
-  if (dir === "down") ny++;
-  if (dir === "left") nx--;
-  if (dir === "right") nx++;
-
-  // 壁チェック
-  if (map[ny][nx] === 0) {
-    player.x = nx;
-    player.y = ny;
-  }
+function setText(msg){
+  document.getElementById("text").innerText = msg;
 }
 
-// キーボード
-document.addEventListener("keydown", function(e) {
-  if (e.key === "ArrowUp") move("up");
-  if (e.key === "ArrowDown") move("down");
-  if (e.key === "ArrowLeft") move("left");
-  if (e.key === "ArrowRight") move("right");
-});
-
-// 描画
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // マップ描画
-  for (let y = 0; y < map.length; y++) {
-    for (let x = 0; x < map[y].length; x++) {
-      let img = map[y][x] === 0 ? grassImg : wallImg;
-      ctx.drawImage(img, x*TILE, y*TILE, TILE, TILE);
-    }
-  }
-
-  // 敵
-  ctx.drawImage(enemyImg, enemy.x*TILE, enemy.y*TILE, TILE, TILE);
-
-  // プレイヤー
-  ctx.drawImage(playerImg, player.x*TILE, player.y*TILE, TILE, TILE);
-
-  // 衝突
-  if (player.x === enemy.x && player.y === enemy.y) {
-    exp += 5;
-    alert("勝利！");
-
-    if (exp >= 10) {
-      level++;
-      exp = 0;
-      alert("レベルアップ！");
-    }
-
-    enemy.x = Math.floor(Math.random()*8)+1;
-    enemy.y = Math.floor(Math.random()*8)+1;
-  }
-
-  document.getElementById("status").innerText =
-    "Lv:" + level + " EXP:" + exp;
-
-  requestAnimationFrame(draw);
+function update(){
+  document.getElementById("playerHP").innerText = playerHP;
 }
 
-draw();
+function attack(){
+  let dmg = Math.floor(Math.random()*5)+1;
+  enemyHP -= dmg;
+  setText("攻撃！ " + dmg + "ダメージ！");
+
+  if(enemyHP <= 0){
+    setText("敵を倒した！");
+    setTimeout(resetBattle, 1500);
+    return;
+  }
+
+  setTimeout(enemyTurn, 1000);
+}
+
+function enemyTurn(){
+  let dmg = Math.floor(Math.random()*4)+1;
+  playerHP -= dmg;
+
+  setText("敵の攻撃！ " + dmg + "ダメージ！");
+
+  if(playerHP <= 0){
+    setText("やられた...");
+    return;
+  }
+
+  update();
+}
+
+function run(){
+  setText("にげた！");
+  setTimeout(resetBattle, 1000);
+}
+
+function resetBattle(){
+  enemyHP = 15;
+  playerHP = 20;
+  update();
+  setText("新しい敵が現れた！");
+}
+
+update();
 </script>
 
 </body>
