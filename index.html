@@ -1,24 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>ミニRPG</title>
-  <style>
-    body { text-align: center; }
-    button { font-size: 20px; margin: 5px; padding: 10px; }
-  </style>
+<meta charset="UTF-8">
+<title>RPG</title>
+
+<style>
+body {
+  background: black;
+  color: white;
+  text-align: center;
+  font-family: monospace;
+}
+
+#game {
+  background: #222;
+  border: 3px solid white;
+}
+
+#ui {
+  margin-top: 10px;
+}
+
+button {
+  font-size: 18px;
+  margin: 5px;
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border: 2px solid white;
+}
+</style>
 </head>
+
 <body>
 
-<h2>ミニRPG</h2>
+<h2>⚔ ミニRPG</h2>
 <p id="status">Lv:1 EXP:0</p>
 
-<canvas id="game" width="400" height="300" style="border:1px solid black;"></canvas>
+<canvas id="game" width="400" height="300"></canvas>
 
-<br>
-
-<!-- 操作ボタン -->
-<div>
+<div id="ui">
   <button onclick="move('up')">↑</button><br>
   <button onclick="move('left')">←</button>
   <button onclick="move('down')">↓</button>
@@ -29,17 +50,12 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-// プレイヤー
 let player = { x: 50, y: 50, size: 20 };
-
-// 敵
 let enemy = { x: 200, y: 150, size: 20 };
 
-// ステータス
 let exp = 0;
 let level = 1;
 
-// タッチ操作
 function move(dir) {
   if (dir === "up") player.y -= 10;
   if (dir === "down") player.y += 10;
@@ -47,7 +63,6 @@ function move(dir) {
   if (dir === "right") player.x += 10;
 }
 
-// キーボード（PC用）
 document.addEventListener("keydown", function(e) {
   if (e.key === "ArrowUp") move("up");
   if (e.key === "ArrowDown") move("down");
@@ -55,7 +70,6 @@ document.addEventListener("keydown", function(e) {
   if (e.key === "ArrowRight") move("right");
 });
 
-// 当たり判定
 function isColliding(a, b) {
   return a.x < b.x + b.size &&
          a.x + a.size > b.x &&
@@ -63,27 +77,41 @@ function isColliding(a, b) {
          a.y + a.size > b.y;
 }
 
-// メインループ
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // 背景グリッド（それっぽさUP）
+  ctx.strokeStyle = "#444";
+  for (let i = 0; i < 400; i += 40) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i, 300);
+    ctx.stroke();
+  }
+  for (let i = 0; i < 300; i += 40) {
+    ctx.beginPath();
+    ctx.moveTo(0, i);
+    ctx.lineTo(400, i);
+    ctx.stroke();
+  }
+
   // 敵
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "lime";
   ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
 
   // プレイヤー
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "white";
   ctx.fillRect(player.x, player.y, player.size, player.size);
 
-  // 衝突
+  // 戦闘
   if (isColliding(player, enemy)) {
     exp += 5;
-    alert("勝利！EXP +5");
+    alert("勝利！");
 
     if (exp >= 10) {
       level++;
       exp = 0;
-      alert("レベルアップ！ Lv." + level);
+      alert("レベルアップ！");
     }
 
     enemy.x = Math.random() * 350;
