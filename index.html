@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>RPGi</title>
+<title>RPG ステージ制</title>
 
 <style>
 body { background:#111; color:#eee; font-family:monospace; margin:0; }
@@ -25,8 +25,10 @@ button {
   border:1px solid #888;
 }
 
-.bar { width:100%; height:12px; background:#333; margin-bottom:5px; }
-.fill { height:100%; width:0%; background:cyan; }
+.locked { opacity:0.3; }
+
+.bar { width:100%; height:12px; background:#333; }
+.fill { height:100%; background:lime; width:0%; }
 
 #menu {
   margin-top:10px;
@@ -43,7 +45,6 @@ button {
 
 <div id="statusPanel">
   <h3>ステータス</h3>
-
   Lv:<span id="level"></span><br>
 
   HP:
@@ -54,32 +55,13 @@ button {
   クリ率:<span id="critRate"></span>%<br>
   クリ倍率:<span id="critDmg"></span>x<br><br>
 
-  <b>行動ゲージ</b>
-  <div class="bar"><div id="playerGaugeBar" class="fill"></div></div>
-
-  EXP:<span id="exp"></span>/<span id="nextExp"></span><br><br>
-
   <b>素材</b>
   <div id="items"></div>
 </div>
 
 <div id="game">
 
-<div id="enemyName"></div>
-
-HP:
-<div class="bar"><div id="enemyBar" class="fill"></div></div>
-<span id="enemyHP"></span>
-
-<div class="bar"><div id="enemyGaugeBar" class="fill"></div></div>
-
-<br>
-
-<div id="text"></div>
-
-<button id="attackBtn" onclick="attack()">攻撃</button>
-<button onclick="openUpgrade()">強化</button>
-<button onclick="openSetting()">設定</button>
+<div id="main"></div>
 
 <div id="menu"></div>
 
@@ -92,36 +74,71 @@ HP:
 // ===== プレイヤー =====
 let player = {
   hp:20,maxHP:20,atk:3,
-  level:1,exp:0,nextExp:10,
   critRate:10,critDmg:1.5,
-  gauge:0,speed:1.2,
-  items:{}
+  level:1,exp:0,nextExp:10,
+  items:{},
+  unlocked:1
 };
 
-// ===== 敵 =====
+let enemy = null;
+
+// ===== 敵リスト（増量） =====
 const enemies = [
-  {name:"スライム", hp:10, drop:"ゼリー", rare:"核", speed:1},
-  {name:"ゴブリン", hp:15, drop:"牙", rare:"鋭牙", speed:1.3},
-  {name:"ドラゴン", hp:30, drop:"鱗", rare:"心臓", speed:0.7}
+  {name:"スライム", hp:10, atk:2, drop:"ゼリー"},
+  {name:"ゴブリン", hp:15, atk:3, drop:"牙"},
+  {name:"オーク", hp:25, atk:4, drop:"骨"},
+  {name:"魔法使い", hp:20, atk:5, drop:"魔石"},
+  {name:"騎士", hp:35, atk:6, drop:"鉄"},
+  {name:"ドラゴン", hp:50, atk:8, drop:"鱗"}
 ];
 
-let enemy;
+// ===== 敵選択画面 =====
+function showStageSelect(){
+  let html = "<h3>敵を選択</h3>";
 
-// ===== 初期化 =====
-function spawn(){
-  enemy = {...enemies[Math.random()*enemies.length|0]};
+  enemies.forEach((e,i)=>{
+    if(i < player.unlocked){
+      html += `<button onclick="startBattle(${i})">${e.name}</button><br>`;
+    } else {
+      html += `<button class="locked">${e.name}（未解放）</button><br>`;
+    }
+  });
+
+  document.getElementById("main").innerHTML = html;
+}
+
+// ===== 戦闘開始 =====
+function startBattle(i){
+  enemy = {...enemies[i]};
   enemy.maxHP = enemy.hp;
-  enemy.gauge = 0;
-  setText(enemy.name+" 出現！");
+
+  setText(enemy.name+" と戦闘開始！");
+  showBattle();
+}
+
+// ===== 戦闘画面 =====
+function showBattle(){
+  let html = `
+  <h3 id="enemyName">${enemy.name}</h3>
+
+  HP:
+  <div class="bar"><div id="enemyBar" class="fill"></div></div>
+  <span id="enemyHP"></span><br><br>
+
+  <button onclick="attack()">攻撃</button>
+  <button onclick="escape()">逃げる</button>
+
+  <div id="text"></div>
+  `;
+
+  document.getElementById("main").innerHTML = html;
+  update();
 }
 
 // ===== 攻撃 =====
 function attack(){
-  if(player.gauge < 100) return;
-
-  player.gauge = 0;
-
   let dmg = player.atk;
+
   if(Math.random()*100 < player.critRate){
     dmg = Math.floor(dmg*player.critDmg);
     setText("クリティカル！ "+dmg);
@@ -131,72 +148,58 @@ function attack(){
 
   enemy.hp -= dmg;
 
-  if(enemy.hp <= 0) win();
-}
+  if(enemy.hp <= 0){
+    win();
+    return;
+  }
 
-// ===== 敵攻撃 =====
-function enemyAttack(){
-  let dmg = Math.floor(Math.random()*4)+1;
-  player.hp -= dmg;
-  setText(enemy.name+" の攻撃 "+dmg);
-
+  // 敵攻撃
+  player.hp -= enemy.atk;
   if(player.hp <= 0){
     setText("ゲームオーバー");
+    return;
   }
+
+  update();
 }
 
 // ===== 勝利 =====
 function win(){
-  player.exp += 5;
   addItem(enemy.drop,1);
+  setText("勝利！");
 
-  if(Math.random()<0.2){
-    addItem(enemy.rare,1);
+  // 解放
+  let index = enemies.findIndex(e=>e.name===enemy.name);
+  if(index+1 > player.unlocked){
+    player.unlocked = index+1;
   }
 
-  if(player.exp >= player.nextExp){
-    player.level++;
-    player.exp=0;
-    player.nextExp=Math.floor(player.nextExp*1.5);
-    player.maxHP+=5;
-    player.hp=player.maxHP;
-  }
-
-  setTimeout(spawn,1000);
+  setTimeout(showStageSelect,1000);
 }
 
-// ===== ループ（重要） =====
-function loop(){
-  player.gauge += player.speed;
-  enemy.gauge += enemy.speed;
-
-  if(player.gauge > 100) player.gauge = 100;
-
-  if(enemy.gauge >= 100){
-    enemy.gauge = 0;
-    enemyAttack();
-  }
-
-  update();
-  requestAnimationFrame(loop);
+// ===== 逃げる =====
+function escape(){
+  showStageSelect();
 }
 
 // ===== UI =====
 function update(){
-  document.getElementById("enemyName").innerText = enemy.name;
-  document.getElementById("enemyHP").innerText = enemy.hp+"/"+enemy.maxHP;
+  if(!enemy) return;
+
+  document.getElementById("enemyHP").innerText =
+    enemy.hp+"/"+enemy.maxHP;
+
+  document.getElementById("enemyBar").style.width =
+    (enemy.hp/enemy.maxHP*100)+"%";
 
   document.getElementById("level").innerText = player.level;
-  document.getElementById("playerHP").innerText = player.hp+"/"+player.maxHP;
+  document.getElementById("playerHP").innerText =
+    player.hp+"/"+player.maxHP;
 
   document.getElementById("atk").innerText = player.atk;
   document.getElementById("critRate").innerText = player.critRate;
   document.getElementById("critDmg").innerText = player.critDmg;
 
-  document.getElementById("exp").innerText = player.exp;
-  document.getElementById("nextExp").innerText = player.nextExp;
-
-  // HPバー色
   let ratio = player.hp/player.maxHP;
   let bar = document.getElementById("hpBar");
   bar.style.width = ratio*100+"%";
@@ -204,13 +207,6 @@ function update(){
   if(ratio < 0.1) bar.style.background="red";
   else if(ratio < 0.5) bar.style.background="orange";
   else bar.style.background="lime";
-
-  // ゲージ
-  document.getElementById("playerGaugeBar").style.width = player.gauge+"%";
-  document.getElementById("enemyGaugeBar").style.width = enemy.gauge+"%";
-
-  // ボタン制御
-  document.getElementById("attackBtn").disabled = player.gauge < 100;
 
   let html="";
   for(let k in player.items){
@@ -229,45 +225,9 @@ function setText(t){
   document.getElementById("text").innerText = t;
 }
 
-function openUpgrade(){
-  let html="<h3>強化</h3>";
-  html+="クリ率+5%（核2）<button onclick='upCrit()'>+</button>";
-  document.getElementById("menu").innerHTML=html;
-}
-
-function upCrit(){
-  if((player.items["核"]||0)<2) return;
-  player.items["核"]-=2;
-  player.critRate+=5;
-}
-
-function openSetting(){
-  document.getElementById("menu").innerHTML=
-    "<button onclick='save()'>セーブ</button><br>"+
-    "<button onclick='resetData()'>削除</button>";
-}
-
-function save(){
-  localStorage.setItem("save",JSON.stringify(player));
-}
-
-function load(){
-  let d=localStorage.getItem("save");
-  if(d){
-    player=JSON.parse(d);
-    if(!player.items) player.items={};
-  }
-}
-
-function resetData(){
-  localStorage.clear();
-  location.reload();
-}
-
 // ===== スタート =====
-load();
-spawn();
-loop();
+showStageSelect();
+update();
 
 </script>
 
