@@ -11,14 +11,29 @@
 
 HP:
 <div class="bar"><div id="enemyBar" class="fill"></div></div>
-<span id="enemyHP"></span><br><br>
+<span id="enemyHP"></span><br>
 
-<button onclick="attack()">攻撃</button>
+ゲージ:
+<div class="bar"><div id="enemyGauge" class="fill"></div></div><br>
+
+<hr>
+
+あなた
+
+HP:
+<div class="bar"><div id="playerHPBar" class="fill"></div></div>
+<span id="playerHP"></span><br>
+
+ゲージ:
+<div class="bar"><div id="playerGauge" class="fill"></div></div><br>
+
+<button id="attackBtn" onclick="attack()">攻撃</button>
 <button onclick="back()">戻る</button>
 
 <div id="text"></div>
 
 <script src="data.js"></script>
+<script src="player.js"></script>
 <script src="battle.js"></script>
 </body>
 </html>
