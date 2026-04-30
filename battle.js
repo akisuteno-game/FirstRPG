@@ -9,8 +9,9 @@ enemy.maxHP = enemy.hp;
 enemy.gauge = 0;
 
 let playerGauge = 0;
-let battleEnd = false; // 🔥 これが重要
+let battleEnd = false;
 
+// ===== 表示用 =====
 function hp(v){
   return Math.max(0, Math.floor(v));
 }
@@ -68,13 +69,13 @@ function enemyAttack(){
   if(player.hp === 0){
     text.innerText = "ゲームオーバー";
     btn.disabled = true;
-    battleEnd = true; // 🔥 完全停止
+    battleEnd = true;
   }
 }
 
 // ===== 勝利 =====
 function win(){
-  battleEnd = true; // 🔥 完全停止
+  battleEnd = true;
 
   addItem(enemy.drop,1);
 
@@ -106,6 +107,10 @@ function loop(){
       enemyAttack();
     }
   }
+
+  // 🔥 最強防御（毎フレーム強制補正）
+  player.hp = Math.max(0, player.hp);
+  enemy.hp = Math.max(0, enemy.hp);
 
   update();
   requestAnimationFrame(loop);
