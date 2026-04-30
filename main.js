@@ -39,30 +39,45 @@ function resetData(){
   location.reload();
 }
 
-// ===== 回復設定（🔥ここが変更点）=====
-const healPercentPerSec = 0.10; // 最大HPの10%/秒
+// ===== 回復設定 =====
+const healPercentPerSec = 0.10;
 
 let lastTime = performance.now();
 
-// ===== UI更新 =====
-function update(delta){
+// ===== ループ =====
+function loop(now){
 
-  // 自動回復
+  let delta = now - lastTime;
+  lastTime = now;
+
+  // 🔥 delta暴走防止（超重要）
+  if(delta > 100) delta = 100;
+
+  // 回復
   let heal = player.maxHP * healPercentPerSec * (delta/1000);
   player.hp += heal;
+
+  // 🔥 完全防御
+  player.hp = Math.max(0, player.hp);
 
   if(player.hp > player.maxHP){
     player.hp = player.maxHP;
   }
 
-  // 表示（整数）
+  update();
+
+  requestAnimationFrame(loop);
+}
+
+// ===== UI更新 =====
+function update(){
+
   document.getElementById("hp").innerText =
     Math.max(0, Math.floor(player.hp)) + "/" + player.maxHP;
 
   document.getElementById("atk").innerText = player.atk;
   document.getElementById("crit").innerText = player.crit;
 
-  // HPバー
   let ratio = player.hp/player.maxHP;
   let bar = document.getElementById("hpBar");
 
@@ -72,7 +87,6 @@ function update(delta){
   else if(ratio < 0.5) bar.style.background="orange";
   else bar.style.background="lime";
 
-  // 素材
   let html="";
   for(let k in player.items){
     html += k+"："+player.items[k]+"<br>";
@@ -80,13 +94,5 @@ function update(delta){
   document.getElementById("items").innerHTML = html;
 }
 
-// ===== ループ =====
-function loop(now){
-  let delta = now - lastTime;
-  lastTime = now;
-
-  update(delta);
-  requestAnimationFrame(loop);
-}
-
+// ===== スタート =====
 loop(performance.now());
