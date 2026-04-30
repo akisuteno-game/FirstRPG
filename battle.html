@@ -3,37 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <title>戦闘</title>
-<link rel="stylesheet" href="style.css">
+<style>
+body {
+  background:#111;
+  color:#eee;
+  font-family:monospace;
+  text-align:center;
+}
+button {
+  margin:5px;
+  padding:10px;
+  background:#333;
+  color:white;
+  border:1px solid #888;
+}
+.bar {
+  width:200px;
+  height:12px;
+  background:#333;
+  margin:auto;
+}
+.fill {
+  height:100%;
+  width:100%;
+  background:lime;
+}
+</style>
 </head>
+
 <body>
 
 <h2 id="enemyName"></h2>
 
 HP:
 <div class="bar"><div id="enemyBar" class="fill"></div></div>
-<span id="enemyHP"></span><br>
+<span id="enemyHP"></span><br><br>
 
-ゲージ:
-<div class="bar"><div id="enemyGauge" class="fill"></div></div><br>
-
-<hr>
-
-あなた
-
-HP:
-<div class="bar"><div id="playerHPBar" class="fill"></div></div>
-<span id="playerHP"></span><br>
-
-ゲージ:
-<div class="bar"><div id="playerGauge" class="fill"></div></div><br>
-
-<button id="attackBtn" onclick="attack()">攻撃</button>
+<button onclick="attack()">攻撃</button>
 <button onclick="back()">戻る</button>
 
 <div id="text"></div>
 
-<script src="data.js"></script>
-<script src="player.js"></script>
-<script src="battle.js"></script>
+<script>
+// ===== データ =====
+const enemies = [
+  {id:0,name:"スライム",hp:10,atk:2},
+  {id:1,name:"ゴブリン",hp:15,atk:3},
+  {id:2,name:"オーク",hp:25,atk:4},
+  {id:3,name:"ドラゴン",hp:40,atk:6}
+];
+
+// ===== 敵取得 =====
+const params = new URLSearchParams(location.search);
+const id = params.get("enemy");
+
+let enemy = {...enemies[id]};
+enemy.maxHP = enemy.hp;
+
+// ===== UI =====
+const enemyName = document.getElementById("enemyName");
+const enemyHP = document.getElementById("enemyHP");
+const enemyBar = document.getElementById("enemyBar");
+const text = document.getElementById("text");
+
+enemyName.innerText = enemy.name;
+
+// ===== 更新 =====
+function update(){
+  enemyHP.innerText = enemy.hp+"/"+enemy.maxHP;
+  enemyBar.style.width = (enemy.hp/enemy.maxHP*100)+"%";
+}
+
+// ===== 攻撃 =====
+function attack(){
+  enemy.hp -= 3;
+  text.innerText = "攻撃！";
+
+  if(enemy.hp <= 0){
+    text.innerText = "勝利！";
+  }
+
+  update();
+}
+
+// ===== 戻る =====
+function back(){
+  location.href = "index.html";
+}
+
+update();
+</script>
+
 </body>
 </html>
