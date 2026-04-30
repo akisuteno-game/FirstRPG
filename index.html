@@ -2,103 +2,94 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ゲージRPG+</title>
+<title>RPG+</title>
 
 <style>
 body {
-  background: radial-gradient(#111, #000);
-  color: #0f0;
-  font-family: monospace;
-  text-align: center;
+  background:black;
+  color:#0f0;
+  font-family:monospace;
+  text-align:center;
 }
 
 #game {
-  width: 420px;
-  margin: auto;
-  border: 2px solid #0f0;
-  padding: 10px;
-  background: #000;
-}
-
-.bar {
-  height: 12px;
-  background: #222;
-  margin: 5px 0;
-}
-
-.fill {
-  height: 100%;
-  background: lime;
-  width: 0%;
-  transition: width 0.1s;
-}
-
-.enemy {
-  font-size: 22px;
-  margin: 10px;
-}
-
-#text {
-  border: 1px solid #0f0;
-  height: 60px;
-  padding: 5px;
-  margin: 10px 0;
+  width:420px;
+  margin:auto;
+  border:2px solid #0f0;
+  padding:10px;
 }
 
 button {
-  width: 30%;
-  margin: 5px;
-  padding: 10px;
-  background: black;
-  color: #0f0;
-  border: 1px solid #0f0;
-}
-
-button:disabled {
-  opacity: 0.3;
+  margin:5px;
+  padding:8px;
+  background:black;
+  color:#0f0;
+  border:1px solid #0f0;
 }
 </style>
 </head>
 
 <body>
 
-<h2>⚔ ゲージRPG+</h2>
+<h2>⚔ RPG+</h2>
 
 <div id="game">
 
-<div class="enemy" id="enemyName"></div>
-<div>HP: <span id="enemyHP"></span></div>
-<div class="bar"><div id="enemyGauge" class="fill"></div></div>
+<div id="enemyName"></div>
+HP:<span id="enemyHP"></span><br><br>
 
-<hr>
-
-<div>Lv:<span id="level"></span> HP:<span id="playerHP"></span></div>
-<div class="bar"><div id="playerGauge" class="fill"></div></div>
+Lv:<span id="level"></span>
+HP:<span id="playerHP"></span>
+SP:<span id="sp"></span>
 
 <div id="text"></div>
 
-<div>
-  <button id="atkBtn" onclick="attack()">攻撃</button>
-  <button id="skillBtn" onclick="skill()">スキル</button>
-  <button onclick="save()">セーブ</button>
-</div>
+<button onclick="attack()">攻撃</button>
+<button onclick="openSkill()">スキル</button>
+<button onclick="openEquip()">装備</button>
+<button onclick="save()">セーブ</button>
+
+<div id="menu"></div>
 
 </div>
 
 <script>
-// ===== データ =====
+// ===== プレイヤー =====
 let player = {
-  hp: 20,
-  maxHP: 20,
-  level: 1,
-  exp: 0,
-  gauge: 0
+  hp:20,
+  maxHP:20,
+  atk:3,
+  level:1,
+  exp:0,
+  sp:0,
+  equip:{
+    weapon:0,
+    armor:0
+  },
+  skills:{
+    atkUp:0,
+    hpUp:0
+  }
 };
 
-let enemies = [
-  {name:"スライム", hp:10, speed:1},
-  {name:"ゴブリン", hp:15, speed:1.5},
-  {name:"ドラゴン", hp:30, speed:0.6}
+// ===== 装備 =====
+const weapons = [
+  {name:"なし", atk:0},
+  {name:"剣", atk:2},
+  {name:"炎の剣", atk:5}
+];
+
+const armors = [
+  {name:"なし", hp:0},
+  {name:"革の鎧", hp:5},
+  {name:"鉄の鎧", hp:10}
+];
+
+// ===== 敵 =====
+const enemies = [
+  {name:"スライム", hp:10},
+  {name:"ゴブリン", hp:15},
+  {name:"ドラゴン", hp:25}
 ];
 
 let enemy;
@@ -106,129 +97,119 @@ let enemy;
 // ===== 初期化 =====
 function spawn(){
   enemy = {...enemies[Math.floor(Math.random()*enemies.length)]};
-  enemy.gauge = 0;
-  setText(enemy.name+" が現れた！");
+  setText(enemy.name+" 出現！");
 }
 
-// ===== テキスト（タイプ風） =====
+// ===== 計算 =====
+function getAtk(){
+  return player.atk + weapons[player.equip.weapon].atk + player.skills.atkUp;
+}
+
+function getMaxHP(){
+  return player.maxHP + armors[player.equip.armor].hp + player.skills.hpUp*5;
+}
+
+// ===== テキスト =====
 function setText(msg){
-  let el = document.getElementById("text");
-  el.innerText = "";
-  let i = 0;
-  let interval = setInterval(()=>{
-    el.innerText += msg[i];
-    i++;
-    if(i>=msg.length) clearInterval(interval);
-  },30);
+  document.getElementById("text").innerText = msg;
 }
 
-// ===== 行動 =====
+// ===== 攻撃 =====
 function attack(){
-  if(player.gauge < 100) return;
-  player.gauge = 0;
-
-  let dmg = rand(3,6);
+  let dmg = getAtk();
   enemy.hp -= dmg;
-  setText("攻撃！ "+dmg+"ダメージ");
+  setText("攻撃 "+dmg);
 
   if(enemy.hp <= 0){
     win();
   }
-}
 
-function skill(){
-  if(player.gauge < 100) return;
-  player.gauge = 0;
-
-  let dmg = rand(6,12);
-  enemy.hp -= dmg;
-  setText("必殺技！ "+dmg+"ダメージ");
-
-  if(enemy.hp <= 0){
-    win();
-  }
-}
-
-function enemyTurn(){
-  let dmg = rand(2,5);
-  player.hp -= dmg;
-  setText(enemy.name+" の攻撃！ "+dmg);
-
-  if(player.hp <= 0){
-    setText("ゲームオーバー");
-  }
+  update();
 }
 
 // ===== 勝利 =====
 function win(){
-  let gain = 5;
-  player.exp += gain;
+  player.exp += 5;
+  player.sp += 1;
 
   if(player.exp >= 10){
     player.level++;
     player.exp = 0;
     player.maxHP += 5;
-    player.hp = player.maxHP;
-    setText("レベルアップ！ Lv."+player.level);
+    player.hp = getMaxHP();
+    setText("Lvアップ！");
   } else {
-    setText("勝利！ EXP+"+gain);
+    setText("勝利！");
   }
 
   setTimeout(spawn,1000);
 }
 
-// ===== ループ =====
-function loop(){
-  player.gauge += 1.2;
-  enemy.gauge += enemy.speed;
+// ===== スキル =====
+function openSkill(){
+  let html = "<h3>スキル</h3>";
+  html += "攻撃UP Lv"+player.skills.atkUp+
+    " <button onclick='upSkill(\"atkUp\")'>+</button><br>";
+  html += "HP強化 Lv"+player.skills.hpUp+
+    " <button onclick='upSkill(\"hpUp\")'>+</button><br>";
 
-  if(player.gauge > 100) player.gauge = 100;
+  document.getElementById("menu").innerHTML = html;
+}
 
-  if(enemy.gauge >= 100){
-    enemy.gauge = 0;
-    enemyTurn();
-  }
+function upSkill(type){
+  if(player.sp <= 0) return;
 
+  player.skills[type]++;
+  player.sp--;
   update();
-  requestAnimationFrame(loop);
+  openSkill();
+}
+
+// ===== 装備 =====
+function openEquip(){
+  let html = "<h3>装備</h3>";
+
+  html += "武器:<br>";
+  weapons.forEach((w,i)=>{
+    html += w.name+" <button onclick='equipW("+i+")'>装備</button><br>";
+  });
+
+  html += "<br>防具:<br>";
+  armors.forEach((a,i)=>{
+    html += a.name+" <button onclick='equipA("+i+")'>装備</button><br>";
+  });
+
+  document.getElementById("menu").innerHTML = html;
+}
+
+function equipW(i){
+  player.equip.weapon = i;
+  update();
+}
+
+function equipA(i){
+  player.equip.armor = i;
+  player.hp = getMaxHP();
+  update();
 }
 
 // ===== UI =====
 function update(){
-  set("playerHP", player.hp);
-  set("enemyHP", enemy.hp);
-  set("level", player.level);
-
-  width("playerGauge", player.gauge);
-  width("enemyGauge", enemy.gauge);
-
-  // ボタン制御
-  document.getElementById("atkBtn").disabled = player.gauge < 100;
-  document.getElementById("skillBtn").disabled = player.gauge < 100;
-
   document.getElementById("enemyName").innerText = enemy.name;
-}
-
-function set(id,val){
-  document.getElementById(id).innerText = val;
-}
-
-function width(id,val){
-  document.getElementById(id).style.width = val+"%";
-}
-
-function rand(a,b){
-  return Math.floor(Math.random()*(b-a+1))+a;
+  document.getElementById("enemyHP").innerText = enemy.hp;
+  document.getElementById("level").innerText = player.level;
+  document.getElementById("playerHP").innerText = player.hp+"/"+getMaxHP();
+  document.getElementById("sp").innerText = player.sp;
 }
 
 // ===== セーブ =====
 function save(){
-  localStorage.setItem("rpgSave", JSON.stringify(player));
-  setText("セーブした！");
+  localStorage.setItem("save", JSON.stringify(player));
+  setText("セーブ完了");
 }
 
 function load(){
-  let data = localStorage.getItem("rpgSave");
+  let data = localStorage.getItem("save");
   if(data){
     player = JSON.parse(data);
   }
@@ -237,7 +218,7 @@ function load(){
 // ===== スタート =====
 load();
 spawn();
-loop();
+update();
 </script>
 
 </body>
