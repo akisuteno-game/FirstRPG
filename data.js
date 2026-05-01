@@ -5,7 +5,6 @@ const enemies = [
   {id:3,name:"ドラゴン",hp:40,atk:6,speed:0.7,drop:"鱗"}
 ];
 
-// ===== 素材アイコン =====
 const itemIcons = {
   "ゼリー":"🟢",
   "牙":"🦷",
