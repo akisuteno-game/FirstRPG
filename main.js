@@ -111,6 +111,8 @@ function drawStatus(){
 
 function loop(){
 
+  autoHeal(); // 🔥 追加
+
   fixHP();
 
   drawStatus();
