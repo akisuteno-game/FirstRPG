@@ -23,40 +23,40 @@ function makeEnemyButtons(){
 
     btn.innerHTML = `
 
-      <div
-        class="enemyIcon">
+      <div class="enemyIcon">
 
         ${e.icon || "❓"}
 
       </div>
 
 
-      <b>
+      <div>
 
-        ${e.name}
+        <b>
 
-      </b>
+          ${e.name}
 
+        </b>
 
-      <hr>
-
-
-      HP :
-      ${e.hp}
+      </div>
 
 
       <br>
 
 
-      ATK :
-      ${e.atk}
+      HP:${e.hp}
 
 
       <br>
 
 
-      SPD :
-      ${e.speed}
+      ATK:${e.atk}
+
+
+      <br>
+
+
+      SPD:${e.speed}
 
     `;
 
