@@ -9,10 +9,11 @@ function startMain(){
 
   makeEnemyButtons();
 
-  drawStatus(); // 🔥 即描画
+  drawStatus();
 
   loop();
 }
+
 
 // ===== タブ =====
 function showTab(id){
@@ -36,44 +37,6 @@ function showTab(id){
     );
 }
 
-// ===== 敵 =====
-function makeEnemyButtons(){
-
-  const list =
-    document.getElementById(
-      "list"
-    );
-
-  if(!list) return;
-
-  list.innerHTML = "";
-
-  for(let e of enemies){
-
-    let btn =
-      document.createElement(
-        "button"
-      );
-
-    btn.innerText =
-      e.name;
-
-    btn.onclick =
-      function(){
-
-      location.href =
-        "battle.html?enemy="+e.id;
-    };
-
-    list.appendChild(btn);
-
-    list.appendChild(
-      document.createElement(
-        "br"
-      )
-    );
-  }
-}
 
 // ===== 左UI =====
 function drawStatus(){
@@ -156,6 +119,7 @@ function drawStatus(){
 
   `;
 }
+
 
 // ===== ループ =====
 function loop(){
