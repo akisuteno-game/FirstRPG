@@ -11,9 +11,7 @@
 
 <!-- 左 -->
 <div id="side">
-
   <div id="status"></div>
-
 </div>
 
 
@@ -25,12 +23,7 @@
 
     <button
       class="tabBtn"
-
-      onclick="
-      showTab(
-        'enemyTab',
-        'enemyTab.html'
-      )">
+      onclick="showTab('enemyTab')">
 
       敵選択
 
@@ -39,12 +32,7 @@
 
     <button
       class="tabBtn"
-
-      onclick="
-      showTab(
-        'upgradeTab',
-        'upgradeTab.html'
-      )">
+      onclick="showTab('upgradeTab')">
 
       強化
 
@@ -53,12 +41,7 @@
 
     <button
       class="tabBtn"
-
-      onclick="
-      showTab(
-        'settingTab',
-        'settingTab.html'
-      )">
+      onclick="showTab('settingTab')">
 
       設定
 
@@ -72,19 +55,55 @@
 
     <div
       id="enemyTab"
-      class="tabPage">
+      class="tabPage activePage">
+
+      <div id="list"></div>
+
     </div>
 
 
     <div
       id="upgradeTab"
       class="tabPage">
+
+      <h2>強化</h2>
+
+      <button
+        onclick="upgradeAtk()">
+
+        攻撃+1
+
+      </button>
+
+      <br><br>
+
+      必要素材：
+      🟢ゼリー×2
+
     </div>
 
 
     <div
       id="settingTab"
       class="tabPage">
+
+      <h2>設定</h2>
+
+      <button
+        onclick="save()">
+
+        保存
+
+      </button>
+
+
+      <button
+        onclick="resetData()">
+
+        リセット
+
+      </button>
+
     </div>
 
   </div>
