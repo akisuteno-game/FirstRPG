@@ -9,69 +9,140 @@
 
 <body>
 
+<!-- 左 -->
 <div id="side">
+
   <div id="status"></div>
+
 </div>
 
+
+<!-- 右 -->
 <div id="main">
 
   <!-- 上 -->
-  <div class="section">
+  <div id="tabs">
 
-    <h2 id="enemyName"></h2>
-
-    <div class="bar">
-      <div id="enemyBar" class="fill"></div>
-      <div id="enemyHP" class="hpText"></div>
-    </div>
-
-    <div class="bar">
-      <div id="enemyGauge" class="fill"></div>
-    </div>
+    <button class="tabBtn">
+      バトル
+    </button>
 
   </div>
 
 
   <!-- 中 -->
-  <div class="section">
+  <div id="topArea">
 
-    <button id="attackBtn" onclick="attack()">
-      攻撃
-    </button>
+    <div
+      class="tabPage activePage">
 
-    <button onclick="upgrade()">
-      強化
-    </button>
+      <h2 id="enemyName"></h2>
 
-    <button onclick="back()">
-      戻る
-    </button>
 
-    <div id="text"></div>
+      <div class="bar">
+
+        <div
+          id="enemyBar"
+          class="fill">
+        </div>
+
+        <div
+          id="enemyHP"
+          class="hpText">
+        </div>
+
+      </div>
+
+
+      <div class="bar">
+
+        <div
+          id="enemyGauge"
+          class="fill">
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 
 
   <!-- 下 -->
-  <div class="section">
+  <div id="battleArea">
 
     あなた
 
-    <div class="bar">
-      <div id="playerBar" class="fill"></div>
-      <div id="playerHP" class="hpText"></div>
-    </div>
 
     <div class="bar">
-      <div id="playerGauge" class="fill"></div>
+
+      <div
+        id="playerBar"
+        class="fill">
+      </div>
+
+      <div
+        id="playerHP"
+        class="hpText">
+      </div>
+
     </div>
 
-    攻撃:<span id="atk"></span><br>
-    クリ率:<span id="crit"></span>%
+
+    <div class="bar">
+
+      <div
+        id="playerGauge"
+        class="fill">
+      </div>
+
+    </div>
+
+
+    攻撃:
+    <span id="atk"></span>
+
+    <br>
+
+
+    クリ率:
+    <span id="crit"></span>%
+
+
+    <br><br>
+
+
+    <button
+      id="attackBtn"
+      onclick="attack()">
+
+      攻撃
+
+    </button>
+
+
+    <button
+      onclick="upgrade()">
+
+      強化
+
+    </button>
+
+
+    <button
+      onclick="back()">
+
+      戻る
+
+    </button>
+
+
+    <div id="text"></div>
 
   </div>
 
 </div>
+
 
 <!-- 順番重要 -->
 <script src="data.js"></script>
