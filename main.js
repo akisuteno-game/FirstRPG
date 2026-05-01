@@ -7,7 +7,6 @@ window.onload = function(){
   loop();
 };
 
-// ===== 敵ボタン =====
 function makeEnemyButtons(){
 
   const list =
@@ -17,9 +16,7 @@ function makeEnemyButtons(){
 
   list.innerHTML = "";
 
-  for(let i=0;i<enemies.length;i++){
-
-    let e = enemies[i];
+  for(let e of enemies){
 
     let btn =
       document.createElement("button");
@@ -40,7 +37,6 @@ function makeEnemyButtons(){
   }
 }
 
-// ===== 左UI =====
 function drawStatus(){
 
   const status =
@@ -48,22 +44,16 @@ function drawStatus(){
 
   if(!status) return;
 
-  let hp =
-    Math.floor(player.hp);
-
-  let max =
-    player.maxHP;
-
   let rate =
-    hp/max;
+    player.hp/player.maxHP;
 
   let color = "lime";
 
-  if(rate < 0.1){
-    color = "red";
+  if(rate<0.1){
+    color="red";
   }
-  else if(rate < 0.5){
-    color = "orange";
+  else if(rate<0.5){
+    color="orange";
   }
 
   let itemsHTML = "";
@@ -94,7 +84,9 @@ function drawStatus(){
 
     <div class="bar">
 
-      <div class="fill"
+      <div
+        class="fill"
+
         style="
           width:${rate*100}%;
           background:${color};
@@ -102,24 +94,21 @@ function drawStatus(){
       </div>
 
       <div class="hpText">
-        ${hp}/${max}
+        ${player.hp}/${player.maxHP}
       </div>
 
     </div>
 
-    攻撃: ${player.atk}<br>
-    クリ率: ${player.crit}%<br>
+    攻撃:${player.atk}<br>
+    クリ率:${player.crit}%<br>
 
     <hr>
-
-    素材
 
     ${itemsHTML}
 
   `;
 }
 
-// ===== 共通ループ =====
 function loop(){
 
   fixHP();
