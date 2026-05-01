@@ -2,24 +2,109 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>敵選択</title>
+<title>RPG</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- 左 -->
 <div id="side">
+
   <div id="status"></div>
+
 </div>
 
+
+<!-- 右 -->
 <div id="main">
 
-  <div class="section">
+  <!-- 上 -->
+  <div id="tabs">
 
-    <h2>敵を選択</h2>
+    <button
+      class="tabBtn"
+      onclick="showTab('enemyTab')">
 
-    <div id="list"></div>
+      敵選択
+
+    </button>
+
+
+    <button
+      class="tabBtn"
+      onclick="showTab('upgradeTab')">
+
+      強化
+
+    </button>
+
+
+    <button
+      class="tabBtn"
+      onclick="showTab('settingTab')">
+
+      設定
+
+    </button>
+
+  </div>
+
+
+  <!-- 真ん中 -->
+  <div id="topArea">
+
+    <div
+      id="enemyTab"
+      class="tabPage activePage">
+
+      <div id="list"></div>
+
+    </div>
+
+
+    <div
+      id="upgradeTab"
+      class="tabPage">
+
+      <button
+        onclick="upgradeAtk()">
+
+        攻撃+1
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="settingTab"
+      class="tabPage">
+
+      <button
+        onclick="save()">
+
+        保存
+
+      </button>
+
+      <button
+        onclick="resetData()">
+
+        リセット
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- 下 -->
+  <div id="battleArea">
+
+    放置RPG
 
   </div>
 
