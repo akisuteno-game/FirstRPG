@@ -9,7 +9,7 @@ function startMain(){
 
   makeEnemyButtons();
 
-  drawStatus();
+  drawStatus(); // 即表示
 
   loop();
 }
@@ -77,7 +77,9 @@ function drawStatus(){
       <div class="itemRow">
 
         <span class="itemIcon">
+
           ${itemIcons[name]}
+
         </span>
 
         ${name} ×${count}
