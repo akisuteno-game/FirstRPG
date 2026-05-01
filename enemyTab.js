@@ -21,24 +21,11 @@ function makeEnemyButtons(){
       "enemyCard";
 
 
-    btn.style.height =
-      "220px";
-
-    btn.style.fontSize =
-      "18px";
-
-
     btn.innerHTML = `
 
-      <div
-        class="enemyIcon"
+      <div class="enemyIcon">
 
-        style="
-          font-size:64px;
-          margin-bottom:10px;
-        ">
-
-        ${e.icon || "❓"}
+        ${e.icon ? e.icon : "❓"}
 
       </div>
 
@@ -53,22 +40,15 @@ function makeEnemyButtons(){
       <br><br>
 
 
-      HP :
-      ${e.hp}
-
+      HP : ${e.hp}
 
       <br>
 
-
-      ATK :
-      ${e.atk}
-
+      ATK : ${e.atk}
 
       <br>
 
-
-      SPD :
-      ${e.speed}
+      SPD : ${e.speed}
 
     `;
 
