@@ -14,14 +14,3 @@ function resetData(){
 
   location.reload();
 }
-
-
-function exportSave(){
-
-  let data =
-    JSON.stringify(
-      player
-    );
-
-  alert(data);
-}
