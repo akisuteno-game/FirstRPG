@@ -12,9 +12,6 @@ function makeEnemyButtons(){
 
   for(let e of enemies){
 
-    let hpRate = 100;
-
-
     let btn =
       document.createElement(
         "button"
@@ -26,12 +23,13 @@ function makeEnemyButtons(){
 
     btn.innerHTML = `
 
-      <div
-        class="enemyIcon">
+      <img
+        class="enemyImage"
 
-        ${e.icon || "❓"}
+        src="${e.img}"
 
-      </div>
+        alt="${e.name}"
+      >
 
 
       <div
@@ -49,11 +47,7 @@ function makeEnemyButtons(){
         class="enemyHPBar">
 
         <div
-          class="enemyHPFill"
-
-          style="
-            width:${hpRate}%;
-          ">
+          class="enemyHPFill">
 
         </div>
 
