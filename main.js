@@ -1,3 +1,8 @@
+window.addEventListener(
+  "load",
+  startMain
+);
+
 function startMain(){
 
   load();
@@ -7,17 +12,35 @@ function startMain(){
   loop();
 }
 
-// battleでもindexでも両対応
-window.addEventListener(
-  "load",
-  startMain
-);
+// ===== タブ =====
+function showTab(id){
 
-// ===== 敵ボタン =====
+  let tabs =
+    document.getElementsByClassName(
+      "tabPage"
+    );
+
+  for(let t of tabs){
+
+    t.classList.remove(
+      "activePage"
+    );
+  }
+
+  document
+    .getElementById(id)
+    .classList.add(
+      "activePage"
+    );
+}
+
+// ===== 敵 =====
 function makeEnemyButtons(){
 
   const list =
-    document.getElementById("list");
+    document.getElementById(
+      "list"
+    );
 
   if(!list) return;
 
@@ -26,11 +49,15 @@ function makeEnemyButtons(){
   for(let e of enemies){
 
     let btn =
-      document.createElement("button");
+      document.createElement(
+        "button"
+      );
 
-    btn.innerText = e.name;
+    btn.innerText =
+      e.name;
 
-    btn.onclick = function(){
+    btn.onclick =
+      function(){
 
       location.href =
         "battle.html?enemy="+e.id;
@@ -39,7 +66,9 @@ function makeEnemyButtons(){
     list.appendChild(btn);
 
     list.appendChild(
-      document.createElement("br")
+      document.createElement(
+        "br"
+      )
     );
   }
 }
@@ -48,23 +77,27 @@ function makeEnemyButtons(){
 function drawStatus(){
 
   const status =
-    document.getElementById("status");
+    document.getElementById(
+      "status"
+    );
 
   if(!status) return;
 
   let rate =
     player.hp/player.maxHP;
 
-  let color = "lime";
+  let color =
+    "lime";
 
-  if(rate < 0.1){
-    color = "red";
+  if(rate<0.1){
+    color="red";
   }
-  else if(rate < 0.5){
-    color = "orange";
+  else if(rate<0.5){
+    color="orange";
   }
 
-  let itemsHTML = "";
+  let itemsHTML =
+    "";
 
   for(let name in itemIcons){
 
@@ -76,7 +109,9 @@ function drawStatus(){
       <div class="itemRow">
 
         <span class="itemIcon">
+
           ${itemIcons[name]}
+
         </span>
 
         ${name} ×${count}
@@ -102,12 +137,15 @@ function drawStatus(){
       </div>
 
       <div class="hpText">
+
         ${player.hp}/${player.maxHP}
+
       </div>
 
     </div>
 
     攻撃:${player.atk}<br>
+
     クリ率:${player.crit}%<br>
 
     <hr>
@@ -117,7 +155,7 @@ function drawStatus(){
   `;
 }
 
-// ===== 共通ループ =====
+// ===== ループ =====
 function loop(){
 
   autoHeal();
@@ -126,5 +164,7 @@ function loop(){
 
   drawStatus();
 
-  requestAnimationFrame(loop);
+  requestAnimationFrame(
+    loop
+  );
 }
