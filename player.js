@@ -40,12 +40,7 @@ function load(){
     localStorage.getItem("player");
 
   if(d){
-
     player = JSON.parse(d);
-
-    if(!player.items){
-      player.items = {};
-    }
   }
 
   fixHP();
