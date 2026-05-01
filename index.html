@@ -10,47 +10,24 @@
 <body>
 
 <div id="side">
-  <h3>ステータス</h3>
   <div id="status"></div>
-
-  <hr>
-
-  <button onclick="save()">保存</button>
-  <button onclick="resetData()">リセット</button>
 </div>
 
 <div id="main">
 
-<h2>敵を選択</h2>
-<div id="list"></div>
+  <div class="section">
+
+    <h2>敵を選択</h2>
+
+    <div id="list"></div>
+
+  </div>
 
 </div>
 
 <script src="data.js"></script>
 <script src="player.js"></script>
 <script src="main.js"></script>
-
-<script>
-function drawStatus(){
-  const s = document.getElementById("status");
-
-  s.innerHTML =
-    "HP: " + player.hp + "/" + player.maxHP + "<br>" +
-    "攻撃: " + player.atk + "<br>" +
-    "クリ率: " + player.crit + "%<br>" +
-    "素材:<br>" + JSON.stringify(player.items);
-}
-
-function resetData(){
-  localStorage.removeItem("player");
-  location.reload();
-}
-
-setInterval(()=>{
-  fixHP();
-  drawStatus();
-}, 300);
-</script>
 
 </body>
 </html>
