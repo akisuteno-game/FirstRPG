@@ -10,7 +10,7 @@ body{
 }
 
 
-/* 左ステータス */
+/* 左 */
 #side{
 
   width:220px;
@@ -69,12 +69,6 @@ body{
 }
 
 
-.tabBtn:hover{
-
-  background:#333;
-}
-
-
 /* 真ん中 */
 #topArea{
 
@@ -86,16 +80,10 @@ body{
 }
 
 
-/* タブ中身 */
+/* タブ */
 .tabPage{
 
   display:none;
-
-  width:100%;
-
-  height:100%;
-
-  box-sizing:border-box;
 }
 
 
@@ -113,9 +101,9 @@ body{
   grid-template-columns:
     1fr 1fr;
 
-  gap:14px;
+  gap:16px;
 
-  padding:14px;
+  padding:16px;
 
   box-sizing:border-box;
 }
@@ -124,15 +112,13 @@ body{
 /* 敵カード */
 .enemyCard{
 
-  height:300px;
+  height:260px;
 
-  padding:12px;
+  margin:0;
+
+  padding:8px;
 
   box-sizing:border-box;
-
-  font-size:16px;
-
-  cursor:pointer;
 
   display:flex;
 
@@ -145,17 +131,37 @@ body{
   text-align:center;
 
   overflow:hidden;
+
+  font-size:15px;
 }
 
 
-/* 敵アイコン */
+/* アイコン */
 .enemyIcon{
 
-  font-size:72px;
+  font-size:64px;
+
+  line-height:1;
+
+  margin-top:4px;
 
   margin-bottom:8px;
+}
 
-  flex-shrink:0;
+
+/* 名前 */
+.enemyName{
+
+  font-size:18px;
+
+  margin-bottom:10px;
+}
+
+
+/* ステ */
+.enemyStats{
+
+  line-height:1.5;
 }
 
 
@@ -213,7 +219,7 @@ body{
 }
 
 
-/* ボタン */
+/* 共通ボタン */
 button{
 
   margin:5px;
