@@ -3,13 +3,20 @@ window.addEventListener(
   startMain
 );
 
+
+// ===== 起動 =====
 function startMain(){
 
   load();
 
-  makeEnemyButtons();
+  if(
+    typeof makeEnemyButtons
+    === "function"
+  ){
+    makeEnemyButtons();
+  }
 
-  drawStatus(); // 即表示
+  drawStatus();
 
   loop();
 }
@@ -30,15 +37,21 @@ function showTab(id){
     );
   }
 
-  document
-    .getElementById(id)
-    .classList.add(
+  let page =
+    document.getElementById(
+      id
+    );
+
+  if(page){
+
+    page.classList.add(
       "activePage"
     );
+  }
 }
 
 
-// ===== 左UI =====
+// ===== 左ステータス =====
 function drawStatus(){
 
   const status =
@@ -48,50 +61,76 @@ function drawStatus(){
 
   if(!status) return;
 
+
   let rate =
-    player.hp/player.maxHP;
+    player.hp /
+    player.maxHP;
+
 
   let color =
     "lime";
 
-  if(rate<0.1){
-    color="red";
+
+  if(rate < 0.1){
+
+    color = "red";
   }
-  else if(rate<0.5){
-    color="orange";
+
+  else if(
+    rate < 0.5
+  ){
+
+    color = "orange";
   }
+
 
   let itemsHTML =
     "";
 
-  for(
-    let name
-    in itemIcons
+
+  if(
+    typeof itemIcons
+    !== "undefined"
   ){
 
-    let count =
-      player.items[name] || 0;
+    for(
+      let name
+      in itemIcons
+    ){
 
-    itemsHTML += `
+      let count =
+        player.items[name]
+        || 0;
 
-      <div class="itemRow">
 
-        <span class="itemIcon">
+      itemsHTML += `
 
-          ${itemIcons[name]}
+        <div class="itemRow">
 
-        </span>
+          <span class="itemIcon">
 
-        ${name} ×${count}
+            ${itemIcons[name]}
 
-      </div>
+          </span>
 
-    `;
+          ${name} ×${count}
+
+        </div>
+
+      `;
+    }
   }
+
 
   status.innerHTML = `
 
+    <h3>
+      ステータス
+    </h3>
+
+
     HP
+
 
     <div class="bar">
 
@@ -104,18 +143,37 @@ function drawStatus(){
         ">
       </div>
 
-      <div class="hpText">
 
-        ${player.hp}/${player.maxHP}
+      <div
+        class="hpText">
+
+        ${Math.floor(
+          player.hp
+        )}
+
+
+        /
+
+
+        ${player.maxHP}
 
       </div>
 
     </div>
 
-    攻撃:${player.atk}<br>
-    クリ率:${player.crit}%<br>
+
+    攻撃:
+    ${player.atk}
+
+    <br>
+
+
+    クリ率:
+    ${player.crit}%
+
 
     <hr>
+
 
     ${itemsHTML}
 
@@ -126,11 +184,24 @@ function drawStatus(){
 // ===== ループ =====
 function loop(){
 
-  autoHeal();
+  if(
+    typeof autoHeal
+    === "function"
+  ){
+    autoHeal();
+  }
 
-  fixHP();
+
+  if(
+    typeof fixHP
+    === "function"
+  ){
+    fixHP();
+  }
+
 
   drawStatus();
+
 
   requestAnimationFrame(
     loop
