@@ -20,12 +20,17 @@
 <!-- 右 -->
 <div id="main">
 
-  <!-- 上 -->
+  <!-- タブ -->
   <div id="tabs">
 
     <button
       class="tabBtn"
-      onclick="showTab('enemyTab')">
+
+      onclick="
+      showTab(
+        'enemyTab',
+        'enemyTab.html'
+      )">
 
       敵選択
 
@@ -34,7 +39,12 @@
 
     <button
       class="tabBtn"
-      onclick="showTab('upgradeTab')">
+
+      onclick="
+      showTab(
+        'upgradeTab',
+        'upgradeTab.html'
+      )">
 
       強化
 
@@ -43,7 +53,12 @@
 
     <button
       class="tabBtn"
-      onclick="showTab('settingTab')">
+
+      onclick="
+      showTab(
+        'settingTab',
+        'settingTab.html'
+      )">
 
       設定
 
@@ -57,45 +72,19 @@
 
     <div
       id="enemyTab"
-      class="tabPage activePage">
-
-      <div id="list"></div>
-
+      class="tabPage">
     </div>
 
 
     <div
       id="upgradeTab"
       class="tabPage">
-
-      <button
-        onclick="upgradeAtk()">
-
-        攻撃+1
-
-      </button>
-
     </div>
 
 
     <div
       id="settingTab"
       class="tabPage">
-
-      <button
-        onclick="save()">
-
-        保存
-
-      </button>
-
-      <button
-        onclick="resetData()">
-
-        リセット
-
-      </button>
-
     </div>
 
   </div>
@@ -109,6 +98,7 @@
   </div>
 
 </div>
+
 
 <script src="data.js"></script>
 <script src="player.js"></script>
