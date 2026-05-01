@@ -3,14 +3,11 @@ window.addEventListener(
   startMain
 );
 
-async function startMain(){
+function startMain(){
 
   load();
 
-  await showTab(
-    "enemyTab",
-    "enemyTab.html"
-  );
+  makeEnemyButtons();
 
   drawStatus();
 
@@ -19,10 +16,7 @@ async function startMain(){
 
 
 // ===== タブ =====
-async function showTab(
-  id,
-  file
-){
+function showTab(id){
 
   let tabs =
     document.getElementsByClassName(
@@ -36,26 +30,11 @@ async function showTab(
     );
   }
 
-  let page =
-    document.getElementById(
-      id
+  document
+    .getElementById(id)
+    .classList.add(
+      "activePage"
     );
-
-  page.innerHTML =
-    await fetch(file)
-    .then(
-      r=>r.text()
-    );
-
-  page.classList.add(
-    "activePage"
-  );
-
-  if(
-    id==="enemyTab"
-  ){
-    makeEnemyButtons();
-  }
 }
 
 
@@ -98,9 +77,7 @@ function drawStatus(){
       <div class="itemRow">
 
         <span class="itemIcon">
-
           ${itemIcons[name]}
-
         </span>
 
         ${name} ×${count}
@@ -134,7 +111,6 @@ function drawStatus(){
     </div>
 
     攻撃:${player.atk}<br>
-
     クリ率:${player.crit}%<br>
 
     <hr>
