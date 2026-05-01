@@ -1,12 +1,11 @@
-body {
+body{
   background:#111;
   color:#eee;
   font-family:monospace;
   margin:0;
 }
 
-/* 左パネル */
-#side {
+#side{
   position:fixed;
   left:0;
   top:0;
@@ -18,16 +17,14 @@ body {
   box-sizing:border-box;
 }
 
-/* メイン */
-#main {
+#main{
   margin-left:220px;
   height:100vh;
   display:flex;
   flex-direction:column;
 }
 
-/* 3分割 */
-.section {
+.section{
   flex:1;
   display:flex;
   flex-direction:column;
@@ -35,31 +32,7 @@ body {
   align-items:center;
 }
 
-/* バー */
-.bar {
-  width:180px;
-  height:14px;
-  background:#333;
-  position:relative;
-  margin:5px 0;
-}
-
-.fill {
-  height:100%;
-  width:0%;
-  background:lime;
-}
-
-/* バー上の数字 */
-.hpText {
-  position:absolute;
-  width:100%;
-  text-align:center;
-  top:-16px;
-  font-size:12px;
-}
-
-button {
+button{
   margin:5px;
   padding:8px;
   background:#333;
@@ -67,11 +40,30 @@ button {
   border:1px solid #888;
 }
 
-/* 素材UI */
+.bar{
+  width:180px;
+  height:14px;
+  background:#333;
+  position:relative;
+  margin:5px 0;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  background:lime;
+}
+
+.hpText{
+  position:absolute;
+  width:100%;
+  top:-16px;
+  text-align:center;
+  font-size:12px;
+}
+
 .itemRow{
   margin:4px 0;
-  font-size:14px;
-  text-align:left;
 }
 
 .itemIcon{
