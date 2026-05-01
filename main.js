@@ -2,39 +2,60 @@ window.onload = function(){
 
   load();
 
-  const list = document.getElementById("list");
-
-  if(list){
-
-    for(let i=0;i<enemies.length;i++){
-
-      let e = enemies[i];
-
-      let btn = document.createElement("button");
-      btn.innerText = e.name;
-
-      btn.onclick = function(){
-        location.href =
-          "battle.html?enemy="+e.id;
-      };
-
-      list.appendChild(btn);
-      list.appendChild(
-        document.createElement("br")
-      );
-    }
-  }
+  makeEnemyButtons();
 
   loop();
 };
 
-// ===== 左ステータス =====
+// ===== 敵ボタン =====
+function makeEnemyButtons(){
+
+  const list =
+    document.getElementById("list");
+
+  if(!list) return;
+
+  list.innerHTML = "";
+
+  for(let i=0;i<enemies.length;i++){
+
+    let e = enemies[i];
+
+    let btn =
+      document.createElement("button");
+
+    btn.innerText = e.name;
+
+    btn.onclick = function(){
+
+      location.href =
+        "battle.html?enemy="+e.id;
+    };
+
+    list.appendChild(btn);
+
+    list.appendChild(
+      document.createElement("br")
+    );
+  }
+}
+
+// ===== 左UI =====
 function drawStatus(){
 
-  let hp = Math.floor(player.hp);
-  let max = player.maxHP;
+  const status =
+    document.getElementById("status");
 
-  let rate = hp/max;
+  if(!status) return;
+
+  let hp =
+    Math.floor(player.hp);
+
+  let max =
+    player.maxHP;
+
+  let rate =
+    hp/max;
 
   let color = "lime";
 
@@ -53,6 +74,7 @@ function drawStatus(){
       player.items[name] || 0;
 
     itemsHTML += `
+
       <div class="itemRow">
 
         <span class="itemIcon">
@@ -62,13 +84,9 @@ function drawStatus(){
         ${name} ×${count}
 
       </div>
+
     `;
   }
-
-  const status =
-    document.getElementById("status");
-
-  if(!status) return;
 
   status.innerHTML = `
 
