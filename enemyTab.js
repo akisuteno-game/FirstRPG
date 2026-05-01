@@ -9,16 +9,6 @@ function makeEnemyButtons(){
 
   list.innerHTML = "";
 
-  // 2列グリッド
-  list.style.display =
-    "grid";
-
-  list.style.gridTemplateColumns =
-    "1fr 1fr";
-
-  list.style.gap =
-    "12px";
-
 
   for(let e of enemies){
 
@@ -27,18 +17,14 @@ function makeEnemyButtons(){
         "button"
       );
 
-    btn.style.height =
-      "120px";
+    btn.className =
+      "enemyCard";
 
-    btn.style.fontSize =
-      "18px";
 
     btn.innerHTML = `
 
       <div
-        style="
-          font-size:48px;
-        ">
+        class="enemyIcon">
 
         ${e.icon}
 
@@ -48,12 +34,14 @@ function makeEnemyButtons(){
 
     `;
 
+
     btn.onclick =
       function(){
 
         location.href =
           "battle.html?enemy="+e.id;
       };
+
 
     list.appendChild(
       btn
