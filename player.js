@@ -7,6 +7,8 @@ let player = {
   items:{}
 };
 
+let lastHealTime = Date.now();
+
 function fixHP(){
 
   if(!player.items){
@@ -22,6 +24,31 @@ function fixHP(){
   if(player.hp > player.maxHP){
     player.hp = player.maxHP;
   }
+}
+
+// ===== 非戦闘回復 =====
+function autoHeal(){
+
+  let now = Date.now();
+
+  if(now - lastHealTime < 1000){
+    return;
+  }
+
+  lastHealTime = now;
+
+  if(player.hp >= player.maxHP){
+    return;
+  }
+
+  let heal =
+    player.maxHP * 0.1;
+
+  player.hp += heal;
+
+  fixHP();
+
+  save();
 }
 
 function save(){
@@ -44,4 +71,6 @@ function load(){
   }
 
   fixHP();
+
+  lastHealTime = Date.now();
 }
