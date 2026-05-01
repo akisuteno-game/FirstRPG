@@ -9,6 +9,17 @@ function makeEnemyButtons(){
 
   list.innerHTML = "";
 
+  // 2列グリッド
+  list.style.display =
+    "grid";
+
+  list.style.gridTemplateColumns =
+    "1fr 1fr";
+
+  list.style.gap =
+    "12px";
+
+
   for(let e of enemies){
 
     let btn =
@@ -16,8 +27,26 @@ function makeEnemyButtons(){
         "button"
       );
 
-    btn.innerText =
-      e.name;
+    btn.style.height =
+      "120px";
+
+    btn.style.fontSize =
+      "18px";
+
+    btn.innerHTML = `
+
+      <div
+        style="
+          font-size:48px;
+        ">
+
+        ${e.icon}
+
+      </div>
+
+      ${e.name}
+
+    `;
 
     btn.onclick =
       function(){
@@ -28,10 +57,6 @@ function makeEnemyButtons(){
 
     list.appendChild(
       btn
-    );
-
-    list.appendChild(
-      document.createElement("br")
     );
   }
 }
