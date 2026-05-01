@@ -9,6 +9,8 @@ function startMain(){
 
   makeEnemyButtons();
 
+  drawStatus(); // 🔥 即描画
+
   loop();
 }
 
