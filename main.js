@@ -3,11 +3,14 @@ window.addEventListener(
   startMain
 );
 
-function startMain(){
+async function startMain(){
 
   load();
 
-  makeEnemyButtons();
+  await showTab(
+    "enemyTab",
+    "enemyTab.html"
+  );
 
   drawStatus();
 
@@ -16,7 +19,10 @@ function startMain(){
 
 
 // ===== タブ =====
-function showTab(id){
+async function showTab(
+  id,
+  file
+){
 
   let tabs =
     document.getElementsByClassName(
@@ -30,11 +36,26 @@ function showTab(id){
     );
   }
 
-  document
-    .getElementById(id)
-    .classList.add(
-      "activePage"
+  let page =
+    document.getElementById(
+      id
     );
+
+  page.innerHTML =
+    await fetch(file)
+    .then(
+      r=>r.text()
+    );
+
+  page.classList.add(
+    "activePage"
+  );
+
+  if(
+    id==="enemyTab"
+  ){
+    makeEnemyButtons();
+  }
 }
 
 
@@ -64,7 +85,10 @@ function drawStatus(){
   let itemsHTML =
     "";
 
-  for(let name in itemIcons){
+  for(
+    let name
+    in itemIcons
+  ){
 
     let count =
       player.items[name] || 0;
