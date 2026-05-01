@@ -30,33 +30,20 @@ function makeEnemyButtons(){
       </div>
 
 
-      <div>
+      <div class="enemyName">
 
-        <b>
-
-          ${e.name}
-
-        </b>
+        ${e.name}
 
       </div>
 
 
-      <br>
+      <div class="enemyStats">
 
+        HP ${e.hp}<br>
+        ATK ${e.atk}<br>
+        SPD ${e.speed}
 
-      HP:${e.hp}
-
-
-      <br>
-
-
-      ATK:${e.atk}
-
-
-      <br>
-
-
-      SPD:${e.speed}
+      </div>
 
     `;
 
