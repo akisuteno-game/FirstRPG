@@ -1,12 +1,19 @@
-window.onload = function(){
+function startMain(){
 
   load();
 
   makeEnemyButtons();
 
   loop();
-};
+}
 
+// battleでもindexでも両対応
+window.addEventListener(
+  "load",
+  startMain
+);
+
+// ===== 敵ボタン =====
 function makeEnemyButtons(){
 
   const list =
@@ -37,6 +44,7 @@ function makeEnemyButtons(){
   }
 }
 
+// ===== 左UI =====
 function drawStatus(){
 
   const status =
@@ -49,11 +57,11 @@ function drawStatus(){
 
   let color = "lime";
 
-  if(rate<0.1){
-    color="red";
+  if(rate < 0.1){
+    color = "red";
   }
-  else if(rate<0.5){
-    color="orange";
+  else if(rate < 0.5){
+    color = "orange";
   }
 
   let itemsHTML = "";
@@ -109,9 +117,10 @@ function drawStatus(){
   `;
 }
 
+// ===== 共通ループ =====
 function loop(){
 
-  autoHeal(); // 🔥 追加
+  autoHeal();
 
   fixHP();
 
