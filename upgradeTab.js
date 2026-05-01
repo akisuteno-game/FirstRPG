@@ -1,6 +1,6 @@
 function upgradeAtk(){
 
-  let cost = 2;
+  const cost = 2;
 
   if(
     (player.items["ゼリー"]||0)
