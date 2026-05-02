@@ -1,16 +1,40 @@
-function resetData(){
+function renderSettingTab(){
 
-  if(
-    !confirm(
-      "データをリセットする？"
-    )
-  ){
+
+  const tab =
+    document.getElementById(
+      "settingTab"
+    );
+
+
+  if(!tab){
+
     return;
+
   }
 
-  localStorage.removeItem(
-    "player"
-  );
 
-  location.reload();
+  tab.innerHTML = `
+
+    <h2>設定</h2>
+
+    <button>
+      セーブ
+    </button>
+
+    <br><br>
+
+    <button>
+      ロード
+    </button>
+
+    <br><br>
+
+    <button>
+      リセット
+    </button>
+
+  `;
+
+
 }
