@@ -33,27 +33,13 @@ function showTab(tabId){
 window.onload = function(){
 
 
-  if(
-    typeof renderPlayer ===
-    "function"
-  ){
+  renderPlayer();
 
-    renderPlayer();
+  renderEnemyTab();
 
-  }
+  renderUpgradeTab();
 
-
-
-  if(
-    typeof renderEnemyTab ===
-    "function"
-  ){
-
-    renderEnemyTab();
-
-  }
-
-
+  renderSettingTab();
 
   showTab(
     "enemyTab"
