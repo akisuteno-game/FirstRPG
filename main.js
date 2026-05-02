@@ -1,7 +1,10 @@
 function showTab(tabId){
 
+
   document
-    .querySelectorAll(".tabPage")
+    .querySelectorAll(
+      ".tabPage"
+    )
     .forEach(tab => {
 
       tab.classList.remove(
@@ -25,12 +28,14 @@ function showTab(tabId){
 
   }
 
+
 }
 
 
 
 
-window.onload = function(){
+window.onload =
+function(){
 
 
   renderPlayer();
@@ -40,6 +45,7 @@ window.onload = function(){
   renderUpgradeTab();
 
   renderSettingTab();
+
 
   showTab(
     "enemyTab"
