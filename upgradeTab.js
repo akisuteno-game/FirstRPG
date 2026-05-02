@@ -16,22 +16,19 @@ function renderUpgradeTab(){
 
   tab.innerHTML = `
 
-    <h2>
-      強化
-    </h2>
-
-
-    HP強化
-
+    攻撃力強化
     <br><br>
 
-    攻撃強化
+    <button>
 
-    <br><br>
+      強化する
 
-    クリ率強化
+    </button>
 
   `;
 
 
 }
+
+
+renderUpgradeTab();
