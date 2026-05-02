@@ -21,19 +21,15 @@ function renderUpgradeTab(){
     </h2>
 
 
-    <button>
-      HP強化
-    </button>
+    HP強化
 
+    <br><br>
 
-    <button>
-      攻撃強化
-    </button>
+    攻撃強化
 
+    <br><br>
 
-    <button>
-      クリ率強化
-    </button>
+    クリ率強化
 
   `;
 
