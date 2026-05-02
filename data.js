@@ -50,7 +50,7 @@ const enemies = [
 
     name:"ドラゴン",
 
-    img:"img/monsters/dragon.png.PNG",
+    img:"img/monsters/dragon.png",
 
     hp:50,
 
