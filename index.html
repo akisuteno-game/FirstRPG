@@ -1,132 +1,166 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>RPG</title>
 
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="
+    width=device-width,
+    initial-scale=1.0
+  "
+>
+
+<title>First RPG</title>
+
+<link
+  rel="stylesheet"
+  href="style.css"
+>
+
 </head>
+
 
 <body>
 
-<!-- 左 -->
-<div id="side">
-  <div id="status"></div>
-</div>
+  <!-- 左 -->
+  <div id="side">
 
+    <h2>
+      ステータス
+    </h2>
 
-<!-- 右 -->
-<div id="main">
-
-  <!-- タブ -->
-  <div id="tabs">
-
-    <button
-      class="tabBtn"
-      onclick="showTab('enemyTab')">
-
-      敵選択
-
-    </button>
-
-
-    <button
-      class="tabBtn"
-      onclick="showTab('upgradeTab')">
-
-      強化
-
-    </button>
-
-
-    <button
-      class="tabBtn"
-      onclick="showTab('settingTab')">
-
-      設定
-
-    </button>
-
-  </div>
-
-
-  <!-- 真ん中 -->
-  <div id="topArea">
-
-    <div
-      id="enemyTab"
-      class="tabPage activePage">
-
-      <div id="list"></div>
-
-    </div>
-
-
-    <div
-      id="upgradeTab"
-      class="tabPage">
-
-      <h2>強化</h2>
-
-      <button
-        onclick="upgradeAtk()">
-
-        攻撃+1
-
-      </button>
-
-      <br><br>
-
-      必要素材：
-      🟢ゼリー×2
-
-    </div>
-
-
-    <div
-      id="settingTab"
-      class="tabPage">
-
-      <h2>設定</h2>
-
-      <button
-        onclick="save()">
-
-        保存
-
-      </button>
-
-
-      <button
-        onclick="resetData()">
-
-        リセット
-
-      </button>
-
+    <div id="playerUI">
     </div>
 
   </div>
 
 
-  <!-- 下 -->
-  <div id="battleArea">
 
-    放置RPG
+  <!-- 右 -->
+  <div id="main">
+
+
+    <!-- タブ -->
+    <div id="tabs">
+
+      <button
+        class="tabBtn"
+
+        onclick="
+          showTab(
+            'enemyTab'
+          )
+        "
+      >
+        敵選択
+      </button>
+
+
+      <button
+        class="tabBtn"
+
+        onclick="
+          showTab(
+            'upgradeTab'
+          )
+        "
+      >
+        強化
+      </button>
+
+
+      <button
+        class="tabBtn"
+
+        onclick="
+          showTab(
+            'settingTab'
+          )
+        "
+      >
+        設定
+      </button>
+
+    </div>
+
+
+
+    <!-- 真ん中 -->
+    <div id="topArea">
+
+
+      <!-- 敵 -->
+      <div
+        id="enemyTab"
+
+        class="
+          tabPage
+          activePage
+        "
+      >
+
+        <div
+          id="list"
+        >
+        </div>
+
+      </div>
+
+
+
+      <!-- 強化 -->
+      <div
+        id="upgradeTab"
+
+        class="
+          tabPage
+        "
+      >
+      </div>
+
+
+
+      <!-- 設定 -->
+      <div
+        id="settingTab"
+
+        class="
+          tabPage
+        "
+      >
+      </div>
+
+
+    </div>
+
+
+
+    <!-- 下 -->
+    <div id="battleArea">
+
+      バトル準備OK
+
+    </div>
+
 
   </div>
 
-</div>
 
 
 <script src="data.js"></script>
+
 <script src="player.js"></script>
 
 <script src="enemyTab.js"></script>
+
 <script src="upgradeTab.js"></script>
+
 <script src="settingTab.js"></script>
 
 <script src="main.js"></script>
+
 
 </body>
 </html>
