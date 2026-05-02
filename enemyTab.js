@@ -1,30 +1,3 @@
-const enemies = [
-
-  {
-    name:"スライム",
-    img:"img/monsters/slime.png"
-  },
-
-  {
-    name:"ゴブリン",
-    img:"img/monsters/goblin.png"
-  },
-
-  {
-    name:"オーク",
-    img:"img/monsters/orc.png"
-  },
-
-  {
-    name:"ドラゴン",
-    img:"img/monsters/dragon.png"
-  }
-
-];
-
-
-
-
 function renderEnemyTab(){
 
 
@@ -50,20 +23,35 @@ function renderEnemyTab(){
     list.innerHTML += `
 
       <div
-        style="
-          margin:20px;
-          cursor:pointer;
-        "
+        class="enemyCard"
       >
 
         <img
+          class="enemyImage"
+
           src="${enemy.img}"
-          width="120"
         >
+
 
         <br>
 
+
         ${enemy.name}
+
+
+        <br>
+
+
+        HP :
+        ${enemy.hp}
+
+
+        <br>
+
+
+        ATK :
+        ${enemy.atk}
+
 
       </div>
 
