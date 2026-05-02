@@ -1,76 +1,64 @@
-let player = {
-  hp:20,
-  maxHP:20,
-  atk:3,
-  crit:10,
-  speed:1.2,
-  items:{}
+const player = {
+
+  hp: 100,
+
+  atk: 10,
+
+  crit: 5,
+
+  materials: {
+
+    jelly: 0,
+
+    fang: 0,
+
+    bone: 0,
+
+    scale: 0
+
+  }
+
 };
 
-let lastHealTime = Date.now();
 
-function fixHP(){
 
-  if(!player.items){
-    player.items = {};
-  }
 
-  player.hp = Math.floor(player.hp);
+function renderPlayer(){
 
-  if(player.hp < 0){
-    player.hp = 0;
-  }
 
-  if(player.hp > player.maxHP){
-    player.hp = player.maxHP;
-  }
-}
+  const ui =
+    document.getElementById(
+      "playerUI"
+    );
 
-// ===== 非戦闘回復 =====
-function autoHeal(){
 
-  let now = Date.now();
+  if(!ui){
 
-  if(now - lastHealTime < 1000){
     return;
+
   }
 
-  lastHealTime = now;
 
-  if(player.hp >= player.maxHP){
-    return;
-  }
 
-  let heal =
-    player.maxHP * 0.1;
+  ui.innerHTML = `
 
-  player.hp += heal;
+    <div>HP : ${player.hp}</div>
 
-  fixHP();
+    <div>攻撃 : ${player.atk}</div>
 
-  save();
-}
+    <div>クリ率 : ${player.crit}%</div>
 
-function save(){
+    <br>
 
-  fixHP();
+    <div>ゼリー : ${player.materials.jelly}</div>
 
-  localStorage.setItem(
-    "player",
-    JSON.stringify(player)
-  );
-}
+    <div>牙 : ${player.materials.fang}</div>
 
-function load(){
+    <div>骨 : ${player.materials.bone}</div>
 
-  let d =
-    localStorage.getItem("player");
+    <div>鱗 : ${player.materials.scale}</div>
 
-  if(d){
-    player = JSON.parse(d);
-  }
+  `;
 
-  fixHP();
 
-  lastHealTime = Date.now();
 }
