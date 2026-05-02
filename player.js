@@ -1,22 +1,10 @@
 const player = {
 
-  hp: 100,
+  hp:100,
 
-  atk: 10,
+  atk:10,
 
-  crit: 5,
-
-  materials: {
-
-    jelly: 0,
-
-    fang: 0,
-
-    bone: 0,
-
-    scale: 0
-
-  }
+  crit:5
 
 };
 
@@ -39,24 +27,20 @@ function renderPlayer(){
   }
 
 
-
   ui.innerHTML = `
 
-    <div>HP : ${player.hp}</div>
+    HP :
+    ${player.hp}
 
-    <div>攻撃 : ${player.atk}</div>
+    <br><br>
 
-    <div>クリ率 : ${player.crit}%</div>
+    ATK :
+    ${player.atk}
 
-    <br>
+    <br><br>
 
-    <div>ゼリー : ${player.materials.jelly}</div>
-
-    <div>牙 : ${player.materials.fang}</div>
-
-    <div>骨 : ${player.materials.bone}</div>
-
-    <div>鱗 : ${player.materials.scale}</div>
+    CRIT :
+    ${player.crit}%
 
   `;
 
