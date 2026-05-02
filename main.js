@@ -1,45 +1,24 @@
 function startGame(){
 
 
-  if(
-    typeof renderPlayer ===
-    "function"
-  ){
+  try{
 
     renderPlayer();
 
-  }
-
-
-
-  if(
-    typeof renderEnemyTab ===
-    "function"
-  ){
-
     renderEnemyTab();
-
-  }
-
-
-
-  if(
-    typeof renderUpgradeTab ===
-    "function"
-  ){
 
     renderUpgradeTab();
 
+    renderSettingTab();
+
   }
 
 
+  catch(error){
 
-  if(
-    typeof renderSettingTab ===
-    "function"
-  ){
-
-    renderSettingTab();
+    alert(
+      error.message
+    );
 
   }
 
@@ -49,25 +28,9 @@ function startGame(){
 
 
 
-startGame();
-
-
-
-
 document.addEventListener(
 
   "DOMContentLoaded",
-
-  startGame
-
-);
-
-
-
-
-window.addEventListener(
-
-  "load",
 
   startGame
 
