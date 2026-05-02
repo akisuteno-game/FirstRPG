@@ -1,16 +1,3 @@
-const player = {
-
-  hp:100,
-
-  atk:10,
-
-  crit:5
-
-};
-
-
-
-
 function renderPlayer(){
 
 
@@ -29,20 +16,18 @@ function renderPlayer(){
 
   ui.innerHTML = `
 
-    HP :
-    ${player.hp}
-
-    <br><br>
-
-    ATK :
-    ${player.atk}
-
-    <br><br>
-
-    CRIT :
-    ${player.crit}%
+    Lv 1
+    <br>
+    HP 100
+    <br>
+    ATK 10
+    <br>
+    GOLD 0
 
   `;
 
 
 }
+
+
+renderPlayer();
