@@ -1,4 +1,38 @@
-alert("main OK");
+window.onload = function(){
+
+
+  if(
+    typeof renderPlayer === "function"
+  ){
+    renderPlayer();
+  }
+
+
+  if(
+    typeof renderEnemyTab === "function"
+  ){
+    renderEnemyTab();
+  }
+
+
+  if(
+    typeof renderUpgradeTab === "function"
+  ){
+    renderUpgradeTab();
+  }
+
+
+  if(
+    typeof renderSettingTab === "function"
+  ){
+    renderSettingTab();
+  }
+
+
+};
+
+
+
 
 function showTab(tabId){
 
@@ -16,13 +50,19 @@ function showTab(tabId){
     });
 
 
-  document
-    .getElementById(
+  const target =
+    document.getElementById(
       tabId
-    )
-    .classList.add(
+    );
+
+
+  if(target){
+
+    target.classList.add(
       "activePage"
     );
+
+  }
 
 
 }
