@@ -40,9 +40,12 @@ function(){
 
   renderPlayer();
 
+
   renderEnemyTab();
 
+
   renderUpgradeTab();
+
 
   renderSettingTab();
 
