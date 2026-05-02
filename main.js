@@ -1,16 +1,21 @@
-window.onload = function(){
+document.addEventListener(
+  "DOMContentLoaded",
+
+  function(){
 
 
-  renderPlayer();
+    renderPlayer();
 
-  renderEnemyTab();
+    renderEnemyTab();
 
-  renderUpgradeTab();
+    renderUpgradeTab();
 
-  renderSettingTab();
+    renderSettingTab();
 
 
-};
+  }
+
+);
 
 
 
