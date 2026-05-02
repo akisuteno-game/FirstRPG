@@ -28,133 +28,97 @@
 <body>
 
 
-  <!-- 左 -->
-  <div id="side">
+<div id="side">
 
-    <h2>
-      ステータス
-    </h2>
+  <h2>
+    ステータス
+  </h2>
 
-    <div
-      id="playerUI"
+  <div id="playerUI">
+  </div>
+
+</div>
+
+
+
+<div id="main">
+
+
+  <div id="tabs">
+
+    <button
+      class="tabBtn"
+      onclick="showTab('enemyTab')"
     >
-    </div>
+      敵選択
+    </button>
+
+
+    <button
+      class="tabBtn"
+      onclick="showTab('upgradeTab')"
+    >
+      強化
+    </button>
+
+
+    <button
+      class="tabBtn"
+      onclick="showTab('settingTab')"
+    >
+      設定
+    </button>
+
 
   </div>
 
 
 
-  <!-- 右 -->
-  <div id="main">
+  <div id="topArea">
 
 
-    <!-- タブ -->
-    <div id="tabs">
-
-
-      <button
-        class="tabBtn"
-
-        onclick="
-          showTab(
-            'enemyTab'
-          )
-        "
-      >
-        敵選択
-      </button>
-
-
-
-      <button
-        class="tabBtn"
-
-        onclick="
-          showTab(
-            'upgradeTab'
-          )
-        "
-      >
-        強化
-      </button>
-
-
-
-      <button
-        class="tabBtn"
-
-        onclick="
-          showTab(
-            'settingTab'
-          )
-        "
-      >
-        設定
-      </button>
-
-
-    </div>
-
-
-
-    <!-- 中央 -->
-    <div id="topArea">
-
-
-      <div
-        id="enemyTab"
-
-        class="
-          tabPage
-          activePage
-        "
-      >
-
-        <div
-          id="list"
-        >
-        </div>
-
-      </div>
-
-
-
-      <div
-        id="upgradeTab"
-
-        class="
-          tabPage
-        "
-      >
-      </div>
-
-
-
-      <div
-        id="settingTab"
-
-        class="
-          tabPage
-        "
-      >
-      </div>
-
-
-    </div>
-
-
-
-    <!-- 下 -->
     <div
-      id="battleArea"
+      id="enemyTab"
+      class="
+        tabPage
+        activePage
+      "
     >
 
-      放置RPG
+      <div id="list">
+      </div>
 
+    </div>
+
+
+
+    <div
+      id="upgradeTab"
+      class="tabPage"
+    >
+    </div>
+
+
+
+    <div
+      id="settingTab"
+      class="tabPage"
+    >
     </div>
 
 
   </div>
+
+
+
+  <div id="battleArea">
+
+    放置RPG
+
+  </div>
+
+
+</div>
 
 
 
