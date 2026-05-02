@@ -1,161 +1,189 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>バトル</title>
 
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="
+    width=device-width,
+    initial-scale=1.0
+  "
+>
+
+<title>Battle</title>
+
+<link
+  rel="stylesheet"
+  href="style.css"
+>
+
 </head>
+
 
 <body>
 
-<!-- 左ステータス -->
-<div id="side">
 
-  <div id="status"></div>
+  <!-- 左 -->
+  <div id="side">
 
-</div>
+    <h2>
+      ステータス
+    </h2>
 
-
-<!-- 右 -->
-<div id="main">
-
-  <!-- 上 -->
-  <div id="tabs">
-
-    <button class="tabBtn">
-
-      バトル
-
-    </button>
+    <div id="playerUI">
+    </div>
 
   </div>
 
 
-  <!-- 中 -->
-  <div id="topArea">
 
-    <div
-      class="tabPage activePage">
-
-      <h2 id="enemyName"></h2>
+  <!-- 右 -->
+  <div id="main">
 
 
-      <div class="bar">
+    <div id="battleArea">
+
+
+      <h2
+        id="enemyName"
+      >
+      </h2>
+
+
+
+      HP
+
+      <div
+        class="bar"
+      >
 
         <div
           id="enemyBar"
-          class="fill">
-        </div>
 
-        <div
-          id="enemyHP"
-          class="hpText">
+          class="fill"
+        >
         </div>
 
       </div>
 
 
-      <div class="bar">
+      <div
+        id="enemyHP"
+      >
+      </div>
+
+
+
+      ゲージ
+
+      <div
+        class="bar"
+      >
 
         <div
           id="enemyGauge"
-          class="fill">
+
+          class="fill"
+        >
         </div>
 
       </div>
 
-    </div>
 
-  </div>
-
-
-  <!-- 下 -->
-  <div id="battleArea">
-
-    あなた
+      <hr>
 
 
-    <div class="bar">
+
+      あなた
+
+
+
+      HP
 
       <div
-        id="playerBar"
-        class="fill">
+        class="bar"
+      >
+
+        <div
+          id="playerBar"
+
+          class="fill"
+        >
+        </div>
+
       </div>
+
 
       <div
         id="playerHP"
-        class="hpText">
+      >
       </div>
 
-    </div>
 
 
-    <div class="bar">
+      ゲージ
 
       <div
-        id="playerGauge"
-        class="fill">
+        class="bar"
+      >
+
+        <div
+          id="playerGauge"
+
+          class="fill"
+        >
+        </div>
+
       </div>
+
+
+      <br>
+
+
+
+      <button
+        id="attackBtn"
+
+        onclick="
+          attack()
+        "
+      >
+        攻撃
+      </button>
+
+
+
+      <button
+        onclick="
+          back()
+        "
+      >
+        戻る
+      </button>
+
+
+
+      <div
+        id="text"
+      >
+      </div>
+
 
     </div>
 
-
-    攻撃:
-    <span id="atk"></span>
-
-    <br>
-
-
-    クリ率:
-    <span id="crit"></span>%
-
-
-    <br><br>
-
-
-    <button
-      id="attackBtn"
-      onclick="attack()">
-
-      攻撃
-
-    </button>
-
-
-    <button
-      onclick="upgrade()">
-
-      強化
-
-    </button>
-
-
-    <button
-      onclick="back()">
-
-      戻る
-
-    </button>
-
-
-    <div id="text"></div>
 
   </div>
 
-</div>
 
 
-<!-- 順番重要 -->
 <script src="data.js"></script>
+
 <script src="player.js"></script>
 
-<script src="enemyTab.js"></script>
-<script src="upgradeTab.js"></script>
-<script src="settingTab.js"></script>
-
-<script src="main.js"></script>
 <script src="battle.js"></script>
+
 
 </body>
 </html>
