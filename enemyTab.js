@@ -1,17 +1,24 @@
-function makeEnemyButtons(){
+function renderEnemyTab(){
+
 
   const list =
     document.getElementById(
       "list"
     );
 
-  if(!list) return;
+
+  if(!list){
+
+    return;
+
+  }
 
 
   list.innerHTML = "";
 
 
   for(let e of enemies){
+
 
     const btn =
       document.createElement(
@@ -29,8 +36,6 @@ function makeEnemyButtons(){
         class="enemyImage"
 
         src="${e.img}"
-
-        alt="${e.name}"
       >
 
 
@@ -82,5 +87,8 @@ function makeEnemyButtons(){
     list.appendChild(
       btn
     );
+
   }
+
+
 }
