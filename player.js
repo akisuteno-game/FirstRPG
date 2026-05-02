@@ -1,33 +1,35 @@
+let player={
+
+  hp:100,
+  maxHp:100,
+
+  atk:10,
+
+  gold:0
+
+};
+
+
+
 function renderPlayer(){
 
-
-  const ui =
-    document.getElementById(
+  document
+    .getElementById(
       "playerUI"
-    );
+    )
+    .innerHTML=
 
+    `
+    HP :
+    ${player.hp}
+    <br><br>
 
-  if(!ui){
+    ATK :
+    ${player.atk}
+    <br><br>
 
-    return;
-
-  }
-
-
-  ui.innerHTML = `
-
-    Lv 1
-    <br>
-    HP 100
-    <br>
-    ATK 10
-    <br>
-    GOLD 0
-
-  `;
-
+    GOLD :
+    ${player.gold}
+    `;
 
 }
-
-
-renderPlayer();
