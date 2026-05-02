@@ -1,35 +1,48 @@
-let player={
+const player = {
 
   hp:100,
-  maxHp:100,
 
   atk:10,
 
-  gold:0
+  crit:5
 
 };
 
 
 
+
 function renderPlayer(){
 
-  document
-    .getElementById(
-      "playerUI"
-    )
-    .innerHTML=
 
-    `
+  const ui =
+    document.getElementById(
+      "playerUI"
+    );
+
+
+  if(!ui){
+
+    return;
+
+  }
+
+
+  ui.innerHTML = `
+
     HP :
     ${player.hp}
+
     <br><br>
 
-    ATK :
+    攻撃 :
     ${player.atk}
+
     <br><br>
 
-    GOLD :
-    ${player.gold}
-    `;
+    クリ率 :
+    ${player.crit}%
+
+  `;
+
 
 }
