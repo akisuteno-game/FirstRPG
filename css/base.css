@@ -1,15 +1,24 @@
 body{
 
+  margin:0;
+
   background:#111;
 
   color:#eee;
 
   font-family:monospace;
 
-  margin:0;
 
+  /* 超重要 */
   display:flex;
+
+  width:100vw;
+
+  height:100vh;
+
+  overflow:hidden;
 }
+
 
 
 /* 共通ボタン */
@@ -33,6 +42,7 @@ button:hover{
 
   background:#444;
 }
+
 
 
 /* 共通バー */
@@ -72,6 +82,7 @@ button:hover{
 
   font-size:12px;
 }
+
 
 
 /* 素材 */
