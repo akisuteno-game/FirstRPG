@@ -1,11 +1,8 @@
 function showTab(tabId){
 
-
   document
-    .querySelectorAll(
-      ".tabPage"
-    )
-    .forEach(tab => {
+    .querySelectorAll(".tabPage")
+    .forEach(tab=>{
 
       tab.classList.remove(
         "activePage"
@@ -13,46 +10,46 @@ function showTab(tabId){
 
     });
 
-
-  const target =
-    document.getElementById(
-      tabId
-    );
-
-
-  if(target){
-
-    target.classList.add(
+  document
+    .getElementById(tabId)
+    .classList.add(
       "activePage"
     );
-
-  }
-
 
 }
 
 
 
+function initGame(){
 
-window.onload =
-function(){
-
-
-  renderPlayer();
-
-
-  renderEnemyTab();
+  if(
+    typeof renderPlayer === "function"
+  ){
+    renderPlayer();
+  }
 
 
-  renderUpgradeTab();
+  if(
+    typeof createEnemyTab === "function"
+  ){
+    createEnemyTab();
+  }
 
 
-  renderSettingTab();
+  if(
+    typeof createUpgradeTab === "function"
+  ){
+    createUpgradeTab();
+  }
 
 
-  showTab(
-    "enemyTab"
-  );
+  if(
+    typeof createSettingTab === "function"
+  ){
+    createSettingTab();
+  }
+
+}
 
 
-};
+window.onload = initGame;
