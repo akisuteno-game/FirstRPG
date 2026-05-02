@@ -27,8 +27,6 @@ function makeEnemyButtons(){
         class="enemyImage"
 
         src="${e.img}"
-
-        alt="${e.name}"
       >
 
 
@@ -38,9 +36,6 @@ function makeEnemyButtons(){
         ${e.name}
 
       </div>
-
-
-      HP ${e.hp}
 
 
       <div
@@ -56,6 +51,10 @@ function makeEnemyButtons(){
 
       <div
         class="enemyStats">
+
+        HP ${e.hp}
+
+        <br>
 
         ATK ${e.atk}
 
