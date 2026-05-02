@@ -1,1 +1,80 @@
+#side{
 
+  width:220px;
+
+  height:100vh;
+
+  background:#181818;
+
+  border-right:2px solid #333;
+
+  box-sizing:border-box;
+
+  padding:10px;
+
+  overflow-y:auto;
+}
+
+
+#main{
+
+  flex:1;
+
+  height:100vh;
+
+  display:flex;
+
+  flex-direction:column;
+}
+
+
+#tabs{
+
+  display:flex;
+
+  height:60px;
+
+  border-bottom:2px solid #333;
+}
+
+
+.tabBtn{
+
+  flex:1;
+
+  border:none;
+
+  background:#222;
+
+  color:white;
+
+  font-size:16px;
+}
+
+
+.tabBtn:hover{
+
+  background:#333;
+}
+
+
+#topArea{
+
+  height:460px;
+
+  border-bottom:2px solid #333;
+
+  overflow-y:auto;
+}
+
+
+.tabPage{
+
+  display:none;
+}
+
+
+.activePage{
+
+  display:block;
+}
