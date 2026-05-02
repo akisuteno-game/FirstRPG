@@ -4,7 +4,7 @@ const enemies = [
     id:0,
     name:"スライム",
 
-    img:"img/slime.png",
+    img:"img/monsters/slime.png",
 
     hp:10,
     atk:2,
@@ -18,7 +18,7 @@ const enemies = [
     id:1,
     name:"ゴブリン",
 
-    img:"img/goblin.png",
+    img:"img/monsters/goblin.png",
 
     hp:15,
     atk:3,
@@ -32,7 +32,7 @@ const enemies = [
     id:2,
     name:"オーク",
 
-    img:"img/orc.png",
+    img:"img/monsters/orc.png",
 
     hp:25,
     atk:4,
@@ -46,7 +46,7 @@ const enemies = [
     id:3,
     name:"ドラゴン",
 
-    img:"img/dragon.png",
+    img:"img/monsters/dragon.png",
 
     hp:40,
     atk:6,
