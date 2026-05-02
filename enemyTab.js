@@ -7,15 +7,17 @@ function makeEnemyButtons(){
 
   if(!list) return;
 
+
   list.innerHTML = "";
 
 
   for(let e of enemies){
 
-    let btn =
+    const btn =
       document.createElement(
         "button"
       );
+
 
     btn.className =
       "enemyCard";
@@ -27,6 +29,8 @@ function makeEnemyButtons(){
         class="enemyImage"
 
         src="${e.img}"
+
+        alt="${e.name}"
       >
 
 
