@@ -16,6 +16,7 @@
 }
 
 
+
 #main{
 
   flex:1;
@@ -28,6 +29,8 @@
 }
 
 
+
+/* 上タブ */
 #tabs{
 
   display:flex;
@@ -36,6 +39,7 @@
 
   border-bottom:2px solid #333;
 }
+
 
 
 .tabBtn{
@@ -52,15 +56,20 @@
 }
 
 
+
 .tabBtn:hover{
 
   background:#333;
 }
 
 
+
+/* 敵カードエリア */
 #topArea{
 
-  height:460px;
+  flex:none;
+
+  min-height:420px;
 
   border-bottom:2px solid #333;
 
@@ -68,13 +77,32 @@
 }
 
 
+
+/* タブ切替 */
 .tabPage{
 
   display:none;
 }
 
 
+
 .activePage{
 
   display:block;
+}
+
+
+
+/* 下のバトル画面 */
+#battleArea{
+
+  flex:1;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  overflow:auto;
 }
