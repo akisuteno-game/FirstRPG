@@ -1,3 +1,30 @@
+const enemies = [
+
+  {
+    name:"スライム",
+    img:"img/monsters/slime.png"
+  },
+
+  {
+    name:"ゴブリン",
+    img:"img/monsters/goblin.png"
+  },
+
+  {
+    name:"オーク",
+    img:"img/monsters/orc.png"
+  },
+
+  {
+    name:"ドラゴン",
+    img:"img/monsters/dragon.png"
+  }
+
+];
+
+
+
+
 function renderEnemyTab(){
 
 
@@ -17,78 +44,33 @@ function renderEnemyTab(){
   list.innerHTML = "";
 
 
-  for(let e of enemies){
+  enemies.forEach(enemy=>{
 
 
-    const btn =
-      document.createElement(
-        "button"
-      );
+    list.innerHTML += `
 
-
-    btn.className =
-      "enemyCard";
-
-
-    btn.innerHTML = `
-
-      <img
-        class="enemyImage"
-
-        src="${e.img}"
+      <div
+        style="
+          margin:20px;
+          cursor:pointer;
+        "
       >
 
-
-      <div
-        class="enemyName">
-
-        ${e.name}
-
-      </div>
-
-
-      <div
-        class="enemyHPBar">
-
-        <div
-          class="enemyHPFill">
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="enemyStats">
-
-        HP ${e.hp}
+        <img
+          src="${enemy.img}"
+          width="120"
+        >
 
         <br>
 
-        ATK ${e.atk}
-
-        <br>
-
-        SPD ${e.speed}
+        ${enemy.name}
 
       </div>
 
     `;
 
 
-    btn.onclick =
-      function(){
-
-        location.href =
-          "battle.html?enemy="+e.id;
-      };
-
-
-    list.appendChild(
-      btn
-    );
-
-  }
+  });
 
 
 }
