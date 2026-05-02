@@ -1,19 +1,75 @@
-document.addEventListener(
-  "DOMContentLoaded",
+function startGame(){
 
-  function(){
 
+  if(
+    typeof renderPlayer ===
+    "function"
+  ){
 
     renderPlayer();
 
+  }
+
+
+
+  if(
+    typeof renderEnemyTab ===
+    "function"
+  ){
+
     renderEnemyTab();
+
+  }
+
+
+
+  if(
+    typeof renderUpgradeTab ===
+    "function"
+  ){
 
     renderUpgradeTab();
 
+  }
+
+
+
+  if(
+    typeof renderSettingTab ===
+    "function"
+  ){
+
     renderSettingTab();
 
-
   }
+
+
+}
+
+
+
+
+startGame();
+
+
+
+
+document.addEventListener(
+
+  "DOMContentLoaded",
+
+  startGame
+
+);
+
+
+
+
+window.addEventListener(
+
+  "load",
+
+  startGame
 
 );
 
