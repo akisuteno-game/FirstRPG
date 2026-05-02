@@ -1,43 +1,4 @@
-function startGame(){
-
-
-  try{
-
-    renderPlayer();
-
-    renderEnemyTab();
-
-    renderUpgradeTab();
-
-    renderSettingTab();
-
-  }
-
-
-  catch(error){
-
-    alert(
-      error.message
-    );
-
-  }
-
-
-}
-
-
-
-
-document.addEventListener(
-
-  "DOMContentLoaded",
-
-  startGame
-
-);
-
-
-
+alert("main OK");
 
 function showTab(tabId){
 
