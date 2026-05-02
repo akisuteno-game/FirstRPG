@@ -21,19 +21,15 @@ function renderSettingTab(){
     </h2>
 
 
-    <button>
-      セーブ
-    </button>
+    セーブ
 
+    <br><br>
 
-    <button>
-      ロード
-    </button>
+    ロード
 
+    <br><br>
 
-    <button>
-      リセット
-    </button>
+    リセット
 
   `;
 
