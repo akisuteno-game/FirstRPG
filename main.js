@@ -1,47 +1,13 @@
 window.onload = function(){
 
 
-  if(
-    typeof renderPlayer ===
-    "function"
-  ){
+  renderPlayer();
 
-    renderPlayer();
+  renderEnemyTab();
 
-  }
+  renderUpgradeTab();
 
-
-
-  if(
-    typeof renderEnemyTab ===
-    "function"
-  ){
-
-    renderEnemyTab();
-
-  }
-
-
-
-  if(
-    typeof renderUpgradeTab ===
-    "function"
-  ){
-
-    renderUpgradeTab();
-
-  }
-
-
-
-  if(
-    typeof renderSettingTab ===
-    "function"
-  ){
-
-    renderSettingTab();
-
-  }
+  renderSettingTab();
 
 
 };
@@ -65,19 +31,13 @@ function showTab(tabId){
     });
 
 
-  const target =
-    document.getElementById(
+  document
+    .getElementById(
       tabId
-    );
-
-
-  if(target){
-
-    target.classList.add(
+    )
+    .classList.add(
       "activePage"
     );
-
-  }
 
 
 }
