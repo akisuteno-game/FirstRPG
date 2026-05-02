@@ -1,27 +1,40 @@
-function upgradeAtk(){
+function renderUpgradeTab(){
 
-  const cost = 2;
 
-  if(
-    (player.items["ゼリー"]||0)
-    < cost
-  ){
-    alert(
-      "ゼリーが足りない"
+  const tab =
+    document.getElementById(
+      "upgradeTab"
     );
+
+
+  if(!tab){
+
     return;
+
   }
 
-  player.items["ゼリー"]
-    -= cost;
 
-  player.atk++;
+  tab.innerHTML = `
 
-  save();
+    <h2>強化</h2>
 
-  drawStatus();
+    <button>
+      攻撃力アップ
+    </button>
 
-  alert(
-    "攻撃アップ！"
-  );
+    <br><br>
+
+    <button>
+      HPアップ
+    </button>
+
+    <br><br>
+
+    <button>
+      クリ率アップ
+    </button>
+
+  `;
+
+
 }
