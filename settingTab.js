@@ -16,22 +16,16 @@ function renderSettingTab(){
 
   tab.innerHTML = `
 
-    <h2>
-      設定
-    </h2>
-
-
-    セーブ
-
+    設定画面
     <br><br>
 
-    ロード
-
-    <br><br>
-
-    リセット
+    音量：
+    100%
 
   `;
 
 
 }
+
+
+renderSettingTab();
