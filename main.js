@@ -2,16 +2,48 @@ window.onload =
 function(){
 
 
-  renderPlayer();
+  try{
+
+    renderPlayer();
+
+  }catch(e){
+
+    console.log(e);
+
+  }
 
 
-  renderEnemyTab();
+  try{
+
+    renderEnemyTab();
+
+  }catch(e){
+
+    console.log(e);
+
+  }
 
 
-  renderUpgradeTab();
+  try{
+
+    renderUpgradeTab();
+
+  }catch(e){
+
+    console.log(e);
+
+  }
 
 
-  renderSettingTab();
+  try{
+
+    renderSettingTab();
+
+  }catch(e){
+
+    console.log(e);
+
+  }
 
 
 };
