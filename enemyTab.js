@@ -1,10 +1,12 @@
 console.log("ENEMY TAB OK");
 
 
+let currentEnemy = null;
+
+
+
+
 function renderEnemyTab(){
-
-
-  console.log("renderEnemyTab OK");
 
 
   const list =
@@ -14,8 +16,6 @@ function renderEnemyTab(){
 
 
   if(!list){
-
-    console.log("listなし");
 
     return;
 
@@ -65,7 +65,7 @@ function renderEnemyTab(){
     card.onclick =
     function(){
 
-      selectEnemy(
+      startBattle(
         enemy.id
       );
 
@@ -85,26 +85,27 @@ function renderEnemyTab(){
 
 
 
-function selectEnemy(enemyId){
+function startBattle(enemyId){
 
 
-  console.log(
-    "クリック:",
-    enemyId
-  );
-
-
-  const enemy =
+  const enemyData =
     enemies.find(
       e=>e.id===enemyId
     );
 
 
-  if(!enemy){
+  if(!enemyData){
 
     return;
 
   }
+
+
+  currentEnemy = {
+
+    ...enemyData
+
+  };
 
 
   const battleArea =
@@ -124,13 +125,13 @@ function selectEnemy(enemyId){
 
     <h2>
 
-      ${enemy.name}
+      ${currentEnemy.name}
 
     </h2>
 
 
     <img
-      src="${enemy.img}"
+      src="${currentEnemy.img}"
       width="200"
     >
 
@@ -138,17 +139,118 @@ function selectEnemy(enemyId){
     <br><br>
 
 
-    HP :
-    ${enemy.hp}
+    <div>
+
+      敵HP :
+
+      <span id="enemyHpText">
+
+        ${currentEnemy.hp}
+
+      </span>
+
+    </div>
+
+
+    <div class="bar">
+
+      <div
+
+        id="enemyHpFill"
+
+        class="fill"
+
+        style="width:100%;"
+
+      >
+      </div>
+
+    </div>
 
 
     <br>
 
 
-    ATK :
-    ${enemy.atk}
+    <button
+      onclick="attackEnemy()"
+    >
+
+      攻撃
+
+    </button>
 
   `;
+
+
+}
+
+
+
+
+function attackEnemy(){
+
+
+  if(!currentEnemy){
+
+    return;
+
+  }
+
+
+  currentEnemy.hp -=
+    player.atk;
+
+
+  if(
+    currentEnemy.hp < 0
+  ){
+
+    currentEnemy.hp = 0;
+
+  }
+
+
+  const hpText =
+    document.getElementById(
+      "enemyHpText"
+    );
+
+
+  const hpFill =
+    document.getElementById(
+      "enemyHpFill"
+    );
+
+
+  hpText.innerHTML =
+    currentEnemy.hp;
+
+
+  const percent =
+    (
+      currentEnemy.hp
+      /
+      enemies[
+        currentEnemy.id
+      ].hp
+    ) * 100;
+
+
+  hpFill.style.width =
+    percent + "%";
+
+
+  if(
+    currentEnemy.hp <= 0
+  ){
+
+    alert(
+      currentEnemy.name
+      +
+      " を倒した！"
+    );
+
+  }
 
 
 }
