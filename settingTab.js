@@ -16,9 +16,39 @@ function renderSettingTab(){
 
   tab.innerHTML = `
 
-    設定画面
+    <div
+      style="
+        padding:20px;
+        color:white;
+      "
+    >
 
-  `;
+      <h2>
+        設定画面
+      </h2>
+
+
+      <button
+        onclick="
+          location.reload();
+        "
+      >
+
+        ゲーム再読み込み
+
+      </button>
+
+
+      <br><br>
+
+
+      First RPG
+      Settings
+
+
+    </div>
+
+  ";
 
 
 }
