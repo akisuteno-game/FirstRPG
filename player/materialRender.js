@@ -12,22 +12,25 @@ function createMaterialHTML(){
 
 
 
-  const keys =
+  const order = [
 
-    Object.keys(
-      player.materials
-    );
+    "スライムゼリー",
 
+    "キングゼリー",
 
+    "ゴブリンの牙",
 
+    "王族の牙",
 
-  if(
-    keys.length === 0
-  ){
+    "オークの皮",
 
-    return "なし";
+    "古代の皮",
 
-  }
+    "竜のウロコ",
+
+    "紅竜の心臓"
+
+  ];
 
 
 
@@ -38,9 +41,29 @@ function createMaterialHTML(){
 
 
 
-  keys.forEach(
+  order.forEach(
 
     function(name){
+
+
+      const amount =
+
+        player.materials[
+          name
+        ];
+
+
+
+
+      if(
+        !amount
+      ){
+
+        return;
+
+      }
+
+
 
 
       const path =
@@ -65,11 +88,15 @@ function createMaterialHTML(){
         icon = `
 
           <img
+
             src="${path}"
+
             width="22"
+
             onerror="
               this.outerHTML='？'
             "
+
           >
 
         `;
@@ -87,7 +114,7 @@ function createMaterialHTML(){
 
           ×
 
-          ${player.materials[name]}
+          ${amount}
 
         </div>
 
@@ -97,6 +124,17 @@ function createMaterialHTML(){
     }
 
   );
+
+
+
+
+  if(
+    html === ""
+  ){
+
+    return "なし";
+
+  }
 
 
 
