@@ -126,11 +126,22 @@ function renderPlayer(){
 
 
   if(
+    !bar
+  ){
+
+    return;
+
+  }
+
+
+
+
+  if(
     percent > 70
   ){
 
-      bar.style.background =
-        "lime";
+    bar.style.background =
+      "lime";
 
   }
 
@@ -139,16 +150,16 @@ function renderPlayer(){
     percent > 30
   ){
 
-      bar.style.background =
-        "yellow";
+    bar.style.background =
+      "yellow";
 
   }
 
 
   else{
 
-      bar.style.background =
-        "red";
+    bar.style.background =
+      "red";
 
   }
 
