@@ -27,57 +27,7 @@ function attackEnemy(){
 
 
 
-  const hpText =
-
-    document.getElementById(
-      "enemyHpText"
-    );
-
-
-  if(
-    hpText
-  ){
-
-    hpText.innerHTML =
-      currentEnemy.hp;
-
-  }
-
-
-
-
-  const hpBar =
-
-    document.getElementById(
-      "enemyHpFill"
-    );
-
-
-  if(
-    hpBar
-  ){
-
-      const maxHp =
-
-        enemies[
-          currentEnemy.id
-        ].hp;
-
-
-      const percent =
-
-        (
-          currentEnemy.hp
-          /
-          maxHp
-        ) * 100;
-
-
-      hpBar.style.width =
-
-        percent + "%";
-
-  }
+  updateEnemyUI();
 
 
 
@@ -112,9 +62,6 @@ function attackEnemy(){
 
 
 
-  enemyAttack();
-
-
   startPlayerGauge();
 
 
@@ -142,22 +89,100 @@ function enemyAttack(){
   renderPlayer();
 
 
+}
+
+
+
+
+function updateEnemyUI(){
+
+
+  const hpText =
+
+    document.getElementById(
+      "enemyHpText"
+    );
+
+
+  const hpBar =
+
+    document.getElementById(
+      "enemyHpFill"
+    );
+
+
+
+
   if(
-    player.hp <= 0
+    !hpText
+    ||
+    !hpBar
   ){
 
-    setTimeout(
+    return;
 
-      function(){
+  }
 
-        location.href =
-          "index.html";
 
-      },
 
-      1000
 
-    );
+  hpText.innerHTML =
+    currentEnemy.hp;
+
+
+
+
+  const maxHp =
+
+    enemies[
+      currentEnemy.id
+    ].hp;
+
+
+
+
+  const percent =
+
+    (
+      currentEnemy.hp
+      /
+      maxHp
+    ) * 100;
+
+
+
+
+  hpBar.style.width =
+
+    percent + "%";
+
+
+
+
+  if(
+    percent > 70
+  ){
+
+    hpBar.style.background =
+      "lime";
+
+  }
+
+
+  else if(
+    percent > 30
+  ){
+
+    hpBar.style.background =
+      "yellow";
+
+  }
+
+
+  else{
+
+    hpBar.style.background =
+      "red";
 
   }
 
