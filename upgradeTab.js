@@ -14,70 +14,29 @@ function renderUpgradeTab(){
   }
 
 
-  tab.innerHTML = `
+  tab.innerHTML =
 
-    <div
-      style="
-        padding:20px;
-        color:white;
-      "
-    >
+    "<h2>強化画面</h2>" +
 
-      <h2>
+    "<button onclick='upgradeAtk()'>" +
 
-        強化画面
+    "攻撃+1" +
 
-      </h2>
+    "</button>";
 
 
-      <button
-        onclick="
-          player.atk++;
-          renderPlayer();
-          renderUpgradeTab();
-        "
-      >
-
-        攻撃 +1
-
-      </button>
+}
 
 
-      <br><br>
 
 
-      <button
-        onclick="
-          player.crit++;
-          renderPlayer();
-          renderUpgradeTab();
-        "
-      >
-
-        クリ率 +1%
-
-      </button>
+function upgradeAtk(){
 
 
-      <br><br>
+  player.atk++;
 
 
-      攻撃力 :
-
-      ${player.atk}
-
-
-      <br><br>
-
-
-      クリ率 :
-
-      ${player.crit}%
-
-
-    </div>
-
-  `;
+  renderPlayer();
 
 
 }
