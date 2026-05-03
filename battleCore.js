@@ -78,26 +78,14 @@ function renderBattle(){
 
   area.innerHTML = `
 
-    <h2>
+    <div
 
-      ${currentEnemy.name}
+      style="
 
-    </h2>
+        display:flex;
+        align-items:center;
+        gap:40px;
 
-
-
-
-    <img
-
-      src="${
-        currentEnemy.img
-      }"
-
-      width="150"
-
-      onerror="
-        this.style.display=
-        'none'
       "
 
     >
@@ -105,73 +93,15 @@ function renderBattle(){
 
 
 
-    <br><br>
+      <div
+
+        style="
+          text-align:center;
+        "
+
+      >
 
 
 
 
-    HP :
-
-    <span
-      id="enemyHpText"
-    >
-
-      ${currentEnemy.hp}
-
-    </span>
-
-
-
-
-    <br><br>
-
-
-
-
-    <button
-
-      onclick="
-        attackEnemy()
-      "
-
-    >
-
-      攻撃
-
-    </button>
-
-
-
-
-    <br><br>
-
-
-
-
-    <button
-
-      onclick="
-        location.href=
-        'index.html'
-      "
-
-    >
-
-      戻る
-
-    </button>
-
-  `;
-
-
-}
-
-
-
-
-renderBattle();
-
-
-
-
-renderPlayer();
+        <
