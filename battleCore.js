@@ -59,6 +59,7 @@ function loadBattle(){
       style="
         color:white;
         text-align:center;
+        width:100%;
       "
     >
 
@@ -166,6 +167,16 @@ function loadBattle(){
 
         onclick="
           attackEnemy()
+        "
+
+        style="
+          display:inline-block;
+          width:220px;
+          height:70px;
+          font-size:28px;
+          background:#333;
+          color:white;
+          border:2px solid #888;
         "
 
       >
