@@ -1,95 +1,53 @@
-window.onload =
-function(){
+renderPlayer();
 
+renderEnemyTab();
 
-  safeRender(
-    renderPlayer
-  );
+renderUpgradeTab();
 
+renderMaterialTab();
 
-  safeRender(
-    renderEnemyTab
-  );
-
-
-  safeRender(
-    renderUpgradeTab
-  );
-
-
-  safeRender(
-    renderSettingTab
-  );
-
-
-};
+renderSettingTab();
 
 
 
 
-function safeRender(fn){
-
-
-  if(
-    typeof fn
-    !==
-    "function"
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    fn();
-
-  }
-
-  catch(error){
-
-    console.log(
-      error
-    );
-
-  }
-
-
-}
-
-
-
-
-function showTab(tabId){
+function showTab(id){
 
 
   document
+
     .querySelectorAll(
       ".tabPage"
     )
-    .forEach(tab=>{
 
-      tab.classList.remove(
-        "activePage"
-      );
-
-    });
+    .forEach(
 
 
-  const target =
-    document.getElementById(
-      tabId
+      function(tab){
+
+
+        tab.classList.remove(
+          "activePage"
+        );
+
+
+      }
+
+
     );
 
 
-  if(target){
 
-    target.classList.add(
+
+  document
+
+    .getElementById(
+      id
+    )
+
+    .classList.add(
       "activePage"
     );
-
-  }
 
 
 }
