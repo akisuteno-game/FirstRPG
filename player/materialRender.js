@@ -1,8 +1,13 @@
 function createMaterialHTML(){
 
 
-  let html =
-    "";
+  if(
+    !player.materials
+  ){
+
+    return "なし";
+
+  }
 
 
 
@@ -10,9 +15,7 @@ function createMaterialHTML(){
   const keys =
 
     Object.keys(
-
       player.materials
-
     );
 
 
@@ -22,10 +25,15 @@ function createMaterialHTML(){
     keys.length === 0
   ){
 
-    return
-      "なし";
+    return "なし";
 
   }
+
+
+
+
+  let html =
+    "";
 
 
 
@@ -57,15 +65,11 @@ function createMaterialHTML(){
         icon = `
 
           <img
-
             src="${path}"
-
             width="22"
-
             onerror="
-              this.outerHTML='？';
+              this.outerHTML='？'
             "
-
           >
 
         `;
