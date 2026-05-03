@@ -1,32 +1,17 @@
-window.onload = function(){
+window.onload =
+function(){
 
 
-  if(
-    typeof renderPlayer === "function"
-  ){
-    renderPlayer();
-  }
+  renderPlayer();
 
 
-  if(
-    typeof renderEnemyTab === "function"
-  ){
-    renderEnemyTab();
-  }
+  renderEnemyTab();
 
 
-  if(
-    typeof renderUpgradeTab === "function"
-  ){
-    renderUpgradeTab();
-  }
+  renderUpgradeTab();
 
 
-  if(
-    typeof renderSettingTab === "function"
-  ){
-    renderSettingTab();
-  }
+  renderSettingTab();
 
 
 };
