@@ -2,7 +2,6 @@ function renderEnemyTab(){
 
 
   const list =
-
     document.getElementById(
       "list"
     );
@@ -22,8 +21,22 @@ function renderEnemyTab(){
 
 
   if(
-    !enemies
-    ||
+    typeof enemies
+    ===
+    "undefined"
+  ){
+
+    list.innerHTML =
+      "敵データなし";
+
+    return;
+
+  }
+
+
+
+
+  if(
     enemies.length === 0
   ){
 
@@ -48,11 +61,55 @@ function renderEnemyTab(){
     function(enemy,index){
 
 
+      const hp =
+        enemy.hp || 0;
+
+
+
+
+      const atk =
+        enemy.atk || 0;
+
+
+
+
+      const gold =
+        enemy.drop || 0;
+
+
+
+
+      const img =
+        enemy.img || "";
+
+
+
+
+      const name =
+        enemy.name || "???";
+
+
+
+
+      const normal =
+        enemy.material || "なし";
+
+
+
+
+      const rare =
+        enemy.rareMaterial || "なし";
+
+
+
+
       html += `
 
         <div
 
-          class="enemyCard"
+          class="
+            enemyCard
+          "
 
           onclick="
             location.href=
@@ -67,7 +124,7 @@ function renderEnemyTab(){
 
           <img
 
-            src="${enemy.img}"
+            src="${img}"
 
             width="100"
 
@@ -78,18 +135,12 @@ function renderEnemyTab(){
 
           >
 
-
-
-
           <br>
 
 
 
 
-          ${enemy.name}
-
-
-
+          ${name}
 
           <br>
 
@@ -97,11 +148,7 @@ function renderEnemyTab(){
 
 
           HP :
-
-          ${enemy.hp}
-
-
-
+          ${hp}
 
           <br>
 
@@ -109,11 +156,7 @@ function renderEnemyTab(){
 
 
           ATK :
-
-          ${enemy.atk}
-
-
-
+          ${atk}
 
           <br>
 
@@ -121,11 +164,7 @@ function renderEnemyTab(){
 
 
           GOLD :
-
-          ${enemy.drop}
-
-
-
+          ${gold}
 
           <br><br>
 
@@ -133,11 +172,7 @@ function renderEnemyTab(){
 
 
           通常 :
-
-          ${enemy.material}
-
-
-
+          ${normal}
 
           <br>
 
@@ -145,8 +180,7 @@ function renderEnemyTab(){
 
 
           レア :
-
-          ${enemy.rareMaterial}
+          ${rare}
 
 
 
