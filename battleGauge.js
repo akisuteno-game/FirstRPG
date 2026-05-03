@@ -17,9 +17,13 @@ function startPlayerGauge(){
   playerGauge = 0;
 
 
+
+
   clearInterval(
     playerLoop
   );
+
+
 
 
   const button =
@@ -29,55 +33,51 @@ function startPlayerGauge(){
     );
 
 
-  if(button){
 
-    button.disabled = true;
+
+  if(
+    button
+  ){
+
+    button.disabled =
+      true;
 
   }
 
 
 
 
+  const bar =
+
+    document.getElementById(
+      "playerGauge"
+    );
+
+
+
+
   playerLoop =
+
     setInterval(
 
 
       function(){
 
 
-        playerGauge +=
-          100
-          /
-          (
-            playerSpeed
-            /
-            16
-          );
+        playerGauge += 1;
+
+
 
 
         if(
-          playerGauge > 100
+          bar
         ){
-
-          playerGauge = 100;
-
-        }
-
-
-
-
-        const bar =
-
-          document.getElementById(
-            "playerGauge"
-          );
-
-
-        if(bar){
 
           bar.style.width =
 
-            playerGauge + "%";
+            playerGauge
+            +
+            "%";
 
         }
 
@@ -93,7 +93,11 @@ function startPlayerGauge(){
           );
 
 
-          if(button){
+
+
+          if(
+            button
+          ){
 
             button.disabled =
               false;
@@ -106,7 +110,7 @@ function startPlayerGauge(){
       },
 
 
-      16
+      playerSpeed / 100
 
 
     );
@@ -123,6 +127,8 @@ function startEnemyGauge(){
   enemyGauge = 0;
 
 
+
+
   clearInterval(
     enemyLoop
   );
@@ -130,46 +136,37 @@ function startEnemyGauge(){
 
 
 
+  const bar =
+
+    document.getElementById(
+      "enemyGauge"
+    );
+
+
+
+
   enemyLoop =
+
     setInterval(
 
 
       function(){
 
 
-        enemyGauge +=
-          100
-          /
-          (
-            currentEnemy.speed
-            /
-            16
-          );
+        enemyGauge += 1;
+
+
 
 
         if(
-          enemyGauge > 100
+          bar
         ){
-
-          enemyGauge = 100;
-
-        }
-
-
-
-
-        const bar =
-
-          document.getElementById(
-            "enemyGauge"
-          );
-
-
-        if(bar){
 
           bar.style.width =
 
-            enemyGauge + "%";
+            enemyGauge
+            +
+            "%";
 
         }
 
@@ -202,14 +199,13 @@ function startEnemyGauge(){
 
           }
 
-
         }
 
 
       },
 
 
-      16
+      currentEnemy.speed / 100
 
 
     );
