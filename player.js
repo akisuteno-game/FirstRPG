@@ -1,16 +1,29 @@
 const player = {
 
-  hp:100,
+  hp:30,
 
-  maxHp:100,
+  maxHp:30,
 
-  atk:10,
+  atk:5,
 
   crit:5,
 
   gold:0
 
 };
+
+
+
+
+const defaultPlayer =
+
+  JSON.parse(
+
+    JSON.stringify(
+      player
+    )
+
+  );
 
 
 
@@ -31,10 +44,14 @@ function renderPlayer(){
   }
 
 
+
+
   ui.innerHTML = `
 
     HP :
     ${player.hp}
+    /
+    ${player.maxHp}
 
     <br><br>
 
