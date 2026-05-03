@@ -2,12 +2,17 @@ function renderEnemyTab(){
 
 
   const list =
+
     document.getElementById(
       "list"
     );
 
 
-  if(!list){
+
+
+  if(
+    !list
+  ){
 
     return;
 
@@ -16,93 +21,88 @@ function renderEnemyTab(){
 
 
 
-  list.innerHTML = "";
+  if(
+    !window.enemies
+    ||
+    enemies.length === 0
+  ){
+
+    list.innerHTML =
+      "敵データなし";
+
+    return;
+
+  }
+
+
+
+
+  let html =
+    "";
 
 
 
 
   enemies.forEach(
 
-    enemy=>{
+    function(enemy,index){
 
 
-      list.innerHTML += `
+      html += `
 
         <div
-
           class="enemyCard"
-
           onclick="
-            startBattle(
-              ${enemy.id}
-            )
+            location.href=
+            'battle.html?enemy='
+            + ${index}
           "
-
         >
+
 
           <img
 
-            class="enemyImage"
+            src="${
+              enemy.img
+              ||
+              ''
+            }"
 
-            src="${enemy.img}"
+            width="100"
+
+            onerror="
+              this.style.display=
+              'none'
+            "
 
           >
 
 
-
-
           <br>
-
-
 
 
           ${enemy.name}
 
 
-
-
           <br>
-
-
 
 
           HP :
-          ${enemy.hp}
-
-
+          ${enemy.maxHp}
 
 
           <br>
-
-
 
 
           ATK :
           ${enemy.atk}
 
 
-
-
           <br>
 
 
-
-
-          SPD :
-          ${enemy.speed}ms
-
-
-
-
-          <br>
-
-
-
-
-          DROP :
-          ${enemy.drop}G
-
-
+          GOLD :
+          ${enemy.gold}
 
 
         </div>
@@ -115,44 +115,10 @@ function renderEnemyTab(){
   );
 
 
-}
 
 
-
-
-function startBattle(id){
-
-
-  const enemy =
-
-    JSON.parse(
-
-      JSON.stringify(
-
-        enemies[id]
-
-      )
-
-    );
-
-
-
-
-  localStorage.setItem(
-
-    "selectedEnemy",
-
-    JSON.stringify(
-      enemy
-    )
-
-  );
-
-
-
-
-  location.href =
-    "battle.html";
+  list.innerHTML =
+    html;
 
 
 }
