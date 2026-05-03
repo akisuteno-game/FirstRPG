@@ -56,15 +56,7 @@ function attackEnemy(){
 
 
 
-      localStorage.setItem(
-
-        "playerData",
-
-        JSON.stringify(
-          player
-        )
-
-      );
+      savePlayer();
 
 
 
@@ -139,6 +131,11 @@ function enemyAttack(){
     player.hp = 0;
 
   }
+
+
+
+
+  savePlayer();
 
 
 
