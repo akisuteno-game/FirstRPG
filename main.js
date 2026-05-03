@@ -1,53 +1,114 @@
-renderPlayer();
-
-renderEnemyTab();
-
-renderUpgradeTab();
-
-renderMaterialTab();
-
-renderSettingTab();
+function showTab(tabId){
 
 
+  const pages =
 
-
-function showTab(id){
-
-
-  document
-
-    .querySelectorAll(
+    document.querySelectorAll(
       ".tabPage"
-    )
-
-    .forEach(
-
-
-      function(tab){
-
-
-        tab.classList.remove(
-          "activePage"
-        );
-
-
-      }
-
-
     );
 
 
 
 
-  document
+  pages.forEach(
 
-    .getElementById(
-      id
-    )
+    function(page){
 
-    .classList.add(
-      "activePage"
+      page.classList.remove(
+        "activePage"
+      );
+
+    }
+
+  );
+
+
+
+
+  const tab =
+
+    document.getElementById(
+      tabId
     );
 
+
+
+
+  if(
+    tab
+  ){
+
+      tab.classList.add(
+        "activePage"
+      );
+
+  }
+
+
+}
+
+
+
+
+
+if(
+  typeof renderEnemyTab
+  ===
+  "function"
+){
+
+  renderEnemyTab();
+
+}
+
+
+
+
+if(
+  typeof renderUpgradeTab
+  ===
+  "function"
+){
+
+  renderUpgradeTab();
+
+}
+
+
+
+
+if(
+  typeof renderMaterialTab
+  ===
+  "function"
+){
+
+  renderMaterialTab();
+
+}
+
+
+
+
+if(
+  typeof renderSettingTab
+  ===
+  "function"
+){
+
+  renderSettingTab();
+
+}
+
+
+
+
+if(
+  typeof renderPlayer
+  ===
+  "function"
+){
+
+  renderPlayer();
 
 }
