@@ -180,19 +180,15 @@ function resetGame(){
 
 
 
-  Object.assign(
+  player.hp = 30;
 
-    player,
+  player.maxHp = 30;
 
-    JSON.parse(
+  player.atk = 5;
 
-      JSON.stringify(
-        defaultPlayer
-      )
+  player.crit = 5;
 
-    )
-
-  );
+  player.gold = 0;
 
 
 
