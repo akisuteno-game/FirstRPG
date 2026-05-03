@@ -15,11 +15,6 @@ const player = {
 
 
 
-loadPlayer();
-
-
-
-
 function loadPlayer(){
 
 
@@ -79,6 +74,11 @@ function savePlayer(){
 
 
 function renderPlayer(){
+
+
+  loadPlayer();
+
+
 
 
   const ui =
