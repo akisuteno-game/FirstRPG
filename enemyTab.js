@@ -21,10 +21,21 @@ function renderEnemyTab(){
 
 
 
-  if(
-    !window.enemies
+  const enemyList =
+
+    window.enemies
     ||
-    enemies.length === 0
+    window.monsters
+    ||
+    window.monsterData
+    ||
+    [];
+
+
+
+
+  if(
+    enemyList.length === 0
   ){
 
     list.innerHTML =
@@ -43,7 +54,7 @@ function renderEnemyTab(){
 
 
 
-  enemies.forEach(
+  enemyList.forEach(
 
     function(enemy,index){
 
