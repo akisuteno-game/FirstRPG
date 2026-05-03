@@ -15,19 +15,6 @@ const player = {
 
 
 
-const defaultPlayer =
-
-  JSON.parse(
-
-    JSON.stringify(
-      player
-    )
-
-  );
-
-
-
-
 function renderPlayer(){
 
 
@@ -46,6 +33,17 @@ function renderPlayer(){
 
 
 
+  const percent =
+
+    (
+      player.hp
+      /
+      player.maxHp
+    ) * 100;
+
+
+
+
   ui.innerHTML = `
 
     HP :
@@ -53,22 +51,101 @@ function renderPlayer(){
     /
     ${player.maxHp}
 
-    <br><br>
+
+
+
+    <div
+      class="bar"
+    >
+
+      <div
+
+        class="fill"
+
+        id="playerHpFill"
+
+        style="
+          width:${percent}%;
+        "
+
+      >
+      </div>
+
+    </div>
+
+
+
+
+    <br>
+
+
+
 
     攻撃 :
     ${player.atk}
 
+
+
+
     <br><br>
+
+
+
 
     クリ率 :
     ${player.crit}%
 
+
+
+
     <br><br>
+
+
+
 
     GOLD :
     ${player.gold}
 
   `;
+
+
+
+
+  const hpBar =
+
+    document.getElementById(
+      "playerHpFill"
+    );
+
+
+
+
+  if(
+    percent > 70
+  ){
+
+    hpBar.style.background =
+      "lime";
+
+  }
+
+
+  else if(
+    percent > 30
+  ){
+
+    hpBar.style.background =
+      "yellow";
+
+  }
+
+
+  else{
+
+    hpBar.style.background =
+      "red";
+
+  }
 
 
 }
