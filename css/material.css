@@ -2,34 +2,42 @@
 
   padding:20px;
 
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:20px;
+
+}
+
+
+
+
+.materialCard{
+
+  width:150px;
+
+  min-height:180px;
+
+  border:2px solid white;
+
+  border-radius:12px;
+
+  text-align:center;
+
+  padding:15px;
+
   color:white;
 
-  font-size:20px;
-
-  height:100%;
-
-  overflow-y:auto;
+  font-size:18px;
 
 }
 
 
 
 
-.materialArea div{
+.materialCard img{
 
-  margin-bottom:12px;
-
-}
-
-
-
-
-.materialArea img{
-
-  width:32px;
-
-  vertical-align:middle;
-
-  margin-right:10px;
+  width:64px;
 
 }
