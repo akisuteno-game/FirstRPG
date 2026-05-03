@@ -64,13 +64,24 @@ function startPlayerGauge(){
         }
 
 
-        document
-          .getElementById(
+
+
+        const bar =
+
+          document.getElementById(
             "playerGauge"
-          )
-          .style.width =
+          );
+
+
+        if(bar){
+
+          bar.style.width =
 
             playerGauge + "%";
+
+        }
+
+
 
 
         if(
@@ -176,20 +187,20 @@ function startEnemyGauge(){
 
 
 
+          enemyAttack();
+
+
+
+
           if(
-            typeof enemyAttack
-            ===
-            "function"
+            player.hp > 0
+            &&
+            currentEnemy.hp > 0
           ){
 
-            enemyAttack();
+            startEnemyGauge();
 
           }
-
-
-
-
-          startEnemyGauge();
 
 
         }
