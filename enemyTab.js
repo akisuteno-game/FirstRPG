@@ -35,11 +35,8 @@ function renderEnemyTab(){
       >
 
         <img
-
           class="enemyImage"
-
           src="${enemy.img}"
-
         >
 
 
@@ -53,7 +50,6 @@ function renderEnemyTab(){
 
 
         HP :
-
         ${enemy.hp}
 
 
@@ -61,7 +57,6 @@ function renderEnemyTab(){
 
 
         ATK :
-
         ${enemy.atk}
 
 
@@ -78,7 +73,18 @@ function renderEnemyTab(){
 
 
 
-function startBattle( enemyId ){
+function startBattle(enemyId){
+
+
+  localStorage.setItem(
+
+    "playerData",
+
+    JSON.stringify(
+      player
+    )
+
+  );
 
 
   const enemy =
