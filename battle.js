@@ -10,24 +10,6 @@ function(){
   renderPlayer();
 
 
-  renderBattle();
-
-
-};
-
-
-
-
-function renderBattle(){
-
-
-  const savedEnemy =
-
-    localStorage.getItem(
-      "selectedEnemy"
-    );
-
-
   const area =
     document.getElementById(
       "battleArea"
@@ -41,13 +23,18 @@ function renderBattle(){
   }
 
 
+  const savedEnemy =
+
+    localStorage.getItem(
+      "selectedEnemy"
+    );
+
+
   if(!savedEnemy){
 
-    area.innerHTML = `
+    area.innerHTML =
 
-      敵が選ばれていません
-
-    `;
+      "<h1>敵が選ばれていません</h1>";
 
     return;
 
@@ -61,109 +48,57 @@ function renderBattle(){
     );
 
 
-  area.innerHTML = `
+  area.innerHTML =
 
-    <div
-      style="
-        text-align:center;
-        color:white;
-      "
-    >
+    "<div>" +
 
-      <h1>
+    "<h1>" +
 
-        ${currentEnemy.name}
+    currentEnemy.name +
 
-      </h1>
+    "</h1>" +
 
+    "<img src='" +
 
-      <img
+    currentEnemy.img +
 
-        src="${currentEnemy.img}"
+    "' width='220'>" +
 
-        width="220"
+    "<br><br>" +
 
-      >
+    "敵HP : " +
 
+    "<span id='enemyHpText'>" +
 
-      <br><br>
+    currentEnemy.hp +
 
+    "</span>" +
 
-      敵HP :
+    "<br><br>" +
 
-      <span
-        id="enemyHpText"
-      >
+    "<button onclick='attackEnemy()'>" +
 
-        ${currentEnemy.hp}
+    "攻撃" +
 
-      </span>
+    "</button>" +
 
+    "<br><br>" +
 
-      <div class="bar">
+    "<button onclick=\"location.href='index.html'\">" +
 
-        <div
+    "戻る" +
 
-          id="enemyHpFill"
+    "</button>" +
 
-          class="fill"
-
-          style="
-            width:100%;
-          "
-
-        >
-        </div>
-
-      </div>
+    "</div>";
 
 
-      <br>
-
-
-      <button
-        onclick="
-          attackEnemy()
-        "
-      >
-
-        攻撃
-
-      </button>
-
-
-      <br><br>
-
-
-      <button
-        onclick="
-          location.href='index.html'
-        "
-      >
-
-        戻る
-
-      </button>
-
-
-    </div>
-
-  ";
-
-
-}
+};
 
 
 
 
 function attackEnemy(){
-
-
-  if(!currentEnemy){
-
-    return;
-
-  }
 
 
   currentEnemy.hp -=
@@ -186,30 +121,6 @@ function attackEnemy(){
     .innerHTML =
 
       currentEnemy.hp;
-
-
-  const maxHp =
-    enemies[
-      currentEnemy.id
-    ].hp;
-
-
-  const percent =
-
-    (
-      currentEnemy.hp
-      /
-      maxHp
-    ) * 100;
-
-
-  document
-    .getElementById(
-      "enemyHpFill"
-    )
-    .style.width =
-
-      percent + "%";
 
 
   if(
