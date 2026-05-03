@@ -21,21 +21,10 @@ function renderEnemyTab(){
 
 
 
-  const enemyList =
-
-    window.enemies
-    ||
-    window.monsters
-    ||
-    window.monsterData
-    ||
-    [];
-
-
-
-
   if(
-    enemyList.length === 0
+    !enemies
+    ||
+    enemies.length === 0
   ){
 
     list.innerHTML =
@@ -54,7 +43,7 @@ function renderEnemyTab(){
 
 
 
-  enemyList.forEach(
+  enemies.forEach(
 
     function(enemy,index){
 
@@ -62,22 +51,23 @@ function renderEnemyTab(){
       html += `
 
         <div
+
           class="enemyCard"
+
           onclick="
             location.href=
             'battle.html?enemy='
             + ${index}
           "
+
         >
+
+
 
 
           <img
 
-            src="${
-              enemy.img
-              ||
-              ''
-            }"
+            src="${enemy.img}"
 
             width="100"
 
@@ -89,31 +79,76 @@ function renderEnemyTab(){
           >
 
 
+
+
           <br>
+
+
 
 
           ${enemy.name}
 
 
+
+
           <br>
+
+
 
 
           HP :
-          ${enemy.maxHp}
+
+          ${enemy.hp}
+
+
 
 
           <br>
+
+
 
 
           ATK :
+
           ${enemy.atk}
+
+
 
 
           <br>
 
 
+
+
           GOLD :
-          ${enemy.gold}
+
+          ${enemy.drop}
+
+
+
+
+          <br><br>
+
+
+
+
+          通常 :
+
+          ${enemy.material}
+
+
+
+
+          <br>
+
+
+
+
+          レア :
+
+          ${enemy.rareMaterial}
+
+
 
 
         </div>
