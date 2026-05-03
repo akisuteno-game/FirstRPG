@@ -61,11 +61,6 @@ function attackEnemy(){
 
 
 
-      renderPlayer();
-
-
-
-
       alert(
 
         currentEnemy.drop
