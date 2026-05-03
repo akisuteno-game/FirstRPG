@@ -27,6 +27,8 @@ function attackEnemy(){
     player.atk;
 
 
+
+
   if(
     currentEnemy.hp < 0
   ){
@@ -47,9 +49,34 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
+
+    player.gold +=
+      currentEnemy.drop;
+
+
+
+
+    renderPlayer();
+
+
+
+
+    alert(
+
+      currentEnemy.drop
+      +
+      "G 手に入れた！"
+
+    );
+
+
+
+
     localStorage.removeItem(
       "selectedEnemy"
     );
+
+
 
 
     setTimeout(
@@ -64,6 +91,8 @@ function attackEnemy(){
       1000
 
     );
+
+
 
 
     return;
@@ -86,6 +115,8 @@ function enemyAttack(){
 
   player.hp -=
     currentEnemy.atk;
+
+
 
 
   if(
@@ -137,6 +168,8 @@ function updateEnemyUI(){
     document.getElementById(
       "enemyHpText"
     );
+
+
 
 
   const hpBar =
