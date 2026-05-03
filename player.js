@@ -29,29 +29,61 @@ function renderPlayer(){
   }
 
 
-  ui.innerHTML =
+  const percent =
 
-    "HP : " +
+    (
+      player.hp
+      /
+      player.maxHp
+    ) * 100;
 
-    player.hp +
 
-    "/" +
+  ui.innerHTML = `
 
-    player.maxHp +
+    HP :
 
-    "<br><br>" +
+    ${player.hp}
 
-    "攻撃 : " +
+    /
 
-    player.atk +
+    ${player.maxHp}
 
-    "<br><br>" +
 
-    "クリ率 : " +
+    <div
+      class="bar"
+    >
 
-    player.crit +
+      <div
 
-    "%";
+        class="fill"
+
+        style="
+          width:${percent}%;
+        "
+
+      >
+      </div>
+
+    </div>
+
+
+    <br>
+
+
+    攻撃 :
+
+    ${player.atk}
+
+
+    <br><br>
+
+
+    クリ率 :
+
+    ${player.crit}%
+
+
+  `;
 
 
 }
