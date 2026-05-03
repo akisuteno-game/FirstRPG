@@ -1,10 +1,10 @@
 const player = {
 
-  hp:100,
+  hp:30,
 
-  maxHp:100,
+  maxHp:30,
 
-  atk:10,
+  atk:5,
 
   crit:5
 
