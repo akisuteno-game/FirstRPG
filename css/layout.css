@@ -11,7 +11,9 @@
   box-sizing:border-box;
 
   overflow-y:auto;
+
 }
+
 
 
 
@@ -22,7 +24,9 @@
   display:flex;
 
   flex-direction:column;
+
 }
+
 
 
 
@@ -33,7 +37,9 @@
   height:60px;
 
   border-bottom:2px solid #333;
+
 }
+
 
 
 
@@ -46,7 +52,9 @@
   background:#222;
 
   color:white;
+
 }
+
 
 
 
@@ -57,21 +65,35 @@
   border-bottom:2px solid #333;
 
   overflow-y:auto;
+
+  position:relative;
+
 }
+
 
 
 
 .tabPage{
 
   display:none;
+
+  width:100%;
+
+  min-height:420px;
+
+  box-sizing:border-box;
+
 }
+
 
 
 
 .activePage{
 
   display:block;
+
 }
+
 
 
 
@@ -84,4 +106,5 @@
   justify-content:center;
 
   align-items:center;
+
 }
