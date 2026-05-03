@@ -70,32 +70,8 @@ function initBattle(){
 
   if(button){
 
-    button.addEventListener(
-
-      "click",
-
-      function(){
-
-
-        alert(
-          "ボタン反応OK"
-        );
-
-
-        if(
-          typeof attackEnemy
-          ===
-          "function"
-        ){
-
-          attackEnemy();
-
-        }
-
-
-      }
-
-    );
+    button.onclick =
+      attackEnemy;
 
   }
 
@@ -122,6 +98,7 @@ function createBattleHTML(){
       style="
         color:white;
         text-align:center;
+        position:relative;
       "
     >
 
@@ -210,7 +187,18 @@ function createBattleHTML(){
 
 
       <button
+
         id="attackBtn"
+
+        style="
+          position:relative;
+          z-index:9999;
+          pointer-events:auto;
+          width:220px;
+          height:70px;
+          font-size:28px;
+        "
+
       >
 
         攻撃
