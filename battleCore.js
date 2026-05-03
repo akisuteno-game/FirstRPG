@@ -1,57 +1,43 @@
-let currentEnemy = null;
+const params =
+
+  new URLSearchParams(
+    location.search
+  );
 
 
 
 
-document.addEventListener(
+const enemyId =
 
-  "DOMContentLoaded",
+  Number(
 
-  initBattle
+    params.get(
+      "enemy"
+    )
 
-);
-
-
-
-
-function initBattle(){
-
-
-  loadPlayer();
-
-
-  renderPlayer();
+  );
 
 
 
 
-  const saved =
+const currentEnemy =
 
-    localStorage.getItem(
-      "selectedEnemy"
-    );
+  JSON.parse(
 
+    JSON.stringify(
 
+      enemies[
+        enemyId
+      ]
 
+    )
 
-  if(
-    !saved
-  ){
-
-    return;
-
-  }
+  );
 
 
 
 
-  currentEnemy =
-
-    JSON.parse(
-      saved
-    );
-
-
+function renderBattle(){
 
 
   const area =
@@ -74,48 +60,106 @@ function initBattle(){
 
 
 
-  area.innerHTML =
-
-    createBattleHTML();
-
-
-
-
-  const button =
-
-    document.getElementById(
-      "attackBtn"
-    );
-
-
-
-
   if(
-    button
+    !currentEnemy
   ){
 
-    button.disabled =
-      true;
+    area.innerHTML =
+      "敵がいません";
 
-
-
-
-    button.onclick =
-      function(){
-
-        attackEnemy();
-
-      };
+    return;
 
   }
 
 
 
 
-  startPlayerGauge();
+  area.innerHTML = `
+
+    <h2>
+
+      ${currentEnemy.name}
+
+    </h2>
 
 
-  startEnemyGauge();
+
+
+    <img
+
+      src="${
+        currentEnemy.img
+      }"
+
+      width="150"
+
+      onerror="
+        this.style.display=
+        'none'
+      "
+
+    >
+
+
+
+
+    <br><br>
+
+
+
+
+    HP :
+
+    <span
+      id="enemyHpText"
+    >
+
+      ${currentEnemy.hp}
+
+    </span>
+
+
+
+
+    <br><br>
+
+
+
+
+    <button
+
+      onclick="
+        attackEnemy()
+      "
+
+    >
+
+      攻撃
+
+    </button>
+
+
+
+
+    <br><br>
+
+
+
+
+    <button
+
+      onclick="
+        location.href=
+        'index.html'
+      "
+
+    >
+
+      戻る
+
+    </button>
+
+  `;
 
 
 }
@@ -123,152 +167,17 @@ function initBattle(){
 
 
 
-function createBattleHTML(){
+renderBattle();
 
 
-  return `
 
-    <div
-      style="
-        color:white;
-        text-align:center;
-      "
-    >
 
-      <h1>
+if(
+  typeof renderPlayer
+  ===
+  "function"
+){
 
-        ${currentEnemy.name}
-
-      </h1>
-
-
-
-
-      <img
-        src="${currentEnemy.img}"
-        width="220"
-      >
-
-
-
-
-      <br><br>
-
-
-
-
-      敵HP :
-
-      <span id="enemyHpText">
-
-        ${currentEnemy.hp}
-
-      </span>
-
-
-
-
-      <div class="bar">
-
-        <div
-
-          id="enemyHpFill"
-
-          class="fill"
-
-          style="
-            width:100%;
-          "
-
-        >
-        </div>
-
-      </div>
-
-
-
-
-      <br><br>
-
-
-
-
-      自分
-      2000ms
-
-
-
-
-      <div class="bar">
-
-        <div
-
-          id="playerGauge"
-
-          class="fill"
-
-          style="
-            width:0%;
-          "
-
-        >
-        </div>
-
-      </div>
-
-
-
-
-      <br><br>
-
-
-
-
-      敵
-      ${currentEnemy.speed}ms
-
-
-
-
-      <div class="bar">
-
-        <div
-
-          id="enemyGauge"
-
-          class="fill"
-
-          style="
-            width:0%;
-          "
-
-        >
-        </div>
-
-      </div>
-
-
-
-
-      <br><br>
-
-
-
-
-      <button
-        id="attackBtn"
-      >
-
-        攻撃
-
-      </button>
-
-
-
-
-    </div>
-
-  `;
-
+  renderPlayer();
 
 }
