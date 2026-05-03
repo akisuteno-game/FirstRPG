@@ -14,87 +14,103 @@ function renderEnemyTab(){
   }
 
 
+
+
   list.innerHTML = "";
+
+
 
 
   enemies.forEach(
 
-
-    function(enemy){
-
-
-      const card =
-
-        document.createElement(
-          "div"
-        );
+    enemy=>{
 
 
-      card.className =
-        "enemyCard";
+      list.innerHTML += `
 
+        <div
 
-      card.onclick =
-        function(){
+          class="enemyCard"
 
-
-          startBattle(
-            enemy.id
-          );
-
-
-        };
-
-
-
-
-      card.innerHTML = `
-
-        <img
-
-          class="enemyImage"
-
-          src="${enemy.img}"
+          onclick="
+            startBattle(
+              ${enemy.id}
+            )
+          "
 
         >
 
+          <img
 
-        <br><br>
+            class="enemyImage"
 
+            src="${enemy.img}"
 
-        ${enemy.name}
-
-
-        <br><br>
-
-
-        HP :
-        ${enemy.hp}
+          >
 
 
-        <br>
 
 
-        ATK :
-        ${enemy.atk}
+          <br>
 
 
-        <br>
 
 
-        SPD :
-        ${enemy.speed}ms
+          ${enemy.name}
+
+
+
+
+          <br>
+
+
+
+
+          HP :
+          ${enemy.hp}
+
+
+
+
+          <br>
+
+
+
+
+          ATK :
+          ${enemy.atk}
+
+
+
+
+          <br>
+
+
+
+
+          SPD :
+          ${enemy.speed}ms
+
+
+
+
+          <br>
+
+
+
+
+          DROP :
+          ${enemy.drop}G
+
+
+
+
+        </div>
 
       `;
 
 
-      list.appendChild(
-        card
-      );
-
-
     }
-
 
   );
 
@@ -104,18 +120,7 @@ function renderEnemyTab(){
 
 
 
-function startBattle(enemyId){
-
-
-  localStorage.setItem(
-
-    "playerData",
-
-    JSON.stringify(
-      player
-    )
-
-  );
+function startBattle(id){
 
 
   const enemy =
@@ -124,13 +129,13 @@ function startBattle(enemyId){
 
       JSON.stringify(
 
-        enemies[
-          enemyId
-        ]
+        enemies[id]
 
       )
 
     );
+
+
 
 
   localStorage.setItem(
@@ -142,6 +147,8 @@ function startBattle(enemyId){
     )
 
   );
+
+
 
 
   location.href =
