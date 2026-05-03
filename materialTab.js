@@ -1,3 +1,26 @@
+const materialIcons = {
+
+  "スライムゼリー":"🟢",
+
+  "キングゼリー":"💎",
+
+  "ゴブリンの牙":"🦷",
+
+  "王族の牙":"👑",
+
+  "オークの皮":"🟤",
+
+  "古代の皮":"✨",
+
+  "竜のウロコ":"🐉",
+
+  "紅竜の心臓":"❤️"
+
+};
+
+
+
+
 function renderMaterialTab(){
 
 
@@ -71,9 +94,20 @@ function renderMaterialTab(){
     function(name){
 
 
+      const icon =
+
+        materialIcons[name]
+        ||
+        "📦";
+
+
+
+
       html += `
 
         <div>
+
+          ${icon}
 
           ${name}
 
