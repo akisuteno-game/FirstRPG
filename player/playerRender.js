@@ -67,9 +67,20 @@ function renderPlayer(){
     function(name){
 
 
+      const icon =
+
+        materialIcons[name]
+        ||
+        "📦";
+
+
+
+
       materialHTML += `
 
         <div>
+
+          ${icon}
 
           ${name}
 
