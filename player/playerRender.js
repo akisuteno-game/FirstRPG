@@ -54,7 +54,6 @@ function renderPlayer(){
   ){
 
     materialHTML =
-
       "なし";
 
   }
@@ -67,24 +66,22 @@ function renderPlayer(){
     function(name){
 
 
-      const icon =
-
-        materialIcons[name]
-        ||
-        "📦";
-
-
-
-
       materialHTML += `
 
         <div>
 
-          ${icon}
+          <img
 
-          ${name}
+            src="${
+              materialIcons[name]
+            }"
 
-          ×
+            width="22"
+
+          >
+
+
+
 
           ${player.materials[name]}
 
