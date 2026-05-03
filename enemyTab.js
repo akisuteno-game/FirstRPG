@@ -1,4 +1,10 @@
+console.log("ENEMY TAB OK");
+
+
 function renderEnemyTab(){
+
+
+  console.log("renderEnemyTab OK");
 
 
   const list =
@@ -8,6 +14,8 @@ function renderEnemyTab(){
 
 
   if(!list){
+
+    console.log("listなし");
 
     return;
 
@@ -20,52 +28,53 @@ function renderEnemyTab(){
   enemies.forEach(enemy=>{
 
 
-    list.innerHTML += `
+    const card =
+      document.createElement(
+        "div"
+      );
 
-      <div
 
-        class="enemyCard"
+    card.className =
+      "enemyCard";
 
-        onclick="
-          selectEnemy(
-            ${enemy.id}
-          )
-        "
 
+    card.innerHTML = `
+
+      <img
+        class="enemyImage"
+        src="${enemy.img}"
       >
 
-        <img
+      <br>
 
-          class="enemyImage"
+      ${enemy.name}
 
-          src="${enemy.img}"
+      <br>
 
-        >
+      HP :
+      ${enemy.hp}
 
+      <br>
 
-        <br>
-
-
-        ${enemy.name}
-
-
-        <br>
-
-
-        HP :
-        ${enemy.hp}
-
-
-        <br>
-
-
-        ATK :
-        ${enemy.atk}
-
-
-      </div>
+      ATK :
+      ${enemy.atk}
 
     `;
+
+
+    card.onclick =
+    function(){
+
+      selectEnemy(
+        enemy.id
+      );
+
+    };
+
+
+    list.appendChild(
+      card
+    );
 
 
   });
@@ -77,6 +86,12 @@ function renderEnemyTab(){
 
 
 function selectEnemy(enemyId){
+
+
+  console.log(
+    "クリック:",
+    enemyId
+  );
 
 
   const enemy =
@@ -115,13 +130,8 @@ function selectEnemy(enemyId){
 
 
     <img
-
       src="${enemy.img}"
-
-      style="
-        width:200px;
-      "
-
+      width="200"
     >
 
 
@@ -137,7 +147,6 @@ function selectEnemy(enemyId){
 
     ATK :
     ${enemy.atk}
-
 
   `;
 
