@@ -24,7 +24,9 @@ function renderSettingTab(){
     >
 
       <h2>
+
         設定画面
+
       </h2>
 
 
@@ -42,7 +44,7 @@ function renderSettingTab(){
       <br><br>
 
 
-      First RPG
+      Version 1.0
 
 
     </div>
