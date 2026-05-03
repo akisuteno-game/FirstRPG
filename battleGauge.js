@@ -1,89 +1,55 @@
-let gauge = 0;
+let playerGauge = 0;
 
-let gaugeLoop = null;
+let enemyGauge = 0;
 
-const chargeTime = 2000;
+let playerLoop = null;
 
-
-
-
-function startGauge(){
+let enemyLoop = null;
 
 
-  gauge = 0;
 
 
-  const start =
-    Date.now();
+function startPlayerGauge(){
+
+
+  playerGauge = 0;
 
 
   clearInterval(
-    gaugeLoop
+    playerLoop
   );
 
 
-  document
-    .getElementById(
-      "attackBtn"
-    )
-    .disabled = true;
-
-
-  gaugeLoop =
+  playerLoop =
     setInterval(
 
 
       function(){
 
 
-        const elapsed =
-
-          Date.now()
-          -
-          start;
-
-
-        gauge =
-
-          (
-            elapsed
-            /
-            chargeTime
-          ) * 100;
-
-
-        if(
-          gauge > 100
-        ){
-
-          gauge = 100;
-
-        }
+        playerGauge += 1;
 
 
         document
           .getElementById(
-            "gaugeFill"
+            "playerGauge"
           )
           .style.width =
 
-            gauge + "%";
+            playerGauge + "%";
 
 
         if(
-          gauge >= 100
+          playerGauge >= 100
         ){
 
           clearInterval(
-            gaugeLoop
+            playerLoop
           );
 
 
-          document
-            .getElementById(
-              "attackBtn"
-            )
-            .disabled = false;
+          attackEnemy();
+
 
         }
 
@@ -91,7 +57,69 @@ function startGauge(){
       },
 
 
-      16
+      20
+
+
+    );
+
+
+}
+
+
+
+
+function startEnemyGauge(){
+
+
+  enemyGauge = 0;
+
+
+  clearInterval(
+    enemyLoop
+  );
+
+
+  enemyLoop =
+    setInterval(
+
+
+      function(){
+
+
+        enemyGauge += 1;
+
+
+        document
+          .getElementById(
+            "enemyGauge"
+          )
+          .style.width =
+
+            enemyGauge + "%";
+
+
+        if(
+          enemyGauge >= 100
+        ){
+
+          clearInterval(
+            enemyLoop
+          );
+
+
+          enemyAttack();
+
+
+          startEnemyGauge();
+
+
+        }
+
+
+      },
+
+
+      25
 
 
     );
