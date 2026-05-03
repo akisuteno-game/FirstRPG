@@ -2,51 +2,61 @@ window.onload =
 function(){
 
 
-  try{
-
-    renderPlayer();
-
-  }catch(e){
-
-    console.log(e);
-
-  }
+  safeRender(
+    renderPlayer
+  );
 
 
-  try{
-
-    renderEnemyTab();
-
-  }catch(e){
-
-    console.log(e);
-
-  }
+  safeRender(
+    renderEnemyTab
+  );
 
 
-  try{
-
-    renderUpgradeTab();
-
-  }catch(e){
-
-    console.log(e);
-
-  }
+  safeRender(
+    renderUpgradeTab
+  );
 
 
-  try{
-
-    renderSettingTab();
-
-  }catch(e){
-
-    console.log(e);
-
-  }
+  safeRender(
+    renderSettingTab
+  );
 
 
 };
+
+
+
+
+function safeRender(fn){
+
+
+  if(
+    typeof fn
+    !==
+    "function"
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    fn();
+
+  }
+
+  catch(error){
+
+    console.log(
+      error
+    );
+
+  }
+
+
+}
 
 
 
