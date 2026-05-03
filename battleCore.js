@@ -81,13 +81,8 @@ function renderBattle(){
     <div
 
       style="
-
-        display:flex;
-        align-items:center;
-        gap:50px;
-        justify-content:center;
         width:100%;
-
+        text-align:center;
       "
 
     >
@@ -95,10 +90,26 @@ function renderBattle(){
 
 
 
-      <div
+      <h2>
 
-        style="
-          text-align:center;
+        ${currentEnemy.name}
+
+      </h2>
+
+
+
+
+      <img
+
+        src="${
+          currentEnemy.img
+        }"
+
+        width="150"
+
+        onerror="
+          this.style.display=
+          'none'
         "
 
       >
@@ -106,83 +117,52 @@ function renderBattle(){
 
 
 
-        <h2>
-
-          ${currentEnemy.name}
-
-        </h2>
+      <br><br>
 
 
 
 
-        <img
+      HP :
 
-          src="${
-            currentEnemy.img
-          }"
+      <span
+        id="enemyHpText"
+      >
 
-          width="150"
+        ${currentEnemy.hp}
 
-          onerror="
-            this.style.display=
-            'none'
-          "
-
-        >
+      </span>
 
 
 
 
-        <br><br>
+      <div
 
+        style="
+          width:200px;
+          height:20px;
+          border:1px solid white;
+          margin:auto;
+          margin-top:10px;
+        "
 
-
-
-        HP :
-
-        <span
-          id="enemyHpText"
-        >
-
-          ${currentEnemy.hp}
-
-        </span>
+      >
 
 
 
 
         <div
 
+          id="
+            enemyHpFill
+          "
+
           style="
-            width:200px;
-            height:20px;
-            border:1px solid white;
-            margin-top:10px;
+            width:100%;
+            height:100%;
+            background:lime;
           "
 
         >
-
-
-
-
-          <div
-
-            id="
-              enemyHpFill
-            "
-
-            style="
-              width:100%;
-              height:100%;
-              background:lime;
-            "
-
-          >
-          </div>
-
-
-
-
         </div>
 
 
@@ -193,43 +173,44 @@ function renderBattle(){
 
 
 
-      <div>
+      <br><br>
 
 
 
 
-        <button
+      自分ゲージ
 
-          onclick="
-            attackEnemy()
+
+
+
+      <div
+
+        style="
+          width:300px;
+          height:20px;
+          border:1px solid white;
+          margin:auto;
+        "
+
+      >
+
+
+
+
+        <div
+
+          id="
+            playerGauge
+          "
+
+          style="
+            width:0%;
+            height:100%;
+            background:cyan;
           "
 
         >
-
-          攻撃
-
-        </button>
-
-
-
-
-        <br><br>
-
-
-
-
-        <button
-
-          onclick="
-            location.href=
-            'index.html'
-          "
-
-        >
-
-          戻る
-
-        </button>
+        </div>
 
 
 
@@ -239,9 +220,113 @@ function renderBattle(){
 
 
 
+      <br><br>
+
+
+
+
+      敵ゲージ
+
+
+
+
+      <div
+
+        style="
+          width:300px;
+          height:20px;
+          border:1px solid white;
+          margin:auto;
+        "
+
+      >
+
+
+
+
+        <div
+
+          id="
+            enemyGauge
+          "
+
+          style="
+            width:0%;
+            height:100%;
+            background:red;
+          "
+
+        >
+        </div>
+
+
+
+
+      </div>
+
+
+
+
+      <br><br>
+
+
+
+
+      <button
+
+        id="
+          attackBtn
+        "
+
+        onclick="
+          attackEnemy()
+        "
+
+        disabled
+
+      >
+
+        攻撃
+
+      </button>
+
+
+
+
+      <br><br>
+
+
+
+
+      <button
+
+        onclick="
+          location.href=
+          'index.html'
+        "
+
+      >
+
+        戻る
+
+      </button>
+
+
+
+
     </div>
 
   `;
+
+
+
+
+  startPlayerGauge();
+
+
+
+
+  startEnemyGauge();
 
 
 }
