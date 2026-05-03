@@ -1,20 +1,28 @@
 const materialIcons = {
 
-  "スライムゼリー":"🟢",
+  "スライムゼリー":
+  "img/materials/slimeGel.png",
 
-  "キングゼリー":"💎",
+  "キングゼリー":
+  "img/materials/kingGel.png",
 
-  "ゴブリンの牙":"🦷",
+  "ゴブリンの牙":
+  "img/materials/goblinTooth.png",
 
-  "王族の牙":"👑",
+  "王族の牙":
+  "img/materials/kingTooth.png",
 
-  "オークの皮":"🟤",
+  "オークの皮":
+  "img/materials/orcSkin.png",
 
-  "古代の皮":"✨",
+  "古代の皮":
+  "img/materials/ancientSkin.png",
 
-  "竜のウロコ":"🐉",
+  "竜のウロコ":
+  "img/materials/dragonScale.png",
 
-  "紅竜の心臓":"❤️"
+  "紅竜の心臓":
+  "img/materials/dragonHeart.png"
 
 };
 
@@ -94,20 +102,22 @@ function renderMaterialTab(){
     function(name){
 
 
-      const icon =
-
-        materialIcons[name]
-        ||
-        "📦";
-
-
-
-
       html += `
 
         <div>
 
-          ${icon}
+          <img
+
+            src="${
+              materialIcons[name]
+            }"
+
+            width="28"
+
+          >
+
+
+
 
           ${name}
 
