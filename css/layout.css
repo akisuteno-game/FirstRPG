@@ -4,7 +4,7 @@
 
   background:#181818;
 
-  border-right:2px solid #333;
+  border-right:3px solid #555;
 
   padding:10px;
 
@@ -34,9 +34,11 @@
 
   display:flex;
 
-  height:80px;
+  height:90px;
 
-  border-bottom:2px solid #444;
+  flex-shrink:0;
+
+  border-bottom:3px solid #555;
 
 }
 
@@ -47,15 +49,19 @@
 
   flex:1;
 
+  min-width:auto;
+
+  min-height:auto;
+
+  border:none;
+
+  border-right:3px solid #555;
+
   background:#222;
 
   color:white;
 
-  border:none;
-
-  border-right:2px solid #444;
-
-  font-size:24px;
+  font-size:28px;
 
   font-weight:bold;
 
