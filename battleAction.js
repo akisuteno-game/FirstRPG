@@ -56,6 +56,76 @@ function attackEnemy(){
 
 
 
+      if(
+        Math.random() < 0.5
+      ){
+
+        const material =
+
+          currentEnemy.material;
+
+
+
+
+        if(
+          !player.materials[
+            material
+          ]
+        ){
+
+          player.materials[
+            material
+          ] = 0;
+
+        }
+
+
+
+
+        player.materials[
+          material
+        ]++;
+
+      }
+
+
+
+
+      if(
+        Math.random() < 0.1
+      ){
+
+        const rareMaterial =
+
+          currentEnemy.rareMaterial;
+
+
+
+
+        if(
+          !player.materials[
+            rareMaterial
+          ]
+        ){
+
+          player.materials[
+            rareMaterial
+          ] = 0;
+
+        }
+
+
+
+
+        player.materials[
+          rareMaterial
+        ]++;
+
+      }
+
+
+
+
       savePlayer();
 
 
@@ -92,17 +162,6 @@ function attackEnemy(){
 
 
   startPlayerGauge();
-
-
-
-
-  if(
-    enemyGauge >= 100
-  ){
-
-    startEnemyGauge();
-
-  }
 
 
 }
