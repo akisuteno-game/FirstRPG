@@ -8,10 +8,11 @@ const defaultPlayer = {
 
   crit:5,
 
-  gold:0
+  gold:0,
+
+  materials:{}
 
 };
-
 
 
 
