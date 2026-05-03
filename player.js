@@ -1,3 +1,6 @@
+console.log("PLAYER JS OK");
+
+
 const player = {
 
   hp:100,
@@ -16,6 +19,9 @@ const player = {
 function renderPlayer(){
 
 
+  console.log("renderPlayer OK");
+
+
   const ui =
     document.getElementById(
       "playerUI"
@@ -24,29 +30,27 @@ function renderPlayer(){
 
   if(!ui){
 
+    console.log("playerUIなし");
+
     return;
 
   }
 
 
-  const hpPercent =
-    (
-      player.hp
-      /
-      player.maxHp
-    ) * 100;
-
-
   ui.innerHTML = `
 
-    HP :
-    <span id="hpText">
+    <div>
 
-      ${player.hp}
-      /
-      ${player.maxHp}
+      HP :
+      <span id="hpText">
 
-    </span>
+        ${player.hp}
+        /
+        ${player.maxHp}
+
+      </span>
+
+    </div>
 
 
     <div class="bar">
@@ -54,10 +58,7 @@ function renderPlayer(){
       <div
         id="hpFill"
         class="fill"
-
-        style="
-          width:${hpPercent}%;
-        "
+        style="width:100%;"
       >
       </div>
 
@@ -79,58 +80,6 @@ function renderPlayer(){
 
 
   `;
-
-
-}
-
-
-
-
-function updateHP(){
-
-
-  const hpFill =
-    document.getElementById(
-      "hpFill"
-    );
-
-
-  const hpText =
-    document.getElementById(
-      "hpText"
-    );
-
-
-  if(!hpFill){
-
-    return;
-
-  }
-
-
-  const hpPercent =
-    (
-      player.hp
-      /
-      player.maxHp
-    ) * 100;
-
-
-  hpFill.style.width =
-    hpPercent + "%";
-
-
-  hpText.innerHTML =
-
-    player.hp
-
-    +
-
-    "/"
-
-    +
-
-    player.maxHp;
 
 
 }
