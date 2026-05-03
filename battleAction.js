@@ -50,52 +50,65 @@ function attackEnemy(){
   ){
 
 
-    player.gold +=
-      currentEnemy.drop;
+      player.gold +=
+        currentEnemy.drop;
 
 
 
 
-    renderPlayer();
+      localStorage.setItem(
+
+        "playerData",
+
+        JSON.stringify(
+          player
+        )
+
+      );
 
 
 
 
-    alert(
-
-      currentEnemy.drop
-      +
-      "G 手に入れた！"
-
-    );
+      renderPlayer();
 
 
 
 
-    localStorage.removeItem(
-      "selectedEnemy"
-    );
+      alert(
+
+        currentEnemy.drop
+        +
+        "G 手に入れた！"
+
+      );
 
 
 
 
-    setTimeout(
-
-      function(){
-
-        location.href =
-          "index.html";
-
-      },
-
-      1000
-
-    );
+      localStorage.removeItem(
+        "selectedEnemy"
+      );
 
 
 
 
-    return;
+      setTimeout(
+
+        function(){
+
+          location.href =
+            "index.html";
+
+        },
+
+        1000
+
+      );
+
+
+
+
+      return;
 
   }
 
