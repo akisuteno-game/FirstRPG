@@ -11,7 +11,7 @@ const enemies = [
 
     atk:2,
 
-    speed:1
+    speed:1500
   },
 
 
@@ -26,7 +26,7 @@ const enemies = [
 
     atk:3,
 
-    speed:1
+    speed:1800
   },
 
 
@@ -41,7 +41,7 @@ const enemies = [
 
     atk:4,
 
-    speed:1
+    speed:2200
   },
 
 
@@ -56,7 +56,7 @@ const enemies = [
 
     atk:6,
 
-    speed:1
+    speed:3000
   }
 
 ];
