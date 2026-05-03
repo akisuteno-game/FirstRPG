@@ -84,15 +84,7 @@ function renderSettingTab(){
 function saveGame(){
 
 
-  localStorage.setItem(
-
-    "playerData",
-
-    JSON.stringify(
-      player
-    )
-
-  );
+  savePlayer();
 
 
   alert(
@@ -108,43 +100,23 @@ function saveGame(){
 function loadGame(){
 
 
-  const saved =
-
-    localStorage.getItem(
-      "playerData"
-    );
-
-
-  if(!saved){
-
-    alert(
-      "セーブデータなし"
-    );
-
-    return;
-
-  }
-
-
-
-
-  Object.assign(
-
-    player,
-
-    JSON.parse(
-      saved
-    )
-
-  );
-
-
+  loadPlayer();
 
 
   renderPlayer();
 
 
-  renderUpgradeTab();
+
+
+  if(
+    typeof renderUpgradeTab
+    ===
+    "function"
+  ){
+
+    renderUpgradeTab();
+
+  }
 
 
 
@@ -175,20 +147,7 @@ function resetGame(){
 
 
 
-  localStorage.clear();
-
-
-
-
-  player.hp = 30;
-
-  player.maxHp = 30;
-
-  player.atk = 5;
-
-  player.crit = 5;
-
-  player.gold = 0;
+  resetPlayer();
 
 
 
@@ -196,7 +155,17 @@ function resetGame(){
   renderPlayer();
 
 
-  renderUpgradeTab();
+
+
+  if(
+    typeof renderUpgradeTab
+    ===
+    "function"
+  ){
+
+    renderUpgradeTab();
+
+  }
 
 
 
