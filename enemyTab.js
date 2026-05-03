@@ -17,22 +17,38 @@ function renderEnemyTab(){
   list.innerHTML = "";
 
 
-  enemies.forEach(enemy=>{
+  enemies.forEach(
 
 
-    list.innerHTML += `
+    function(enemy){
 
-      <div
 
-        class="enemyCard"
+      const card =
 
-        onclick="
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "enemyCard";
+
+
+      card.onclick =
+        function(){
+
+
           startBattle(
-            ${enemy.id}
-          )
-        "
+            enemy.id
+          );
 
-      >
+
+        };
+
+
+
+
+      card.innerHTML = `
 
         <img
 
@@ -69,13 +85,18 @@ function renderEnemyTab(){
         SPD :
         ${enemy.speed}ms
 
-
-      </div>
-
-    `;
+      `;
 
 
-  });
+      list.appendChild(
+        card
+      );
+
+
+    }
+
+
+  );
 
 
 }
