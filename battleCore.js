@@ -68,19 +68,12 @@ function initBattle(){
     );
 
 
-  button.onclick =
-    function(){
+  if(button){
 
+    button.onclick =
+      attackEnemy;
 
-      alert(
-        "攻撃"
-      );
-
-
-      attackEnemy();
-
-
-    };
+  }
 
 
 
