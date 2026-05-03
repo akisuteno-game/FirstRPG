@@ -1,5 +1,9 @@
 let currentEnemy = null;
 
+let gauge = 0;
+
+let gaugeTimer = null;
+
 
 
 
@@ -83,7 +87,7 @@ function loadEnemy(){
       <br><br>
 
 
-      HP :
+      敵HP :
 
       <span
         id="enemyHpText"
@@ -105,13 +109,37 @@ function loadEnemy(){
       </div>
 
 
+      <br><br>
+
+
+      チャージ
+
+
+      <div class="bar">
+
+        <div
+          id="gaugeFill"
+          class="fill"
+          style="
+            width:0%;
+          "
+        >
+        </div>
+
+      </div>
+
+
       <br>
 
 
       <button
+        id="attackBtn"
+
         onclick="
           attackEnemy()
         "
+
+        disabled
       >
 
         攻撃
@@ -124,12 +152,102 @@ function loadEnemy(){
   `;
 
 
+  startGauge();
+
+
+}
+
+
+
+
+function startGauge(){
+
+
+  gauge = 0;
+
+
+  document
+    .getElementById(
+      "attackBtn"
+    )
+    .disabled = true;
+
+
+  clearInterval(
+    gaugeTimer
+  );
+
+
+  gaugeTimer =
+    setInterval(
+
+
+      function(){
+
+
+        gauge += 2;
+
+
+        if(
+          gauge > 100
+        ){
+
+          gauge = 100;
+
+        }
+
+
+        document
+          .getElementById(
+            "gaugeFill"
+          )
+          .style.width =
+
+            gauge + "%";
+
+
+        if(
+          gauge >= 100
+        ){
+
+          clearInterval(
+            gaugeTimer
+          );
+
+
+          document
+            .getElementById(
+              "attackBtn"
+            )
+            .disabled = false;
+
+        }
+
+
+      },
+
+
+      50
+
+
+    );
+
+
 }
 
 
 
 
 function attackEnemy(){
+
+
+  if(
+    gauge < 100
+  ){
+
+    return;
+
+  }
 
 
   currentEnemy.hp -=
@@ -172,6 +290,9 @@ function attackEnemy(){
   enemyAttack();
 
 
+  startGauge();
+
+
 }
 
 
@@ -194,6 +315,17 @@ function enemyAttack(){
 
 
   renderPlayer();
+
+
+  localStorage.setItem(
+
+    "playerData",
+
+    JSON.stringify(
+      player
+    )
+
+  );
 
 
   if(
