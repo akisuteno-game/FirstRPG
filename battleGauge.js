@@ -22,6 +22,20 @@ function startPlayerGauge(){
   );
 
 
+  const button =
+
+    document.getElementById(
+      "attackBtn"
+    );
+
+
+  if(button){
+
+    button.disabled = true;
+
+  }
+
+
   playerLoop =
     setInterval(
 
@@ -66,7 +80,12 @@ function startPlayerGauge(){
           );
 
 
-          attackEnemy();
+          if(button){
+
+            button.disabled =
+              false;
+
+          }
 
         }
 
