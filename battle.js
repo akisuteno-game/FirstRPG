@@ -27,14 +27,14 @@ function(){
 function loadBattle(){
 
 
-  const saved =
+  const savedEnemy =
 
     localStorage.getItem(
       "selectedEnemy"
     );
 
 
-  if(!saved){
+  if(!savedEnemy){
 
     return;
 
@@ -44,7 +44,7 @@ function loadBattle(){
   currentEnemy =
 
     JSON.parse(
-      saved
+      savedEnemy
     );
 
 
@@ -52,6 +52,13 @@ function loadBattle(){
     document.getElementById(
       "battleArea"
     );
+
+
+  if(!area){
+
+    return;
+
+  }
 
 
   area.innerHTML = `
@@ -93,8 +100,15 @@ function loadBattle(){
       <div class="bar">
 
         <div
+
           id="enemyHpFill"
+
           class="fill"
+
+          style="
+            width:100%;
+          "
+
         >
         </div>
 
@@ -106,7 +120,7 @@ function loadBattle(){
 
       攻撃速度 :
 
-      ${chargeTime} ms
+      ${chargeTime}ms
 
 
       <div class="bar">
@@ -166,7 +180,7 @@ function startGauge(){
   gauge = 0;
 
 
-  const start =
+  const startTime =
     Date.now();
 
 
@@ -193,7 +207,7 @@ function startGauge(){
 
           Date.now()
           -
-          start;
+          startTime;
 
 
         gauge =
@@ -280,6 +294,109 @@ function attackEnemy(){
   }
 
 
+  updateEnemyUI();
+
+
+  if(
+    currentEnemy.hp <= 0
+  ){
+
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
+
+    return;
+
+  }
+
+
+  enemyAttack();
+
+
+  startGauge();
+
+
+}
+
+
+
+
+function enemyAttack(){
+
+
+  player.hp -=
+    currentEnemy.atk;
+
+
+  if(
+    player.hp < 0
+  ){
+
+    player.hp = 0;
+
+  }
+
+
+  renderPlayer();
+
+
+  localStorage.setItem(
+
+    "playerData",
+
+    JSON.stringify(
+      player
+    )
+
+  );
+
+
+  if(
+    player.hp <= 0
+  ){
+
+    alert(
+      "やられた..."
+    );
+
+
+    player.hp =
+      player.maxHp;
+
+
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
+
+  }
+
+
+}
+
+
+
+
+function updateEnemyUI(){
+
+
   document
     .getElementById(
       "enemyHpText"
@@ -289,29 +406,28 @@ function attackEnemy(){
       currentEnemy.hp;
 
 
-  if(
-    currentEnemy.hp <= 0
-  ){
-
-      setTimeout(
-
-        function(){
-
-          location.href =
-            "index.html";
-
-        },
-
-        1000
-
-      );
-
-      return;
-
-  }
+  const maxHp =
+    enemies[
+      currentEnemy.id
+    ].hp;
 
 
-  startGauge();
+  const percent =
+
+    (
+      currentEnemy.hp
+      /
+      maxHp
+    ) * 100;
+
+
+  document
+    .getElementById(
+      "enemyHpFill"
+    )
+    .style.width =
+
+      percent + "%";
 
 
 }
