@@ -1,83 +1,3 @@
-const materialIcons = {
-
-  "スライムゼリー":
-  "img/materials/slimeGel.png",
-
-  "キングゼリー":
-  "img/materials/kingGel.png",
-
-  "ゴブリンの牙":
-  "img/materials/goblinTooth.png",
-
-  "王族の牙":
-  "img/materials/kingTooth.png",
-
-  "オークの皮":
-  "img/materials/orcSkin.png",
-
-  "古代の皮":
-  "img/materials/ancientSkin.png",
-
-  "竜のウロコ":
-  "img/materials/dragonScale.png",
-
-  "紅竜の心臓":
-  "img/materials/dragonHeart.png"
-
-};
-
-
-
-
-function getMaterialIcon(name){
-
-
-  if(
-    materialIcons[name]
-  ){
-
-    return `
-
-      <img
-
-        src="${
-          materialIcons[name]
-        }"
-
-        width="28"
-
-        onerror="
-          this.onerror=null;
-          this.src='img/icon_unknown.png';
-        "
-
-      >
-
-    `;
-
-  }
-
-
-
-
-  return `
-
-    <img
-
-      src="img/icon_unknown.png"
-
-      width="28"
-
-    >
-
-  `;
-
-
-}
-
-
-
-
 function renderMaterialTab(){
 
 
@@ -100,22 +20,18 @@ function renderMaterialTab(){
 
 
 
-  let html = `
+  if(
+    !player
+    ||
+    !player.materials
+  ){
 
-    <div
-      style="
-        padding:20px;
-        color:white;
-      "
-    >
+    tab.innerHTML =
+      "素材なし";
 
-      <h2>
+    return;
 
-        素材一覧
-
-      </h2>
-
-  `;
+  }
 
 
 
@@ -133,10 +49,18 @@ function renderMaterialTab(){
     keys.length === 0
   ){
 
-    html +=
+    tab.innerHTML =
       "素材なし";
 
+    return;
+
   }
+
+
+
+
+  let html =
+    "";
 
 
 
@@ -146,16 +70,51 @@ function renderMaterialTab(){
     function(name){
 
 
+      const path =
+
+        getMaterialPath(
+          name
+        );
+
+
+
+
+      let icon =
+        "？";
+
+
+
+
+      if(
+        path
+      ){
+
+        icon = `
+
+          <img
+
+            src="${path}"
+
+            width="32"
+
+            onerror="
+              this.outerHTML='？'
+            "
+
+          >
+
+        `;
+
+      }
+
+
+
+
       html += `
 
         <div>
 
-          ${getMaterialIcon(
-            name
-          )}
-
-
-
+          ${icon}
 
           ${name}
 
@@ -173,12 +132,6 @@ function renderMaterialTab(){
     }
 
   );
-
-
-
-
-  html +=
-    "</div>";
 
 
 
