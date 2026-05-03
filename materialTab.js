@@ -20,118 +20,31 @@ function renderMaterialTab(){
 
 
 
-  if(
-    !player
-    ||
-    !player.materials
-  ){
+  let html = `
 
-    tab.innerHTML =
-      "素材なし";
+    <div
+      class="
+        materialArea
+      "
+    >
 
-    return;
+      <h2>
 
-  }
+        素材一覧
 
-
-
-
-  const keys =
-
-    Object.keys(
-      player.materials
-    );
+      </h2>
 
 
 
 
-  if(
-    keys.length === 0
-  ){
-
-    tab.innerHTML =
-      "素材なし";
-
-    return;
-
-  }
+      ${createMaterialHTML()}
 
 
 
 
-  let html =
-    "";
+    </div>
 
-
-
-
-  keys.forEach(
-
-    function(name){
-
-
-      const path =
-
-        getMaterialPath(
-          name
-        );
-
-
-
-
-      let icon =
-        "？";
-
-
-
-
-      if(
-        path
-      ){
-
-        icon = `
-
-          <img
-
-            src="${path}"
-
-            width="32"
-
-            onerror="
-              this.outerHTML='？'
-            "
-
-          >
-
-        `;
-
-      }
-
-
-
-
-      html += `
-
-        <div>
-
-          ${icon}
-
-          ${name}
-
-          ×
-
-          ${player.materials[name]}
-
-        </div>
-
-        <br>
-
-      `;
-
-
-    }
-
-  );
+  `;
 
 
 
