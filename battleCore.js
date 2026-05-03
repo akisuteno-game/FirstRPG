@@ -94,8 +94,18 @@ function initBattle(){
     button
   ){
 
+    button.disabled =
+      true;
+
+
+
+
     button.onclick =
-      attackEnemy;
+      function(){
+
+        attackEnemy();
+
+      };
 
   }
 
@@ -135,12 +145,12 @@ function createBattleHTML(){
 
 
       <img
-
         src="${currentEnemy.img}"
-
         width="220"
-
       >
+
+
+
 
       <br><br>
 
