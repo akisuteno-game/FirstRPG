@@ -12,6 +12,17 @@ function attackEnemy(){
 
 
 
+  if(
+    playerGauge < 100
+  ){
+
+    return;
+
+  }
+
+
+
+
   currentEnemy.hp -=
     player.atk;
 
@@ -86,7 +97,31 @@ function enemyAttack(){
   }
 
 
+
+
   renderPlayer();
+
+
+
+
+  if(
+    player.hp <= 0
+  ){
+
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
+
+  }
 
 
 }
