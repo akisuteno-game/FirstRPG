@@ -2,61 +2,45 @@ const enemies = [
 
   {
     id:0,
-
     name:"スライム",
-
     img:"img/monsters/slime.png",
-
     hp:10,
-
     atk:2,
-
-    speed:1500
+    speed:1500,
+    drop:5
   },
 
 
   {
     id:1,
-
     name:"ゴブリン",
-
     img:"img/monsters/goblin.png",
-
     hp:20,
-
     atk:3,
-
-    speed:1800
+    speed:1800,
+    drop:10
   },
 
 
   {
     id:2,
-
     name:"オーク",
-
     img:"img/monsters/orc.png",
-
     hp:30,
-
     atk:4,
-
-    speed:2200
+    speed:2200,
+    drop:20
   },
 
 
   {
     id:3,
-
     name:"ドラゴン",
-
     img:"img/monsters/dragon.png",
-
     hp:50,
-
     atk:6,
-
-    speed:3000
+    speed:3000,
+    drop:50
   }
 
 ];
