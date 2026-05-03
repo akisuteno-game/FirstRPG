@@ -32,6 +32,7 @@ function renderUpgradeTab(){
         onclick="
           player.atk++;
           renderPlayer();
+          renderUpgradeTab();
         "
       >
 
@@ -40,10 +41,14 @@ function renderUpgradeTab(){
       </button>
 
 
+      <br><br>
+
+
       <button
         onclick="
           player.crit++;
           renderPlayer();
+          renderUpgradeTab();
         "
       >
 
@@ -55,20 +60,20 @@ function renderUpgradeTab(){
       <br><br>
 
 
-      現在の攻撃力 :
+      攻撃力 :
       ${player.atk}
 
 
       <br><br>
 
 
-      現在のクリ率 :
+      クリ率 :
       ${player.crit}%
 
 
     </div>
 
-  ";
+  `;
 
 
 }
