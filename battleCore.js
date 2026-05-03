@@ -10,15 +10,7 @@ document.addEventListener(
   function(){
 
 
-    if(
-      typeof renderPlayer
-      ===
-      "function"
-    ){
-
-      renderPlayer();
-
-    }
+    renderPlayer();
 
 
     loadBattle();
@@ -47,18 +39,7 @@ function loadBattle(){
     );
 
 
-  if(!area){
-
-    return;
-
-  }
-
-
-  if(!saved){
-
-    area.innerHTML =
-
-      "敵が選ばれていません";
+  if(!saved || !area){
 
     return;
 
@@ -111,15 +92,8 @@ function loadBattle(){
       <div class="bar">
 
         <div
-
           id="enemyHpFill"
-
           class="fill"
-
-          style="
-            width:100%;
-          "
-
         >
         </div>
 
@@ -129,7 +103,7 @@ function loadBattle(){
       <br><br>
 
 
-      攻撃速度 :
+      自分 :
 
       2000ms
 
@@ -137,15 +111,8 @@ function loadBattle(){
       <div class="bar">
 
         <div
-
-          id="gaugeFill"
-
+          id="playerGauge"
           class="fill"
-
-          style="
-            width:0%;
-          "
-
         >
         </div>
 
@@ -155,21 +122,20 @@ function loadBattle(){
       <br>
 
 
-      <button
+      敵 :
 
-        id="attackBtn"
+      2500ms
 
-        disabled
 
-        onclick="
-          attackEnemy()
-        "
+      <div class="bar">
 
-      >
+        <div
+          id="enemyGauge"
+          class="fill"
+        >
+        </div>
 
-        攻撃
-
-      </button>
+      </div>
 
 
     </div>
@@ -177,15 +143,10 @@ function loadBattle(){
   `;
 
 
-  if(
-    typeof startGauge
-    ===
-    "function"
-  ){
+  startPlayerGauge();
 
-    startGauge();
 
-  }
+  startEnemyGauge();
 
 
 }
