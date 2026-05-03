@@ -10,7 +10,7 @@ function(){
   renderPlayer();
 
 
-  loadEnemy();
+  renderBattle();
 
 
 };
@@ -18,27 +18,13 @@ function(){
 
 
 
-function loadEnemy(){
+function renderBattle(){
 
 
   const savedEnemy =
 
     localStorage.getItem(
       "selectedEnemy"
-    );
-
-
-  if(!savedEnemy){
-
-    return;
-
-  }
-
-
-  currentEnemy =
-
-    JSON.parse(
-      savedEnemy
     );
 
 
@@ -55,19 +41,40 @@ function loadEnemy(){
   }
 
 
+  if(!savedEnemy){
+
+    area.innerHTML = `
+
+      敵が選ばれていません
+
+    `;
+
+    return;
+
+  }
+
+
+  currentEnemy =
+
+    JSON.parse(
+      savedEnemy
+    );
+
+
   area.innerHTML = `
 
     <div
       style="
         text-align:center;
+        color:white;
       "
     >
 
-      <h2>
+      <h1>
 
         ${currentEnemy.name}
 
-      </h2>
+      </h1>
 
 
       <img
@@ -101,6 +108,10 @@ function loadEnemy(){
 
           class="fill"
 
+          style="
+            width:100%;
+          "
+
         >
         </div>
 
@@ -121,6 +132,20 @@ function loadEnemy(){
       </button>
 
 
+      <br><br>
+
+
+      <button
+        onclick="
+          location.href='index.html'
+        "
+      >
+
+        戻る
+
+      </button>
+
+
     </div>
 
   ";
@@ -132,6 +157,13 @@ function loadEnemy(){
 
 
 function attackEnemy(){
+
+
+  if(!currentEnemy){
+
+    return;
+
+  }
 
 
   currentEnemy.hp -=
