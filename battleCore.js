@@ -7,23 +7,17 @@ document.addEventListener(
 
   "DOMContentLoaded",
 
-  function(){
-
-
-    renderPlayer();
-
-
-    loadBattle();
-
-
-  }
+  initBattle
 
 );
 
 
 
 
-function loadBattle(){
+function initBattle(){
+
+
+  renderPlayer();
 
 
   const saved =
@@ -33,13 +27,7 @@ function loadBattle(){
     );
 
 
-  const area =
-    document.getElementById(
-      "battleArea"
-    );
-
-
-  if(!saved || !area){
+  if(!saved){
 
     return;
 
@@ -53,13 +41,82 @@ function loadBattle(){
     );
 
 
-  area.innerHTML = `
+  const area =
+    document.getElementById(
+      "battleArea"
+    );
+
+
+  if(!area){
+
+    return;
+
+  }
+
+
+  area.innerHTML =
+
+    createBattleHTML();
+
+
+
+
+  const button =
+
+    document.getElementById(
+      "attackBtn"
+    );
+
+
+  if(button){
+
+    button.addEventListener(
+
+      "click",
+
+      function(){
+
+
+        if(
+          typeof attackEnemy
+          ===
+          "function"
+        ){
+
+          attackEnemy();
+
+        }
+
+
+      }
+
+    );
+
+  }
+
+
+
+
+  startPlayerGauge();
+
+
+  startEnemyGauge();
+
+
+}
+
+
+
+
+function createBattleHTML(){
+
+
+  return `
 
     <div
       style="
         color:white;
         text-align:center;
-        width:100%;
       "
     >
 
@@ -93,15 +150,11 @@ function loadBattle(){
       <div class="bar">
 
         <div
-
           id="enemyHpFill"
-
           class="fill"
-
           style="
             width:100%;
           "
-
         >
         </div>
 
@@ -118,15 +171,11 @@ function loadBattle(){
       <div class="bar">
 
         <div
-
           id="playerGauge"
-
           class="fill"
-
           style="
             width:0%;
           "
-
         >
         </div>
 
@@ -143,15 +192,11 @@ function loadBattle(){
       <div class="bar">
 
         <div
-
           id="enemyGauge"
-
           class="fill"
-
           style="
             width:0%;
           "
-
         >
         </div>
 
@@ -162,23 +207,7 @@ function loadBattle(){
 
 
       <button
-
         id="attackBtn"
-
-        onclick="
-          attackEnemy()
-        "
-
-        style="
-          display:inline-block;
-          width:220px;
-          height:70px;
-          font-size:28px;
-          background:#333;
-          color:white;
-          border:2px solid #888;
-        "
-
       >
 
         攻撃
@@ -189,12 +218,6 @@ function loadBattle(){
     </div>
 
   `;
-
-
-  startPlayerGauge();
-
-
-  startEnemyGauge();
 
 
 }
