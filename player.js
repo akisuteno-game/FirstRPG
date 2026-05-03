@@ -1,4 +1,4 @@
-const player = {
+let player = {
 
   hp:30,
 
@@ -9,6 +9,26 @@ const player = {
   crit:5
 
 };
+
+
+
+
+const saved =
+
+  localStorage.getItem(
+    "playerData"
+  );
+
+
+if(saved){
+
+  player =
+
+    JSON.parse(
+      saved
+    );
+
+}
 
 
 
