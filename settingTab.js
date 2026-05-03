@@ -1,43 +1,13 @@
-const player = {
-
-  hp:30,
-
-  maxHp:30,
-
-  atk:5,
-
-  crit:5,
-
-  gold:0
-
-};
+function renderSettingTab(){
 
 
-
-
-const defaultPlayer =
-
-  JSON.parse(
-
-    JSON.stringify(
-      player
-    )
-
-  );
-
-
-
-
-function renderPlayer(){
-
-
-  const ui =
+  const tab =
     document.getElementById(
-      "playerUI"
+      "settingTab"
     );
 
 
-  if(!ui){
+  if(!tab){
 
     return;
 
@@ -46,29 +16,198 @@ function renderPlayer(){
 
 
 
-  ui.innerHTML = `
+  tab.innerHTML = `
 
-    HP :
-    ${player.hp}
-    /
-    ${player.maxHp}
+    <div
+      style="
+        padding:20px;
+        color:white;
+      "
+    >
 
-    <br><br>
+      <h2>
 
-    攻撃 :
-    ${player.atk}
+        設定画面
 
-    <br><br>
+      </h2>
 
-    クリ率 :
-    ${player.crit}%
 
-    <br><br>
 
-    GOLD :
-    ${player.gold}
+
+      <button onclick="saveGame()">
+
+        セーブ
+
+      </button>
+
+
+
+
+      <br><br>
+
+
+
+
+      <button onclick="loadGame()">
+
+        ロード
+
+      </button>
+
+
+
+
+      <br><br>
+
+
+
+
+      <button onclick="resetGame()">
+
+        リセット
+
+      </button>
+
+
+
+
+    </div>
 
   `;
+
+
+}
+
+
+
+
+function saveGame(){
+
+
+  localStorage.setItem(
+
+    "playerData",
+
+    JSON.stringify(
+      player
+    )
+
+  );
+
+
+  alert(
+    "セーブしました"
+  );
+
+
+}
+
+
+
+
+function loadGame(){
+
+
+  const saved =
+
+    localStorage.getItem(
+      "playerData"
+    );
+
+
+  if(!saved){
+
+    alert(
+      "セーブデータなし"
+    );
+
+    return;
+
+  }
+
+
+
+
+  Object.assign(
+
+    player,
+
+    JSON.parse(
+      saved
+    )
+
+  );
+
+
+
+
+  renderPlayer();
+
+
+  renderUpgradeTab();
+
+
+
+
+  alert(
+    "ロードしました"
+  );
+
+
+}
+
+
+
+
+function resetGame(){
+
+
+  if(
+    !confirm(
+      "データを消しますか？"
+    )
+  ){
+
+    return;
+
+  }
+
+
+
+
+  localStorage.clear();
+
+
+
+
+  Object.assign(
+
+    player,
+
+    JSON.parse(
+
+      JSON.stringify(
+        defaultPlayer
+      )
+
+    )
+
+  );
+
+
+
+
+  renderPlayer();
+
+
+  renderUpgradeTab();
+
+
+
+
+  alert(
+    "リセットしました"
+  );
 
 
 }
