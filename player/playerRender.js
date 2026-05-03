@@ -32,21 +32,34 @@ const materialIcons = {
 function getMaterialIcon(name){
 
 
+  const path =
+
+    materialIcons[name];
+
+
+
+
+  if(
+    !path
+  ){
+
+    return "？";
+
+  }
+
+
+
+
   return `
 
     <img
 
-      src="${
-        materialIcons[name]
-        ||
-        "img/icon_unknown.png"
-      }"
+      src="${path}"
 
       width="22"
 
       onerror="
-        this.onerror=null;
-        this.src='img/icon_unknown.png';
+        this.outerHTML='？';
       "
 
     >
@@ -101,9 +114,7 @@ function renderPlayer(){
   const keys =
 
     Object.keys(
-
       player.materials
-
     );
 
 
