@@ -104,4 +104,115 @@ function renderBattle(){
 
 
 
-        <
+        <h2>
+
+          ${currentEnemy.name}
+
+        </h2>
+
+
+
+
+        <img
+
+          src="${
+            currentEnemy.img
+          }"
+
+          width="150"
+
+          onerror="
+            this.style.display=
+            'none'
+          "
+
+        >
+
+
+
+
+        <br><br>
+
+
+
+
+        HP :
+
+        <span
+          id="enemyHpText"
+        >
+
+          ${currentEnemy.hp}
+
+        </span>
+
+
+
+
+      </div>
+
+
+
+
+      <div>
+
+
+
+
+        <button
+
+          onclick="
+            attackEnemy()
+          "
+
+        >
+
+          攻撃
+
+        </button>
+
+
+
+
+        <br><br>
+
+
+
+
+        <button
+
+          onclick="
+            location.href=
+            'index.html'
+          "
+
+        >
+
+          戻る
+
+        </button>
+
+
+
+
+      </div>
+
+
+
+
+    </div>
+
+  `;
+
+
+}
+
+
+
+
+renderBattle();
+
+
+
+
+renderPlayer();
