@@ -14,6 +14,8 @@ function renderSettingTab(){
   }
 
 
+
+
   tab.innerHTML = `
 
     <div
@@ -30,6 +32,8 @@ function renderSettingTab(){
       </h2>
 
 
+
+
       <button
         onclick="
           saveGame()
@@ -41,7 +45,11 @@ function renderSettingTab(){
       </button>
 
 
+
+
       <br><br>
+
+
 
 
       <button
@@ -55,7 +63,11 @@ function renderSettingTab(){
       </button>
 
 
+
+
       <br><br>
+
+
 
 
       <button
@@ -67,6 +79,8 @@ function renderSettingTab(){
         リセット
 
       </button>
+
+
 
 
     </div>
@@ -93,6 +107,8 @@ function saveGame(){
   );
 
 
+
+
   alert(
     "セーブしました"
   );
@@ -113,6 +129,8 @@ function loadGame(){
     );
 
 
+
+
   if(!saved){
 
     alert(
@@ -124,11 +142,15 @@ function loadGame(){
   }
 
 
+
+
   const data =
 
     JSON.parse(
       saved
     );
+
+
 
 
   player.hp =
@@ -147,7 +169,15 @@ function loadGame(){
     data.crit;
 
 
+  player.gold =
+    data.gold;
+
+
+
+
   renderPlayer();
+
+
 
 
   if(
@@ -159,6 +189,8 @@ function loadGame(){
     renderUpgradeTab();
 
   }
+
+
 
 
   alert(
@@ -187,14 +219,7 @@ function resetGame(){
 
 
 
-  localStorage.removeItem(
-    "playerData"
-  );
-
-
-  localStorage.removeItem(
-    "selectedEnemy"
-  );
+  localStorage.clear();
 
 
 
@@ -207,10 +232,14 @@ function resetGame(){
 
   player.crit = 5;
 
+  player.gold = 0;
+
 
 
 
   renderPlayer();
+
+
 
 
   if(
