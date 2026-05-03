@@ -8,8 +8,19 @@ const defaultPlayer = {
 
   crit:5,
 
-  gold:0,
-
-  materials:{}
+  gold:0
 
 };
+
+
+
+
+const player =
+
+  JSON.parse(
+
+    JSON.stringify(
+      defaultPlayer
+    )
+
+  );
