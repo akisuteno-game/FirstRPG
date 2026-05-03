@@ -9,7 +9,9 @@ function renderPlayer(){
 
 
 
-  if(!ui){
+  if(
+    !ui
+  ){
 
     return;
 
@@ -25,6 +27,64 @@ function renderPlayer(){
       /
       player.maxHp
     ) * 100;
+
+
+
+
+  let materialHTML =
+
+    "";
+
+
+
+
+  const keys =
+
+    Object.keys(
+
+      player.materials
+
+    );
+
+
+
+
+  if(
+    keys.length === 0
+  ){
+
+    materialHTML =
+
+      "なし";
+
+  }
+
+
+
+
+  keys.forEach(
+
+    function(name){
+
+
+      materialHTML += `
+
+        <div>
+
+          ${name}
+
+          ×
+
+          ${player.materials[name]}
+
+        </div>
+
+      `;
+
+
+    }
+
+  );
 
 
 
@@ -92,6 +152,20 @@ function renderPlayer(){
     GOLD :
     ${player.gold}
 
+
+
+
+    <br><br>
+
+
+
+
+    素材 :
+
+    <br>
+
+    ${materialHTML}
+
   `;
 
 
@@ -106,19 +180,25 @@ function renderPlayer(){
 
 
 
-  if(percent > 70){
+  if(
+    percent > 70
+  ){
 
     bar.style.background =
       "lime";
 
   }
 
-  else if(percent > 30){
+
+  else if(
+    percent > 30
+  ){
 
     bar.style.background =
       "yellow";
 
   }
+
 
   else{
 
