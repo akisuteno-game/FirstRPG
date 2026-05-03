@@ -1,6 +1,3 @@
-console.log("ENEMY TAB OK");
-
-
 let currentEnemy = null;
 
 
@@ -66,7 +63,7 @@ function renderEnemyTab(){
     function(){
 
       startBattle(
-        enemy.id
+        enemy
       );
 
     };
@@ -85,71 +82,59 @@ function renderEnemyTab(){
 
 
 
-function startBattle(enemyId){
-
-
-  const enemyData =
-    enemies.find(
-      e=>e.id===enemyId
-    );
-
-
-  if(!enemyData){
-
-    return;
-
-  }
+function startBattle(enemy){
 
 
   currentEnemy = {
 
-    ...enemyData
+    ...enemy
 
   };
 
 
-  const battleArea =
+  const area =
     document.getElementById(
       "battleArea"
     );
 
 
-  if(!battleArea){
+  if(!area){
 
     return;
 
   }
 
 
-  battleArea.innerHTML = `
+  area.innerHTML = `
 
     <h2>
 
-      ${currentEnemy.name}
+      ${enemy.name}
 
     </h2>
 
 
     <img
-      src="${currentEnemy.img}"
-      width="200"
+
+      class="enemyImage"
+
+      src="${enemy.img}"
+
     >
 
 
     <br><br>
 
 
-    <div>
+    HP :
 
-      敵HP :
+    <span
+      id="enemyHpText"
+    >
 
-      <span id="enemyHpText">
+      ${enemy.hp}
 
-        ${currentEnemy.hp}
-
-      </span>
-
-    </div>
+    </span>
 
 
     <div class="bar">
@@ -159,8 +144,6 @@ function startBattle(enemyId){
         id="enemyHpFill"
 
         class="fill"
-
-        style="width:100%;"
 
       >
       </div>
@@ -172,7 +155,9 @@ function startBattle(enemyId){
 
 
     <button
-      onclick="attackEnemy()"
+      onclick="
+        attackEnemy()
+      "
     >
 
       攻撃
@@ -190,13 +175,6 @@ function startBattle(enemyId){
 function attackEnemy(){
 
 
-  if(!currentEnemy){
-
-    return;
-
-  }
-
-
   currentEnemy.hp -=
     player.atk;
 
@@ -210,34 +188,37 @@ function attackEnemy(){
   }
 
 
-  const hpText =
-    document.getElementById(
+  document
+    .getElementById(
       "enemyHpText"
-    );
+    )
+    .innerHTML =
+
+      currentEnemy.hp;
 
 
-  const hpFill =
-    document.getElementById(
-      "enemyHpFill"
-    );
-
-
-  hpText.innerHTML =
-    currentEnemy.hp;
+  const maxHp =
+    enemies[
+      currentEnemy.id
+    ].hp;
 
 
   const percent =
+
     (
       currentEnemy.hp
       /
-      enemies[
-        currentEnemy.id
-      ].hp
+      maxHp
     ) * 100;
 
 
-  hpFill.style.width =
-    percent + "%";
+  document
+    .getElementById(
+      "enemyHpFill"
+    )
+    .style.width =
+
+      percent + "%";
 
 
   if(
