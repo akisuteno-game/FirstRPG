@@ -12,7 +12,7 @@ const enemyId =
   Number(
 
     params.get(
-      "enemy"
+      "id"
     )
 
   );
@@ -22,15 +22,17 @@ const enemyId =
 
 const currentEnemy =
 
-  JSON.parse(
+  enemies.find(
 
-    JSON.stringify(
+    function(enemy){
 
-      enemies[
+      return (
+        enemy.id
+        ===
         enemyId
-      ]
+      );
 
-    )
+    }
 
   );
 
@@ -172,12 +174,4 @@ renderBattle();
 
 
 
-if(
-  typeof renderPlayer
-  ===
-  "function"
-){
-
-  renderPlayer();
-
-}
+renderPlayer();
