@@ -8,8 +8,6 @@
 
   padding:10px;
 
-  box-sizing:border-box;
-
   overflow-y:auto;
 
 }
@@ -25,6 +23,8 @@
 
   flex-direction:column;
 
+  height:100vh;
+
 }
 
 
@@ -35,6 +35,8 @@
   display:flex;
 
   height:60px;
+
+  flex-shrink:0;
 
   border-bottom:2px solid #333;
 
@@ -53,6 +55,8 @@
 
   color:white;
 
+  cursor:pointer;
+
 }
 
 
@@ -60,13 +64,11 @@
 
 #topArea{
 
-  min-height:420px;
-
-  border-bottom:2px solid #333;
-
-  overflow-y:auto;
+  flex:1;
 
   position:relative;
+
+  overflow:hidden;
 
 }
 
@@ -75,13 +77,21 @@
 
 .tabPage{
 
-  display:none;
+  position:absolute;
+
+  top:0;
+
+  left:0;
 
   width:100%;
 
-  min-height:420px;
+  height:100%;
 
-  box-sizing:border-box;
+  padding:20px;
+
+  display:none;
+
+  overflow-y:auto;
 
 }
 
@@ -99,12 +109,6 @@
 
 #battleArea{
 
-  flex:1;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
+  display:none;
 
 }
