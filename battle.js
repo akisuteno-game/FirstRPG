@@ -131,20 +131,6 @@ function loadEnemy(){
       </button>
 
 
-      <br><br>
-
-
-      <button
-        onclick="
-          location.href='index.html'
-        "
-      >
-
-        戻る
-
-      </button>
-
-
     </div>
 
   `;
@@ -208,11 +194,23 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
-    alert(
-      currentEnemy.name
-      +
-      " を倒した！"
+    localStorage.removeItem(
+      "selectedEnemy"
     );
+
+
+    setTimeout(
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
+
 
   }
 
