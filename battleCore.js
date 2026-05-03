@@ -157,6 +157,24 @@ function loadBattle(){
       </div>
 
 
+      <br><br>
+
+
+      <button
+
+        id="attackBtn"
+
+        onclick="
+          attackEnemy()
+        "
+
+      >
+
+        攻撃
+
+      </button>
+
+
     </div>
 
   `;
