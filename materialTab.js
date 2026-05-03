@@ -29,6 +29,55 @@ const materialIcons = {
 
 
 
+function getMaterialIcon(name){
+
+
+  if(
+    materialIcons[name]
+  ){
+
+    return `
+
+      <img
+
+        src="${
+          materialIcons[name]
+        }"
+
+        width="28"
+
+        onerror="
+          this.onerror=null;
+          this.src='img/icon_unknown.png';
+        "
+
+      >
+
+    `;
+
+  }
+
+
+
+
+  return `
+
+    <img
+
+      src="img/icon_unknown.png"
+
+      width="28"
+
+    >
+
+  `;
+
+
+}
+
+
+
+
 function renderMaterialTab(){
 
 
@@ -74,9 +123,7 @@ function renderMaterialTab(){
   const keys =
 
     Object.keys(
-
       player.materials
-
     );
 
 
@@ -86,11 +133,8 @@ function renderMaterialTab(){
     keys.length === 0
   ){
 
-    html += `
-
-      素材なし
-
-    `;
+    html +=
+      "素材なし";
 
   }
 
@@ -106,15 +150,9 @@ function renderMaterialTab(){
 
         <div>
 
-          <img
-
-            src="${
-              materialIcons[name]
-            }"
-
-            width="28"
-
-          >
+          ${getMaterialIcon(
+            name
+          )}
 
 
 
@@ -139,11 +177,8 @@ function renderMaterialTab(){
 
 
 
-  html += `
-
-    </div>
-
-  `;
+  html +=
+    "</div>";
 
 
 
