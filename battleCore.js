@@ -92,8 +92,15 @@ function loadBattle(){
       <div class="bar">
 
         <div
+
           id="enemyHpFill"
+
           class="fill"
+
+          style="
+            width:100%;
+          "
+
         >
         </div>
 
@@ -103,35 +110,47 @@ function loadBattle(){
       <br><br>
 
 
-      自分 :
-
+      自分
       2000ms
 
 
       <div class="bar">
 
         <div
+
           id="playerGauge"
+
           class="fill"
+
+          style="
+            width:0%;
+          "
+
         >
         </div>
 
       </div>
 
 
-      <br>
+      <br><br>
 
 
-      敵 :
-
-      2500ms
+      敵
+      ${currentEnemy.speed}ms
 
 
       <div class="bar">
 
         <div
+
           id="enemyGauge"
+
           class="fill"
+
+          style="
+            width:0%;
+          "
+
         >
         </div>
 
