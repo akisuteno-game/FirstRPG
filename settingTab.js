@@ -23,50 +23,50 @@ function renderSettingTab(){
       "
     >
 
-        <h2>
+      <h2>
 
-          設定画面
+        設定画面
 
-        </h2>
-
-
-        <button
-          onclick="
-            saveGame()
-          "
-        >
-
-          セーブ
-
-        </button>
+      </h2>
 
 
-        <br><br>
+      <button
+        onclick="
+          saveGame()
+        "
+      >
+
+        セーブ
+
+      </button>
 
 
-        <button
-          onclick="
-            loadGame()
-          "
-        >
-
-          ロード
-
-        </button>
+      <br><br>
 
 
-        <br><br>
+      <button
+        onclick="
+          loadGame()
+        "
+      >
+
+        ロード
+
+      </button>
 
 
-        <button
-          onclick="
-            resetGame()
-          "
-        >
+      <br><br>
 
-          リセット
 
-        </button>
+      <button
+        onclick="
+          resetGame()
+        "
+      >
+
+        リセット
+
+      </button>
 
 
     </div>
@@ -106,14 +106,14 @@ function saveGame(){
 function loadGame(){
 
 
-  const data =
+  const saved =
 
     localStorage.getItem(
       "playerData"
     );
 
 
-  if(!data){
+  if(!saved){
 
     alert(
       "セーブデータなし"
@@ -124,33 +124,41 @@ function loadGame(){
   }
 
 
-  const saved =
+  const data =
 
     JSON.parse(
-      data
+      saved
     );
 
 
   player.hp =
-    saved.hp;
+    data.hp;
 
 
   player.maxHp =
-    saved.maxHp;
+    data.maxHp;
 
 
   player.atk =
-    saved.atk;
+    data.atk;
 
 
   player.crit =
-    saved.crit;
+    data.crit;
 
 
   renderPlayer();
 
 
-  renderUpgradeTab();
+  if(
+    typeof renderUpgradeTab
+    ===
+    "function"
+  ){
+
+    renderUpgradeTab();
+
+  }
 
 
   alert(
@@ -194,7 +202,15 @@ function resetGame(){
   renderPlayer();
 
 
-  renderUpgradeTab();
+  if(
+    typeof renderUpgradeTab
+    ===
+    "function"
+  ){
+
+    renderUpgradeTab();
+
+  }
 
 
   alert(
