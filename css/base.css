@@ -36,3 +36,37 @@ body{
   display:flex;
 
 }
+
+
+
+
+button{
+
+  min-width:180px;
+
+  min-height:60px;
+
+  padding:15px 25px;
+
+  font-size:22px;
+
+  font-weight:bold;
+
+  background:#333;
+
+  color:white;
+
+  border:2px solid #888;
+
+  cursor:pointer;
+
+}
+
+
+
+
+button:hover{
+
+  background:#444;
+
+}
