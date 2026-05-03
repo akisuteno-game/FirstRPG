@@ -84,7 +84,9 @@ function renderBattle(){
 
         display:flex;
         align-items:center;
-        gap:40px;
+        gap:50px;
+        justify-content:center;
+        width:100%;
 
       "
 
@@ -145,6 +147,43 @@ function renderBattle(){
           ${currentEnemy.hp}
 
         </span>
+
+
+
+
+        <div
+
+          style="
+            width:200px;
+            height:20px;
+            border:1px solid white;
+            margin-top:10px;
+          "
+
+        >
+
+
+
+
+          <div
+
+            id="
+              enemyHpFill
+            "
+
+            style="
+              width:100%;
+              height:100%;
+              background:lime;
+            "
+
+          >
+          </div>
+
+
+
+
+        </div>
 
 
 
