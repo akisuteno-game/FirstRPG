@@ -4,6 +4,8 @@ let gauge = 0;
 
 let gaugeLoop = null;
 
+const chargeTime = 2000;
+
 
 
 
@@ -102,7 +104,9 @@ function loadBattle(){
       <br><br>
 
 
-      チャージ
+      攻撃速度 :
+
+      ${chargeTime} ms
 
 
       <div class="bar">
@@ -162,6 +166,10 @@ function startGauge(){
   gauge = 0;
 
 
+  const start =
+    Date.now();
+
+
   clearInterval(
     gaugeLoop
   );
@@ -181,7 +189,29 @@ function startGauge(){
       function(){
 
 
-        gauge += 5;
+        const elapsed =
+
+          Date.now()
+          -
+          start;
+
+
+        gauge =
+
+          (
+            elapsed
+            /
+            chargeTime
+          ) * 100;
+
+
+        if(
+          gauge > 100
+        ){
+
+          gauge = 100;
+
+        }
 
 
         document
@@ -214,7 +244,7 @@ function startGauge(){
       },
 
 
-      100
+      16
 
 
     );
@@ -263,20 +293,20 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
-    setTimeout(
+      setTimeout(
 
-      function(){
+        function(){
 
-        location.href =
-          "index.html";
+          location.href =
+            "index.html";
 
-      },
+        },
 
-      1000
+        1000
 
-    );
+      );
 
-    return;
+      return;
 
   }
 
