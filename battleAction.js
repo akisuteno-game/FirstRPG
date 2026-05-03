@@ -2,6 +2,17 @@ function attackEnemy(){
 
 
   if(
+    !currentEnemy
+  ){
+
+    return;
+
+  }
+
+
+
+
+  if(
     playerGauge < 100
   ){
 
@@ -83,6 +94,17 @@ function attackEnemy(){
   startPlayerGauge();
 
 
+
+
+  if(
+    enemyGauge >= 100
+  ){
+
+    startEnemyGauge();
+
+  }
+
+
 }
 
 
@@ -114,6 +136,128 @@ function enemyAttack(){
 
 
   renderPlayer();
+
+
+
+
+  if(
+    player.hp <= 0
+  ){
+
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      500
+
+    );
+
+  }
+
+
+}
+
+
+
+
+function updateEnemyUI(){
+
+
+  const hpText =
+
+    document.getElementById(
+      "enemyHpText"
+    );
+
+
+
+
+  const hpBar =
+
+    document.getElementById(
+      "enemyHpFill"
+    );
+
+
+
+
+  if(
+    !hpText
+    ||
+    !hpBar
+  ){
+
+    return;
+
+  }
+
+
+
+
+  hpText.innerHTML =
+    currentEnemy.hp;
+
+
+
+
+  const maxHp =
+
+    enemies[
+      currentEnemy.id
+    ].hp;
+
+
+
+
+  const percent =
+
+    (
+      currentEnemy.hp
+      /
+      maxHp
+    ) * 100;
+
+
+
+
+  hpBar.style.width =
+
+    percent + "%";
+
+
+
+
+  if(
+    percent > 70
+  ){
+
+    hpBar.style.background =
+      "lime";
+
+  }
+
+
+  else if(
+    percent > 30
+  ){
+
+    hpBar.style.background =
+      "yellow";
+
+  }
+
+
+  else{
+
+    hpBar.style.background =
+      "red";
+
+  }
 
 
 }
