@@ -185,9 +185,18 @@ function resetGame(){
   }
 
 
+
+
   localStorage.removeItem(
     "playerData"
   );
+
+
+  localStorage.removeItem(
+    "selectedEnemy"
+  );
+
+
 
 
   player.hp = 100;
@@ -197,6 +206,8 @@ function resetGame(){
   player.atk = 10;
 
   player.crit = 5;
+
+
 
 
   renderPlayer();
@@ -211,6 +222,8 @@ function resetGame(){
     renderUpgradeTab();
 
   }
+
+
 
 
   alert(
