@@ -20,6 +20,24 @@ function renderEnemyTab(){
 
 
 
+  if(
+    typeof enemies
+    ===
+    "undefined"
+    ||
+    enemies.length === 0
+  ){
+
+    list.innerHTML =
+      "敵データなし";
+
+    return;
+
+  }
+
+
+
+
   let html =
     "";
 
@@ -52,7 +70,9 @@ function renderEnemyTab(){
 
           <img
 
-            src="${enemy.img}"
+            src="${
+              enemy.img || ""
+            }"
 
             width="100"
 
@@ -70,7 +90,7 @@ function renderEnemyTab(){
 
           ${enemy.name}
 
-          <br>
+          <br><br>
 
 
 
@@ -91,8 +111,43 @@ function renderEnemyTab(){
 
 
 
+          速度 :
+          ${
+            (
+              enemy.speed
+              / 1000
+            ).toFixed(1)
+          }秒
+
+          <br>
+
+
+
+
           GOLD :
           ${enemy.drop}
+
+          <br><br>
+
+
+
+
+          通常 :
+          ${
+            enemy.material
+            || "なし"
+          }
+
+          <br>
+
+
+
+
+          レア :
+          ${
+            enemy.rareMaterial
+            || "なし"
+          }
 
 
 
