@@ -45,9 +45,7 @@ function loadPlayer(){
 
 
 
-  if(
-    !saved
-  ){
+  if(!saved){
 
     return;
 
@@ -130,9 +128,7 @@ function renderPlayer(){
 
 
 
-  if(
-    !ui
-  ){
+  if(!ui){
 
     return;
 
@@ -229,25 +225,19 @@ function renderPlayer(){
 
 
 
-  if(
-    percent > 70
-  ){
+  if(percent > 70){
 
     bar.style.background =
       "lime";
 
   }
 
-
-  else if(
-    percent > 30
-  ){
+  else if(percent > 30){
 
     bar.style.background =
       "yellow";
 
   }
-
 
   else{
 
