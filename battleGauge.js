@@ -36,6 +36,8 @@ function startPlayerGauge(){
   }
 
 
+
+
   playerLoop =
     setInterval(
 
@@ -115,6 +117,8 @@ function startEnemyGauge(){
   );
 
 
+
+
   enemyLoop =
     setInterval(
 
@@ -141,13 +145,24 @@ function startEnemyGauge(){
         }
 
 
-        document
-          .getElementById(
+
+
+        const bar =
+
+          document.getElementById(
             "enemyGauge"
-          )
-          .style.width =
+          );
+
+
+        if(bar){
+
+          bar.style.width =
 
             enemyGauge + "%";
+
+        }
+
+
 
 
         if(
@@ -159,10 +174,23 @@ function startEnemyGauge(){
           );
 
 
-          enemyAttack();
+
+
+          if(
+            typeof enemyAttack
+            ===
+            "function"
+          ){
+
+            enemyAttack();
+
+          }
+
+
 
 
           startEnemyGauge();
+
 
         }
 
