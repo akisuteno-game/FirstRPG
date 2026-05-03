@@ -6,6 +6,8 @@ let playerLoop = null;
 
 let enemyLoop = null;
 
+const playerSpeed = 2000;
+
 
 
 
@@ -27,7 +29,23 @@ function startPlayerGauge(){
       function(){
 
 
-        playerGauge += 1;
+        playerGauge +=
+          100
+          /
+          (
+            playerSpeed
+            /
+            16
+          );
+
+
+        if(
+          playerGauge > 100
+        ){
+
+          playerGauge = 100;
+
+        }
 
 
         document
@@ -50,14 +68,13 @@ function startPlayerGauge(){
 
           attackEnemy();
 
-
         }
 
 
       },
 
 
-      20
+      16
 
 
     );
@@ -86,7 +103,23 @@ function startEnemyGauge(){
       function(){
 
 
-        enemyGauge += 1;
+        enemyGauge +=
+          100
+          /
+          (
+            currentEnemy.speed
+            /
+            16
+          );
+
+
+        if(
+          enemyGauge > 100
+        ){
+
+          enemyGauge = 100;
+
+        }
 
 
         document
@@ -112,14 +145,13 @@ function startEnemyGauge(){
 
           startEnemyGauge();
 
-
         }
 
 
       },
 
 
-      25
+      16
 
 
     );
