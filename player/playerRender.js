@@ -1,3 +1,64 @@
+const materialIcons = {
+
+  "スライムゼリー":
+  "img/materials/slimeGel.png",
+
+  "キングゼリー":
+  "img/materials/kingGel.png",
+
+  "ゴブリンの牙":
+  "img/materials/goblinTooth.png",
+
+  "王族の牙":
+  "img/materials/kingTooth.png",
+
+  "オークの皮":
+  "img/materials/orcSkin.png",
+
+  "古代の皮":
+  "img/materials/ancientSkin.png",
+
+  "竜のウロコ":
+  "img/materials/dragonScale.png",
+
+  "紅竜の心臓":
+  "img/materials/dragonHeart.png"
+
+};
+
+
+
+
+function getMaterialIcon(name){
+
+
+  return `
+
+    <img
+
+      src="${
+        materialIcons[name]
+        ||
+        "img/icon_unknown.png"
+      }"
+
+      width="22"
+
+      onerror="
+        this.onerror=null;
+        this.src='img/icon_unknown.png';
+      "
+
+    >
+
+  `;
+
+
+}
+
+
+
+
 function renderPlayer(){
 
 
@@ -32,7 +93,6 @@ function renderPlayer(){
 
 
   let materialHTML =
-
     "";
 
 
@@ -70,18 +130,14 @@ function renderPlayer(){
 
         <div>
 
-          <img
-
-            src="${
-              materialIcons[name]
-            }"
-
-            width="22"
-
-          >
+          ${getMaterialIcon(
+            name
+          )}
 
 
 
+
+          ×
 
           ${player.materials[name]}
 
@@ -171,6 +227,9 @@ function renderPlayer(){
     素材 :
 
     <br>
+
+
+
 
     ${materialHTML}
 
