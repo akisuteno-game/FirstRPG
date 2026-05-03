@@ -30,11 +30,11 @@ function renderSettingTab(){
 
       <button
         onclick="
-          location.reload();
+          location.reload()
         "
       >
 
-        ゲーム再読み込み
+        リロード
 
       </button>
 
@@ -43,12 +43,11 @@ function renderSettingTab(){
 
 
       First RPG
-      Settings
 
 
     </div>
 
-  ";
+  `;
 
 
 }
