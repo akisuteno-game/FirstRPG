@@ -1,6 +1,3 @@
-console.log("PLAYER JS OK");
-
-
 const player = {
 
   hp:100,
@@ -19,9 +16,6 @@ const player = {
 function renderPlayer(){
 
 
-  console.log("renderPlayer OK");
-
-
   const ui =
     document.getElementById(
       "playerUI"
@@ -30,56 +24,34 @@ function renderPlayer(){
 
   if(!ui){
 
-    console.log("playerUIなし");
-
     return;
 
   }
 
 
-  ui.innerHTML = `
+  ui.innerHTML =
 
-    <div>
+    "HP : " +
 
-      HP :
-      <span id="hpText">
+    player.hp +
 
-        ${player.hp}
-        /
-        ${player.maxHp}
+    "/" +
 
-      </span>
+    player.maxHp +
 
-    </div>
+    "<br><br>" +
 
+    "攻撃 : " +
 
-    <div class="bar">
+    player.atk +
 
-      <div
-        id="hpFill"
-        class="fill"
-        style="width:100%;"
-      >
-      </div>
+    "<br><br>" +
 
-    </div>
+    "クリ率 : " +
 
+    player.crit +
 
-    <br>
-
-
-    攻撃 :
-    ${player.atk}
-
-
-    <br><br>
-
-
-    クリ率 :
-    ${player.crit}%
-
-
-  `;
+    "%";
 
 
 }
