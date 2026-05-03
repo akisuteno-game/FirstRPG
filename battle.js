@@ -2,7 +2,7 @@ let currentEnemy = null;
 
 let gauge = 0;
 
-let gaugeTimer = null;
+let gaugeLoop = null;
 
 
 
@@ -14,7 +14,7 @@ function(){
   renderPlayer();
 
 
-  loadEnemy();
+  loadBattle();
 
 
 };
@@ -22,20 +22,7 @@ function(){
 
 
 
-function loadEnemy(){
-
-
-  const area =
-    document.getElementById(
-      "battleArea"
-    );
-
-
-  if(!area){
-
-    return;
-
-  }
+function loadBattle(){
 
 
   const saved =
@@ -47,17 +34,21 @@ function loadEnemy(){
 
   if(!saved){
 
-    area.innerHTML =
-      "敵が選ばれていません";
-
     return;
 
   }
 
 
   currentEnemy =
+
     JSON.parse(
       saved
+    );
+
+
+  const area =
+    document.getElementById(
+      "battleArea"
     );
 
 
@@ -65,9 +56,8 @@ function loadEnemy(){
 
     <div
       style="
-        text-align:center;
         color:white;
-        padding:30px;
+        text-align:center;
       "
     >
 
@@ -118,11 +108,15 @@ function loadEnemy(){
       <div class="bar">
 
         <div
+
           id="gaugeFill"
+
           class="fill"
+
           style="
             width:0%;
           "
+
         >
         </div>
 
@@ -133,13 +127,15 @@ function loadEnemy(){
 
 
       <button
+
         id="attackBtn"
+
+        disabled
 
         onclick="
           attackEnemy()
         "
 
-        disabled
       >
 
         攻撃
@@ -166,6 +162,11 @@ function startGauge(){
   gauge = 0;
 
 
+  clearInterval(
+    gaugeLoop
+  );
+
+
   document
     .getElementById(
       "attackBtn"
@@ -173,28 +174,14 @@ function startGauge(){
     .disabled = true;
 
 
-  clearInterval(
-    gaugeTimer
-  );
-
-
-  gaugeTimer =
+  gaugeLoop =
     setInterval(
 
 
       function(){
 
 
-        gauge += 2;
-
-
-        if(
-          gauge > 100
-        ){
-
-          gauge = 100;
-
-        }
+        gauge += 5;
 
 
         document
@@ -211,7 +198,7 @@ function startGauge(){
         ){
 
           clearInterval(
-            gaugeTimer
+            gaugeLoop
           );
 
 
@@ -227,7 +214,7 @@ function startGauge(){
       },
 
 
-      50
+      100
 
 
     );
@@ -263,7 +250,13 @@ function attackEnemy(){
   }
 
 
-  updateEnemyUI();
+  document
+    .getElementById(
+      "enemyHpText"
+    )
+    .innerHTML =
+
+      currentEnemy.hp;
 
 
   if(
@@ -271,6 +264,7 @@ function attackEnemy(){
   ){
 
     setTimeout(
+
       function(){
 
         location.href =
@@ -287,114 +281,7 @@ function attackEnemy(){
   }
 
 
-  enemyAttack();
-
-
   startGauge();
-
-
-}
-
-
-
-
-function enemyAttack(){
-
-
-  player.hp -=
-    currentEnemy.atk;
-
-
-  if(
-    player.hp < 0
-  ){
-
-    player.hp = 0;
-
-  }
-
-
-  renderPlayer();
-
-
-  localStorage.setItem(
-
-    "playerData",
-
-    JSON.stringify(
-      player
-    )
-
-  );
-
-
-  if(
-    player.hp <= 0
-  ){
-
-    alert(
-      "やられた..."
-    );
-
-
-    player.hp =
-      player.maxHp;
-
-
-    setTimeout(
-      function(){
-
-        location.href =
-          "index.html";
-
-      },
-
-      1000
-
-    );
-
-  }
-
-
-}
-
-
-
-
-function updateEnemyUI(){
-
-
-  document
-    .getElementById(
-      "enemyHpText"
-    )
-    .innerHTML =
-
-      currentEnemy.hp;
-
-
-  const maxHp =
-    enemies[
-      currentEnemy.id
-    ].hp;
-
-
-  const percent =
-
-    (
-      currentEnemy.hp
-      /
-      maxHp
-    ) * 100;
-
-
-  document
-    .getElementById(
-      "enemyHpFill"
-    )
-    .style.width =
-
-      percent + "%";
 
 
 }
