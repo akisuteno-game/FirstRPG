@@ -34,11 +34,9 @@
 
   display:flex;
 
-  height:70px;
+  height:80px;
 
-  flex-shrink:0;
-
-  border-bottom:2px solid #333;
+  border-bottom:2px solid #444;
 
 }
 
@@ -49,17 +47,15 @@
 
   flex:1;
 
-  border:none;
-
-  border-right:2px solid #333;
-
   background:#222;
 
   color:white;
 
-  cursor:pointer;
+  border:none;
 
-  font-size:20px;
+  border-right:2px solid #444;
+
+  font-size:24px;
 
   font-weight:bold;
 
