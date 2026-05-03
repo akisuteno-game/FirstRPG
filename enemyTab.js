@@ -1,8 +1,3 @@
-let currentEnemy = null;
-
-
-
-
 function renderEnemyTab(){
 
 
@@ -85,153 +80,19 @@ function renderEnemyTab(){
 function startBattle(enemy){
 
 
-  currentEnemy = {
+  localStorage.setItem(
 
-    ...enemy
+    "selectedEnemy",
 
-  };
-
-
-  const area =
-    document.getElementById(
-      "battleArea"
-    );
-
-
-  if(!area){
-
-    return;
-
-  }
-
-
-  area.innerHTML = `
-
-    <h2>
-
-      ${enemy.name}
-
-    </h2>
-
-
-    <img
-
-      class="enemyImage"
-
-      src="${enemy.img}"
-
-    >
-
-
-    <br><br>
-
-
-    HP :
-
-    <span
-      id="enemyHpText"
-    >
-
-      ${enemy.hp}
-
-    </span>
-
-
-    <div class="bar">
-
-      <div
-
-        id="enemyHpFill"
-
-        class="fill"
-
-      >
-      </div>
-
-    </div>
-
-
-    <br>
-
-
-    <button
-      onclick="
-        attackEnemy()
-      "
-    >
-
-      攻撃
-
-    </button>
-
-  `;
-
-
-}
-
-
-
-
-function attackEnemy(){
-
-
-  currentEnemy.hp -=
-    player.atk;
-
-
-  if(
-    currentEnemy.hp < 0
-  ){
-
-    currentEnemy.hp = 0;
-
-  }
-
-
-  document
-    .getElementById(
-      "enemyHpText"
+    JSON.stringify(
+      enemy
     )
-    .innerHTML =
 
-      currentEnemy.hp;
-
-
-  const maxHp =
-    enemies[
-      currentEnemy.id
-    ].hp;
+  );
 
 
-  const percent =
-
-    (
-      currentEnemy.hp
-      /
-      maxHp
-    ) * 100;
-
-
-  document
-    .getElementById(
-      "enemyHpFill"
-    )
-    .style.width =
-
-      percent + "%";
-
-
-  if(
-    currentEnemy.hp <= 0
-  ){
-
-    alert(
-      currentEnemy.name
-      +
-      " を倒した！"
-    );
-
-  }
+  location.href =
+    "battle.html";
 
 
 }
