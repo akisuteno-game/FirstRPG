@@ -86,18 +86,23 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
-    alert(
-      "勝利！"
-    );
-
-
     localStorage.removeItem(
       "selectedEnemy"
     );
 
 
-    location.href =
-      "index.html";
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
 
 
     return;
@@ -141,13 +146,18 @@ function enemyAttack(){
     player.hp <= 0
   ){
 
-    alert(
-      "やられた..."
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
     );
-
-
-    location.href =
-      "index.html";
 
   }
 
