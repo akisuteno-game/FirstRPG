@@ -77,6 +77,11 @@ function initBattle(){
       function(){
 
 
+        alert(
+          "ボタン反応OK"
+        );
+
+
         if(
           typeof attackEnemy
           ===
@@ -138,9 +143,7 @@ function createBattleHTML(){
 
       敵HP :
 
-      <span
-        id="enemyHpText"
-      >
+      <span id="enemyHpText">
 
         ${currentEnemy.hp}
 
