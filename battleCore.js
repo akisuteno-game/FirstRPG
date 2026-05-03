@@ -3,17 +3,30 @@ let currentEnemy = null;
 
 
 
-window.onload =
-function(){
+document.addEventListener(
+
+  "DOMContentLoaded",
+
+  function(){
 
 
-  renderPlayer();
+    if(
+      typeof renderPlayer
+      ===
+      "function"
+    ){
+
+      renderPlayer();
+
+    }
 
 
-  loadBattle();
+    loadBattle();
 
 
-};
+  }
+
+);
 
 
 
@@ -28,20 +41,6 @@ function loadBattle(){
     );
 
 
-  if(!saved){
-
-    return;
-
-  }
-
-
-  currentEnemy =
-
-    JSON.parse(
-      saved
-    );
-
-
   const area =
     document.getElementById(
       "battleArea"
@@ -53,6 +52,24 @@ function loadBattle(){
     return;
 
   }
+
+
+  if(!saved){
+
+    area.innerHTML =
+
+      "敵が選ばれていません";
+
+    return;
+
+  }
+
+
+  currentEnemy =
+
+    JSON.parse(
+      saved
+    );
 
 
   area.innerHTML = `
@@ -160,7 +177,15 @@ function loadBattle(){
   `;
 
 
-  startGauge();
+  if(
+    typeof startGauge
+    ===
+    "function"
+  ){
+
+    startGauge();
+
+  }
 
 
 }
