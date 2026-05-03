@@ -20,53 +20,54 @@ function renderEnemyTab(){
   enemies.forEach(enemy=>{
 
 
-    const card =
-      document.createElement(
-        "div"
-      );
+    list.innerHTML += `
 
+      <div
 
-    card.className =
-      "enemyCard";
+        class="enemyCard"
 
+        onclick="
+          startBattle(
+            ${enemy.id}
+          )
+        "
 
-    card.innerHTML = `
-
-      <img
-        class="enemyImage"
-        src="${enemy.img}"
       >
 
-      <br>
+        <img
 
-      ${enemy.name}
+          class="enemyImage"
 
-      <br>
+          src="${enemy.img}"
 
-      HP :
-      ${enemy.hp}
+        >
 
-      <br>
 
-      ATK :
-      ${enemy.atk}
+        <br>
+
+
+        ${enemy.name}
+
+
+        <br>
+
+
+        HP :
+
+        ${enemy.hp}
+
+
+        <br>
+
+
+        ATK :
+
+        ${enemy.atk}
+
+
+      </div>
 
     `;
-
-
-    card.onclick =
-    function(){
-
-      startBattle(
-        enemy
-      );
-
-    };
-
-
-    list.appendChild(
-      card
-    );
 
 
   });
@@ -77,7 +78,22 @@ function renderEnemyTab(){
 
 
 
-function startBattle(enemy){
+function startBattle( enemyId ){
+
+
+  const enemy =
+
+    JSON.parse(
+
+      JSON.stringify(
+
+        enemies[
+          enemyId
+        ]
+
+      )
+
+    );
 
 
   localStorage.setItem(
