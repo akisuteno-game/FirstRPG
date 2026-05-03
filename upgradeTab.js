@@ -1,42 +1,33 @@
-function renderUpgradeTab(){
+function upgradeAtk(){
 
 
-  const tab =
-    document.getElementById(
-      "upgradeTab"
-    );
-
-
-  if(!tab){
+  if(
+    player.gold < 10
+  ){
 
     return;
 
   }
 
 
-  tab.innerHTML =
-
-    "<h2>強化画面</h2>" +
-
-    "<button onclick='upgradeAtk()'>" +
-
-    "攻撃+1" +
-
-    "</button>";
 
 
-}
+  player.gold -= 10;
+
+  player.atk += 1;
 
 
 
 
-function upgradeAtk(){
+  savePlayer();
 
 
-  player.atk++;
 
 
   renderPlayer();
+
+
+  renderUpgradeTab();
 
 
 }
