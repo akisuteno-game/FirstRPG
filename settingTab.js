@@ -1,104 +1,23 @@
-function renderSettingTab(){
+const player = {
 
+  hp:30,
 
-  const tab =
-    document.getElementById(
-      "settingTab"
-    );
+  maxHp:30,
 
+  atk:5,
 
-  if(!tab){
+  crit:5,
 
-    return;
+  gold:0
 
-  }
-
-
-
-
-  tab.innerHTML = `
-
-    <div
-      style="
-        padding:20px;
-        color:white;
-      "
-    >
-
-      <h2>
-
-        設定画面
-
-      </h2>
+};
 
 
 
 
-      <button
-        onclick="
-          saveGame()
-        "
-      >
+const defaultPlayer =
 
-        セーブ
-
-      </button>
-
-
-
-
-      <br><br>
-
-
-
-
-      <button
-        onclick="
-          loadGame()
-        "
-      >
-
-        ロード
-
-      </button>
-
-
-
-
-      <br><br>
-
-
-
-
-      <button
-        onclick="
-          resetGame()
-        "
-      >
-
-        リセット
-
-      </button>
-
-
-
-
-    </div>
-
-  `;
-
-
-}
-
-
-
-
-function saveGame(){
-
-
-  localStorage.setItem(
-
-    "playerData",
+  JSON.parse(
 
     JSON.stringify(
       player
@@ -109,33 +28,16 @@ function saveGame(){
 
 
 
-  alert(
-    "セーブしました"
-  );
+function renderPlayer(){
 
 
-}
-
-
-
-
-function loadGame(){
-
-
-  const saved =
-
-    localStorage.getItem(
-      "playerData"
+  const ui =
+    document.getElementById(
+      "playerUI"
     );
 
 
-
-
-  if(!saved){
-
-    alert(
-      "セーブデータなし"
-    );
+  if(!ui){
 
     return;
 
@@ -144,120 +46,29 @@ function loadGame(){
 
 
 
-  const data =
+  ui.innerHTML = `
 
-    JSON.parse(
-      saved
-    );
+    HP :
+    ${player.hp}
+    /
+    ${player.maxHp}
 
+    <br><br>
 
+    攻撃 :
+    ${player.atk}
 
+    <br><br>
 
-  player.hp =
-    data.hp;
+    クリ率 :
+    ${player.crit}%
 
+    <br><br>
 
-  player.maxHp =
-    data.maxHp;
+    GOLD :
+    ${player.gold}
 
-
-  player.atk =
-    data.atk;
-
-
-  player.crit =
-    data.crit;
-
-
-  player.gold =
-    data.gold;
-
-
-
-
-  renderPlayer();
-
-
-
-
-  if(
-    typeof renderUpgradeTab
-    ===
-    "function"
-  ){
-
-    renderUpgradeTab();
-
-  }
-
-
-
-
-  alert(
-    "ロードしました"
-  );
-
-
-}
-
-
-
-
-function resetGame(){
-
-
-  if(
-    !confirm(
-      "データを消しますか？"
-    )
-  ){
-
-    return;
-
-  }
-
-
-
-
-  localStorage.clear();
-
-
-
-
-  player.hp = 100;
-
-  player.maxHp = 100;
-
-  player.atk = 10;
-
-  player.crit = 5;
-
-  player.gold = 0;
-
-
-
-
-  renderPlayer();
-
-
-
-
-  if(
-    typeof renderUpgradeTab
-    ===
-    "function"
-  ){
-
-    renderUpgradeTab();
-
-  }
-
-
-
-
-  alert(
-    "リセットしました"
-  );
+  `;
 
 
 }
