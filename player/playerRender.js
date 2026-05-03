@@ -1,118 +1,3 @@
-function getMaterialPath(name){
-
-
-  if(
-    name ===
-    "スライムゼリー"
-  ){
-
-    return
-      "img/materials/slimeGel.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "キングゼリー"
-  ){
-
-    return
-      "img/materials/kingGel.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "ゴブリンの牙"
-  ){
-
-    return
-      "img/materials/goblinTooth.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "王族の牙"
-  ){
-
-    return
-      "img/materials/kingTooth.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "オークの皮"
-  ){
-
-    return
-      "img/materials/orcSkin.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "古代の皮"
-  ){
-
-    return
-      "img/materials/ancientSkin.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "竜のウロコ"
-  ){
-
-    return
-      "img/materials/dragonScale.png";
-
-  }
-
-
-
-
-  if(
-    name ===
-    "紅竜の心臓"
-  ){
-
-    return
-      "img/materials/dragonHeart.png";
-
-  }
-
-
-
-
-  return null;
-
-
-}
-
-
-
-
 function renderPlayer(){
 
 
@@ -142,102 +27,6 @@ function renderPlayer(){
       /
       player.maxHp
     ) * 100;
-
-
-
-
-  let materialHTML =
-    "";
-
-
-
-
-  const keys =
-
-    Object.keys(
-
-      player.materials
-
-    );
-
-
-
-
-  if(
-    keys.length === 0
-  ){
-
-    materialHTML =
-      "なし";
-
-  }
-
-
-
-
-  keys.forEach(
-
-    function(name){
-
-
-      const path =
-
-        getMaterialPath(
-          name
-        );
-
-
-
-
-      let icon =
-        "？";
-
-
-
-
-      if(
-        path
-      ){
-
-        icon = `
-
-          <img
-
-            src="${path}"
-
-            width="22"
-
-            onerror="
-              this.outerHTML='？';
-            "
-
-          >
-
-        `;
-
-      }
-
-
-
-
-      materialHTML += `
-
-        <div>
-
-          ${icon}
-
-          ×
-
-          ${player.materials[name]}
-
-        </div>
-
-      `;
-
-
-    }
-
-  );
 
 
 
@@ -320,7 +109,7 @@ function renderPlayer(){
 
 
 
-    ${materialHTML}
+    ${createMaterialHTML()}
 
   `;
 
@@ -340,8 +129,8 @@ function renderPlayer(){
     percent > 70
   ){
 
-    bar.style.background =
-      "lime";
+      bar.style.background =
+        "lime";
 
   }
 
@@ -350,16 +139,16 @@ function renderPlayer(){
     percent > 30
   ){
 
-    bar.style.background =
-      "yellow";
+      bar.style.background =
+        "yellow";
 
   }
 
 
   else{
 
-    bar.style.background =
-      "red";
+      bar.style.background =
+        "red";
 
   }
 
