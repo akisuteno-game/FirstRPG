@@ -35,18 +35,21 @@ function renderEnemyTab(){
       >
 
         <img
+
           class="enemyImage"
+
           src="${enemy.img}"
+
         >
 
 
-        <br>
+        <br><br>
 
 
         ${enemy.name}
 
 
-        <br>
+        <br><br>
 
 
         HP :
@@ -58,6 +61,13 @@ function renderEnemyTab(){
 
         ATK :
         ${enemy.atk}
+
+
+        <br>
+
+
+        SPD :
+        ${enemy.speed}ms
 
 
       </div>
