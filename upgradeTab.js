@@ -24,7 +24,9 @@ function renderUpgradeTab(){
     >
 
       <h2>
+
         強化画面
+
       </h2>
 
 
@@ -61,6 +63,7 @@ function renderUpgradeTab(){
 
 
       攻撃力 :
+
       ${player.atk}
 
 
@@ -68,6 +71,7 @@ function renderUpgradeTab(){
 
 
       クリ率 :
+
       ${player.crit}%
 
 
