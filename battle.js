@@ -1,89 +1,268 @@
-const player = {
+let currentEnemy = null;
 
-  hp:30,
 
-  maxHp:30,
 
-  atk:5,
 
-  crit:5
+window.onload =
+function(){
+
+
+  renderPlayer();
+
+
+  loadEnemy();
+
 
 };
 
 
 
 
-function renderPlayer(){
+function loadEnemy(){
 
 
-  const ui =
+  const area =
     document.getElementById(
-      "playerUI"
+      "battleArea"
     );
 
 
-  if(!ui){
+  if(!area){
 
     return;
 
   }
 
 
-  const percent =
+  const saved =
 
-    (
-      player.hp
-      /
-      player.maxHp
-    ) * 100;
+    localStorage.getItem(
+      "selectedEnemy"
+    );
 
 
-  ui.innerHTML = `
+  if(!saved){
 
-    HP :
+    area.innerHTML =
+      "敵が選ばれていません";
 
-    ${player.hp}
+    return;
 
-    /
+  }
 
-    ${player.maxHp}
 
+  currentEnemy =
+    JSON.parse(
+      saved
+    );
+
+
+  area.innerHTML = `
 
     <div
-      class="bar"
+      style="
+        text-align:center;
+        color:white;
+        padding:30px;
+      "
     >
 
-      <div
+      <h1>
 
-        class="fill"
+        ${currentEnemy.name}
 
-        style="
-          width:${percent}%;
-        "
+      </h1>
 
+
+      <img
+        src="${currentEnemy.img}"
+        width="220"
       >
+
+
+      <br><br>
+
+
+      HP :
+
+      <span
+        id="enemyHpText"
+      >
+
+        ${currentEnemy.hp}
+
+      </span>
+
+
+      <div class="bar">
+
+        <div
+          id="enemyHpFill"
+          class="fill"
+        >
+        </div>
+
       </div>
+
+
+      <br>
+
+
+      <button
+        onclick="
+          attackEnemy()
+        "
+      >
+
+        攻撃
+
+      </button>
+
 
     </div>
 
-
-    <br>
-
-
-    攻撃 :
-
-    ${player.atk}
-
-
-    <br><br>
-
-
-    クリ率 :
-
-    ${player.crit}%
-
-
   `;
+
+
+}
+
+
+
+
+function attackEnemy(){
+
+
+  currentEnemy.hp -=
+    player.atk;
+
+
+  if(
+    currentEnemy.hp < 0
+  ){
+
+    currentEnemy.hp = 0;
+
+  }
+
+
+  updateEnemyUI();
+
+
+  if(
+    currentEnemy.hp <= 0
+  ){
+
+    setTimeout(
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
+
+    return;
+
+  }
+
+
+  enemyAttack();
+
+
+}
+
+
+
+
+function enemyAttack(){
+
+
+  player.hp -=
+    currentEnemy.atk;
+
+
+  if(
+    player.hp < 0
+  ){
+
+    player.hp = 0;
+
+  }
+
+
+  renderPlayer();
+
+
+  if(
+    player.hp <= 0
+  ){
+
+    alert(
+      "やられた..."
+    );
+
+
+    player.hp =
+      player.maxHp;
+
+
+    setTimeout(
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      1000
+
+    );
+
+  }
+
+
+}
+
+
+
+
+function updateEnemyUI(){
+
+
+  document
+    .getElementById(
+      "enemyHpText"
+    )
+    .innerHTML =
+
+      currentEnemy.hp;
+
+
+  const maxHp =
+    enemies[
+      currentEnemy.id
+    ].hp;
+
+
+  const percent =
+
+    (
+      currentEnemy.hp
+      /
+      maxHp
+    ) * 100;
+
+
+  document
+    .getElementById(
+      "enemyHpFill"
+    )
+    .style.width =
+
+      percent + "%";
 
 
 }
