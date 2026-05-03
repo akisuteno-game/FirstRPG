@@ -15,6 +15,69 @@ const player = {
 
 
 
+loadPlayer();
+
+
+
+
+function loadPlayer(){
+
+
+  const saved =
+
+    localStorage.getItem(
+      "playerData"
+    );
+
+
+
+
+  if(
+    !saved
+  ){
+
+    return;
+
+  }
+
+
+
+
+  Object.assign(
+
+    player,
+
+    JSON.parse(
+      saved
+    )
+
+  );
+
+
+}
+
+
+
+
+function savePlayer(){
+
+
+  localStorage.setItem(
+
+    "playerData",
+
+    JSON.stringify(
+      player
+    )
+
+  );
+
+
+}
+
+
+
+
 function renderPlayer(){
 
 
@@ -24,7 +87,11 @@ function renderPlayer(){
     );
 
 
-  if(!ui){
+
+
+  if(
+    !ui
+  ){
 
     return;
 
@@ -47,8 +114,11 @@ function renderPlayer(){
   ui.innerHTML = `
 
     HP :
+
     ${player.hp}
+
     /
+
     ${player.maxHp}
 
 
@@ -60,9 +130,9 @@ function renderPlayer(){
 
       <div
 
-        class="fill"
-
         id="playerHpFill"
+
+        class="fill"
 
         style="
           width:${percent}%;
@@ -82,6 +152,7 @@ function renderPlayer(){
 
 
     攻撃 :
+
     ${player.atk}
 
 
@@ -93,6 +164,7 @@ function renderPlayer(){
 
 
     クリ率 :
+
     ${player.crit}%
 
 
@@ -104,6 +176,7 @@ function renderPlayer(){
 
 
     GOLD :
+
     ${player.gold}
 
   `;
