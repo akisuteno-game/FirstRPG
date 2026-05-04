@@ -1,96 +1,3 @@
-function renderGauges(){
-
-
-  return `
-
-    <div>
-
-      自分ゲージ
-
-      <div class="gaugeBox">
-
-        <div
-          id="playerGauge"
-          class="gaugeFill"
-          style="
-            background:lime;
-            width:0%;
-          "
-        ></div>
-
-      </div>
-
-    </div>
-
-
-
-
-    <div>
-
-      敵ゲージ
-
-      <div class="gaugeBox">
-
-        <div
-          id="enemyGauge"
-          class="gaugeFill"
-          style="
-            background:red;
-            width:0%;
-          "
-        ></div>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-}
-
-
-
-
-function renderButtons(){
-
-
-  return `
-
-    <div class="buttonRow">
-
-      <button
-        id="attackBtn"
-        class="battleBtn"
-        onclick="attackEnemy()"
-      >
-
-        攻撃
-
-      </button>
-
-
-
-
-      <button
-        class="battleBtn"
-        onclick="location.href='index.html'"
-      >
-
-        戻る
-
-      </button>
-
-    </div>
-
-  `;
-
-
-}
-
-
-
-
 function renderBattle(){
 
 
@@ -117,9 +24,6 @@ function renderBattle(){
   if(
     !currentEnemy
   ){
-
-    location.href =
-      "index.html";
 
     return;
 
@@ -149,9 +53,7 @@ function renderBattle(){
 
 
         <h2>
-
           ${currentEnemy.name}
-
         </h2>
 
 
