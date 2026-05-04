@@ -14,7 +14,30 @@ const playerSpeed = 2000;
 function startPlayerGauge(){
 
 
+  const bar =
+
+    document.getElementById(
+      "playerGauge"
+    );
+
+
+
+
+  if(
+    !bar
+  ){
+
+    return;
+
+  }
+
+
+
+
   playerGauge = 0;
+
+  bar.style.width =
+    "0%";
 
 
 
@@ -22,36 +45,6 @@ function startPlayerGauge(){
   clearInterval(
     playerLoop
   );
-
-
-
-
-  const button =
-
-    document.getElementById(
-      "attackBtn"
-    );
-
-
-
-
-  if(
-    button
-  ){
-
-    button.disabled =
-      true;
-
-  }
-
-
-
-
-  const bar =
-
-    document.getElementById(
-      "playerGauge"
-    );
 
 
 
@@ -64,22 +57,16 @@ function startPlayerGauge(){
       function(){
 
 
-        playerGauge += 1;
+        playerGauge++;
 
 
 
 
-        if(
-          bar
-        ){
+        bar.style.width =
 
-          bar.style.width =
-
-            playerGauge
-            +
-            "%";
-
-        }
+          playerGauge
+          +
+          "%";
 
 
 
@@ -91,18 +78,6 @@ function startPlayerGauge(){
           clearInterval(
             playerLoop
           );
-
-
-
-
-          if(
-            button
-          ){
-
-            button.disabled =
-              false;
-
-          }
 
         }
 
@@ -124,7 +99,30 @@ function startPlayerGauge(){
 function startEnemyGauge(){
 
 
+  const bar =
+
+    document.getElementById(
+      "enemyGauge"
+    );
+
+
+
+
+  if(
+    !bar
+  ){
+
+    return;
+
+  }
+
+
+
+
   enemyGauge = 0;
+
+  bar.style.width =
+    "0%";
 
 
 
@@ -132,15 +130,6 @@ function startEnemyGauge(){
   clearInterval(
     enemyLoop
   );
-
-
-
-
-  const bar =
-
-    document.getElementById(
-      "enemyGauge"
-    );
 
 
 
@@ -153,22 +142,16 @@ function startEnemyGauge(){
       function(){
 
 
-        enemyGauge += 1;
+        enemyGauge++;
 
 
 
 
-        if(
-          bar
-        ){
+        bar.style.width =
 
-          bar.style.width =
-
-            enemyGauge
-            +
-            "%";
-
-        }
+          enemyGauge
+          +
+          "%";
 
 
 
