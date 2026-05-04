@@ -1,62 +1,102 @@
-function renderEnemy(){
+function startBattle(enemyId){
 
+  localStorage.setItem(
+    "selectedEnemy",
+    enemyId
+  );
 
-  return `
-
-    <div class="enemyBox">
-
-
-      <img
-
-        class="enemyImage"
-
-        src="${currentEnemy.img}"
-
-      >
-
-
-
-
-      <h2>
-
-        ${currentEnemy.name}
-
-      </h2>
-
-
-
-
-      <div>
-
-
-        HP :
-
-        <span id="enemyHpText">
-
-          ${currentEnemy.hp}
-
-        </span>
-
-
-      </div>
-
-
-
-
-      <div>
-
-
-        攻撃速度 :
-
-        ${currentEnemy.speed / 1000}秒
-
-
-      </div>
-
-
-    </div>
-
-  `;
-
+  location.href =
+    "battle.html";
 
 }
+
+
+
+
+function renderEnemies(){
+
+  const area =
+
+    document.getElementById(
+      "enemyArea"
+    );
+
+
+
+
+  if(
+    !area
+  ){
+
+    return;
+
+  }
+
+
+
+
+  area.innerHTML = "";
+
+
+
+
+  enemies.forEach(
+
+    function(enemy){
+
+      area.innerHTML += `
+
+        <div
+          onclick="
+            startBattle(
+              ${enemy.id}
+            )
+          "
+          style="
+            cursor:pointer;
+            margin:20px;
+            text-align:center;
+          "
+        >
+
+          <img
+            src="${enemy.image}"
+            style="
+              width:120px;
+              display:block;
+              margin:auto;
+            "
+          >
+
+          <div
+            style="
+              color:white;
+              margin-top:10px;
+            "
+          >
+
+            ${enemy.name}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+  );
+
+
+
+
+  console.log(
+    "enemyRender OK"
+  );
+
+}
+
+
+
+
+renderEnemies();
