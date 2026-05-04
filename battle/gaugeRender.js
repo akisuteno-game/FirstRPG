@@ -3,7 +3,9 @@ function renderGauge(){
 
   return `
 
+
     <div class="gaugeBox">
+
 
       <div
 
@@ -13,12 +15,14 @@ function renderGauge(){
 
       ></div>
 
+
     </div>
 
 
 
 
     <div class="gaugeBox">
+
 
       <div
 
@@ -28,7 +32,9 @@ function renderGauge(){
 
       ></div>
 
+
     </div>
+
 
   `;
 
