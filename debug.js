@@ -1,34 +1,69 @@
-console.log("debug ok");
+function debug(text){
+
+
+  let box =
+
+    document.getElementById(
+      "debugBox"
+    );
 
 
 
 
-document.body.insertAdjacentHTML(
+  if(
+    !box
+  ){
 
-  "beforeend",
+    box =
+      document.createElement(
+        "div"
+      );
 
-  `
 
-    <div
 
-      style="
 
-        position:fixed;
-        top:10px;
-        right:10px;
-        background:black;
-        color:lime;
-        padding:10px;
-        z-index:99999;
+    box.id =
+      "debugBox";
 
-      "
 
-    >
 
-      DEBUG OK
 
-    </div>
+    box.style.position =
+      "fixed";
 
-  `
+    box.style.top =
+      "20px";
 
+    box.style.right =
+      "20px";
+
+    box.style.color =
+      "lime";
+
+    box.style.zIndex =
+      "9999";
+
+
+
+
+    document.body.appendChild(
+      box
+    );
+
+  }
+
+
+
+
+  box.textContent =
+    text;
+
+
+}
+
+
+
+
+debug(
+  "DEBUG OK"
 );
