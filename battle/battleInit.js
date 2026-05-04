@@ -1,0 +1,16 @@
+renderBattle();
+
+
+
+
+renderPlayer();
+
+
+
+
+startPlayerGauge();
+
+
+
+
+startEnemyGauge();
