@@ -7,7 +7,33 @@ const enemyId =
 
 
 
-currentEnemy =
+if(
+  !enemyId
+){
+
+  location.href =
+    "index.html";
+
+}
+
+
+
+
+if(
+  !enemies[
+    enemyId
+  ]
+){
+
+  location.href =
+    "index.html";
+
+}
+
+
+
+
+let currentEnemy =
 
   JSON.parse(
 
