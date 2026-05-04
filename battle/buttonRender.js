@@ -1,5 +1,6 @@
 function renderButtons(){
 
+
   return `
 
     <div class="buttonRow">
@@ -19,10 +20,7 @@ function renderButtons(){
 
       <button
         class="battleBtn"
-        onclick="
-          location.href=
-          'index.html'
-        "
+        onclick="location.href='index.html'"
       >
 
         戻る
@@ -32,5 +30,6 @@ function renderButtons(){
     </div>
 
   `;
+
 
 }
