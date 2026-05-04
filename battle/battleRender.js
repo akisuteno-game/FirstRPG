@@ -12,62 +12,89 @@ function renderBattle(){
 
   area.innerHTML = `
 
-    <img
-      src="${currentEnemy.img}"
-      class="enemyImage"
-    >
+    <div class="enemyBox">
 
 
-    <h2>
-      ${currentEnemy.name}
-    </h2>
 
-
-    <div>
-
-      HP :
-      <span id="enemyHpText">
-        ${currentEnemy.hp}
-      </span>
-
-    </div>
-
-
-    <div>
-      攻撃速度 :
-      ${currentEnemy.speed}ms
-      (
-      ${currentEnemy.speed / 1000}秒
-      )
-    </div>
-
-
-    <div class="hpBar">
-
-      <div
-        id="enemyHpFill"
-        class="hpFill"
-        style="
-          width:100%;
-          background:lime;
-        "
-      ></div>
-
-    </div>
-
-
-    <div id="gaugeArea">
-
-      ${renderGauges()}
-
-    </div>
+      <img
+        src="${currentEnemy.img}"
+        class="enemyImage"
+      >
 
 
 
 
-    <div id="buttonArea">
+      <div class="battleInfo">
 
-      ${renderButtons()}
+
+
+        <h2>
+          ${currentEnemy.name}
+        </h2>
+
+
+
+
+        <div class="hpRow">
+
+          HP :
+
+          <span id="enemyHpText">
+
+            ${currentEnemy.hp}
+
+          </span>
+
+        </div>
+
+
+
+
+        <div>
+
+          攻撃速度 :
+
+          ${currentEnemy.speed}ms
+
+          (
+
+          ${currentEnemy.speed / 1000}秒
+
+          )
+
+        </div>
+
+
+
+
+        <div class="gaugeBox">
+
+          <div
+            id="enemyHpFill"
+            class="gaugeFill"
+            style="
+              width:100%;
+              background:lime;
+            "
+          ></div>
+
+        </div>
+
+
+
+
+        ${renderGauges()}
+
+
+
+
+        ${renderButtons()}
+
+
+
+      </div>
+
+
 
     </div>
 
