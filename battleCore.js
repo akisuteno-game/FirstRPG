@@ -152,9 +152,7 @@ function renderBattle(){
 
         <div
 
-          id="
-            enemyHpFill
-          "
+          id="enemyHpFill"
 
           style="
             width:100%;
@@ -199,9 +197,7 @@ function renderBattle(){
 
         <div
 
-          id="
-            playerGauge
-          "
+          id="playerGauge"
 
           style="
             width:0%;
@@ -246,9 +242,7 @@ function renderBattle(){
 
         <div
 
-          id="
-            enemyGauge
-          "
+          id="enemyGauge"
 
           style="
             width:0%;
@@ -274,9 +268,7 @@ function renderBattle(){
 
       <button
 
-        id="
-          attackBtn
-        "
+        id="attackBtn"
 
         onclick="
           attackEnemy()
@@ -321,12 +313,41 @@ function renderBattle(){
 
 
 
-  startPlayerGauge();
+  if(
+    typeof renderPlayer
+    ===
+    "function"
+  ){
+
+    renderPlayer();
+
+  }
 
 
 
 
-  startEnemyGauge();
+  if(
+    typeof startPlayerGauge
+    ===
+    "function"
+  ){
+
+    startPlayerGauge();
+
+  }
+
+
+
+
+  if(
+    typeof startEnemyGauge
+    ===
+    "function"
+  ){
+
+    startEnemyGauge();
+
+  }
 
 
 }
@@ -335,8 +356,3 @@ function renderBattle(){
 
 
 renderBattle();
-
-
-
-
-renderPlayer();
