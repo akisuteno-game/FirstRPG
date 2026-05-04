@@ -1,18 +1,73 @@
-const enemyId =
-  localStorage.getItem(
-    "selectedEnemy"
+let currentEnemy = null;
+
+
+
+
+function initBattle(){
+
+  console.log(
+    "INIT START"
   );
 
-if(
-  !enemyId
-  ||
-  !enemies[enemyId]
-){
-  location.href =
-    "index.html";
-}
 
-else{
+
+
+  const enemyId =
+
+    localStorage.getItem(
+      "selectedEnemy"
+    );
+
+
+
+
+  console.log(
+    "enemyId = ",
+    enemyId
+  );
+
+
+
+
+  if(
+    enemyId === null
+  ){
+
+    document
+      .getElementById(
+        "battleArea"
+      )
+      .innerHTML =
+
+      "<h1>enemyId null</h1>";
+
+    return;
+
+  }
+
+
+
+
+  if(
+    !enemies[
+      enemyId
+    ]
+  ){
+
+    document
+      .getElementById(
+        "battleArea"
+      )
+      .innerHTML =
+
+      "<h1>enemy not found</h1>";
+
+    return;
+
+  }
+
+
+
 
   currentEnemy =
 
@@ -30,9 +85,11 @@ else{
 
 
 
+
   currentEnemy.maxHp =
 
     currentEnemy.hp;
+
 
 
 
@@ -40,14 +97,53 @@ else{
 
 
 
-  renderPlayer();
+
+  if(
+    typeof renderPlayer
+    ===
+    "function"
+  ){
+
+    renderPlayer();
+
+  }
 
 
 
-  startPlayerGauge();
+
+  if(
+    typeof startPlayerGauge
+    ===
+    "function"
+  ){
+
+    startPlayerGauge();
+
+  }
 
 
 
-  startEnemyGauge();
+
+  if(
+    typeof startEnemyGauge
+    ===
+    "function"
+  ){
+
+    startEnemyGauge();
+
+  }
+
+
+
+
+  console.log(
+    "INIT END"
+  );
 
 }
+
+
+
+
+initBattle();
