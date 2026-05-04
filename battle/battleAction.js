@@ -85,94 +85,11 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
-
-      player.gold +=
-        currentEnemy.drop;
-
-
-
-
-      if(
-        Math.random() < 0.5
-      ){
-
-        const material =
-
-          currentEnemy.material;
-
-
-
-
-        if(
-          !player.materials[
-            material
-          ]
-        ){
-
-          player.materials[
-            material
-          ] = 0;
-
-        }
-
-
-
-
-        player.materials[
-          material
-        ]++;
-
-      }
-
-
-
-
-      if(
-        Math.random() < 0.1
-      ){
-
-        const rareMaterial =
-
-          currentEnemy.rareMaterial;
-
-
-
-
-        if(
-          !player.materials[
-            rareMaterial
-          ]
-        ){
-
-          player.materials[
-            rareMaterial
-          ] = 0;
-
-        }
-
-
-
-
-        player.materials[
-          rareMaterial
-        ]++;
-
-      }
-
-
-
-
       savePlayer();
-
-
-
 
       localStorage.removeItem(
         "selectedEnemy"
       );
-
-
-
 
       setTimeout(
 
@@ -187,9 +104,6 @@ function attackEnemy(){
 
       );
 
-
-
-
       return;
 
   }
@@ -198,6 +112,104 @@ function attackEnemy(){
 
 
   startPlayerGauge();
+
+
+}
+
+
+
+
+function enemyAttack(){
+
+
+  player.hp -=
+    currentEnemy.atk;
+
+
+
+
+  if(
+    player.hp < 0
+  ){
+
+    player.hp = 0;
+
+  }
+
+
+
+
+  renderPlayer();
+
+
+}
+
+
+
+
+function updateEnemyUI(){
+
+
+  const hpText =
+
+    document.getElementById(
+      "enemyHpText"
+    );
+
+
+
+
+  const hpBar =
+
+    document.getElementById(
+      "enemyHpFill"
+    );
+
+
+
+
+  if(
+    !hpText
+    ||
+    !hpBar
+  ){
+
+    return;
+
+  }
+
+
+
+
+  hpText.innerHTML =
+    currentEnemy.hp;
+
+
+
+
+  const maxHp =
+
+    enemies[
+      currentEnemy.id
+    ].hp;
+
+
+
+
+  const percent =
+
+    (
+      currentEnemy.hp
+      /
+      maxHp
+    ) * 100;
+
+
+
+
+  hpBar.style.width =
+
+    percent + "%";
 
 
 }
