@@ -1,48 +1,22 @@
 function renderButtons(){
 
-
   return `
 
     <button
-
-      id="
-        attackBtn
-      "
-
-      onclick="
-        attackEnemy()
-      "
-
-      disabled
-
+      id="attackBtn"
+      class="battleBtn"
+      onclick="attackEnemy()"
     >
-
       攻撃
-
     </button>
 
-
-
-
-    <br><br>
-
-
-
-
     <button
-
-      onclick="
-        location.href=
-        'index.html'
-      "
-
+      class="battleBtn"
+      onclick="location.href='index.html'"
     >
-
       戻る
-
     </button>
 
   `;
-
 
 }
