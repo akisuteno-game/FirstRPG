@@ -5,26 +5,84 @@ function renderGauges(){
 
     自分ゲージ
 
-    <div>
+
+
+
+    <div
+
+      class="
+        gaugeBox
+      "
+
+    >
+
+
+
 
       <div
-        id="playerGauge"
-      ></div>
+
+        id="
+          playerGauge
+        "
+
+        class="
+          playerGaugeFill
+        "
+
+      >
+      </div>
+
+
+
 
     </div>
+
+
+
+
+    <br><br>
 
 
 
 
     敵ゲージ
 
-    <div>
+
+
+
+    <div
+
+      class="
+        gaugeBox
+      "
+
+    >
+
+
+
 
       <div
-        id="enemyGauge"
-      ></div>
+
+        id="
+          enemyGauge
+        "
+
+        class="
+          enemyGaugeFill
+        "
+
+      >
+      </div>
+
+
+
 
     </div>
+
+
+
+
+    <br><br>
 
   `;
 
