@@ -151,9 +151,11 @@ function updateEnemyUI(){
 
   const maxHp =
 
-    enemies[
-      currentEnemy.id
-    ].hp;
+    currentEnemy.maxHp
+    ||
+    currentEnemy.hp
+    ||
+    1;
 
 
 
@@ -172,6 +174,36 @@ function updateEnemyUI(){
   hpBar.style.width =
 
     percent + "%";
+
+
+
+
+  if(
+    percent > 70
+  ){
+
+    hpBar.style.background =
+      "lime";
+
+  }
+
+
+  else if(
+    percent > 30
+  ){
+
+    hpBar.style.background =
+      "yellow";
+
+  }
+
+
+  else{
+
+    hpBar.style.background =
+      "red";
+
+  }
 
 
 }
