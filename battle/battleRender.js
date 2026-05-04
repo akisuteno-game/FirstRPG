@@ -71,11 +71,7 @@ function renderBattle(){
 
           <div
             id="enemyHpFill"
-            class="gaugeFill"
-            style="
-              width:100%;
-              background:lime;
-            "
+            class="enemyHpFill"
           ></div>
 
         </div>
