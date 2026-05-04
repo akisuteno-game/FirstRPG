@@ -12,6 +12,53 @@ function attackEnemy(){
 
 
 
+  const button =
+
+    document.getElementById(
+      "attackBtn"
+    );
+
+
+
+
+  if(
+    button
+  ){
+
+    button.disabled =
+      true;
+
+  }
+
+
+
+
+  playerGauge = 0;
+
+
+
+
+  const gauge =
+
+    document.getElementById(
+      "playerGauge"
+    );
+
+
+
+
+  if(
+    gauge
+  ){
+
+    gauge.style.width =
+      "0%";
+
+  }
+
+
+
+
   currentEnemy.hp -=
     player.atk;
 
@@ -39,7 +86,7 @@ function attackEnemy(){
   ){
 
     player.gold +=
-      currentEnemy.drop;
+      currentEnemy.drop || 0;
 
 
 
@@ -107,6 +154,20 @@ function attackEnemy(){
 
 
 
+    clearInterval(
+      playerLoop
+    );
+
+
+
+
+    clearInterval(
+      enemyLoop
+    );
+
+
+
+
     localStorage.removeItem(
       "selectedEnemy"
     );
@@ -165,11 +226,6 @@ function enemyAttack(){
 
 
 
-  savePlayer();
-
-
-
-
   renderPlayer();
 
 
@@ -218,12 +274,22 @@ function updateEnemyUI(){
 
 
 
+  const maxHp =
+
+    currentEnemy.maxHp
+    ||
+    currentEnemy.hp
+    + player.atk;
+
+
+
+
   const percent =
 
     (
       currentEnemy.hp
       /
-      currentEnemy.maxHp
+      maxHp
     ) * 100;
 
 
