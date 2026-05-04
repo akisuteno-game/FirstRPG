@@ -3,18 +3,12 @@ function renderGauge(){
 
   return `
 
-
     <div class="gaugeBox">
 
-
       <div
-
         id="enemyGauge"
-
         class="gaugeFill"
-
       ></div>
-
 
     </div>
 
@@ -23,18 +17,12 @@ function renderGauge(){
 
     <div class="gaugeBox">
 
-
       <div
-
         id="playerGauge"
-
         class="gaugeFill"
-
       ></div>
 
-
     </div>
-
 
   `;
 
