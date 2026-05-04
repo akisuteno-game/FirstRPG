@@ -38,6 +38,70 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
+    player.gold +=
+      currentEnemy.drop;
+
+
+
+
+    if(
+      currentEnemy.material
+    ){
+
+      if(
+        !player.materials[
+          currentEnemy.material
+        ]
+      ){
+
+        player.materials[
+          currentEnemy.material
+        ] = 0;
+
+      }
+
+
+
+
+      player.materials[
+        currentEnemy.material
+      ]++;
+
+    }
+
+
+
+
+    if(
+      currentEnemy.rareMaterial
+      &&
+      Math.random() < 0.1
+    ){
+
+      if(
+        !player.materials[
+          currentEnemy.rareMaterial
+        ]
+      ){
+
+        player.materials[
+          currentEnemy.rareMaterial
+        ] = 0;
+
+      }
+
+
+
+
+      player.materials[
+        currentEnemy.rareMaterial
+      ]++;
+
+    }
+
+
+
+
     savePlayer();
 
 
@@ -149,23 +213,12 @@ function updateEnemyUI(){
 
 
 
-  const maxHp =
-
-    currentEnemy.maxHp
-    ||
-    currentEnemy.hp
-    ||
-    1;
-
-
-
-
   const percent =
 
     (
       currentEnemy.hp
       /
-      maxHp
+      currentEnemy.maxHp
     ) * 100;
 
 
