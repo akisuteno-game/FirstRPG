@@ -1,14 +1,14 @@
-.hpBox{
+.hpBar{
 
   width:200px;
 
-  height:20px;
+  height:16px;
 
   border:1px solid white;
 
   margin:auto;
 
-  margin-top:10px;
+  overflow:hidden;
 
 }
 
