@@ -35,7 +35,10 @@ function renderBattle(){
 
     <div>
       攻撃速度 :
-      ${currentEnemy.speed}秒
+      ${currentEnemy.speed}ms
+      (
+      ${currentEnemy.speed / 1000}秒
+      )
     </div>
 
 
@@ -63,7 +66,10 @@ function renderBattle(){
 
 
 
-  renderGauge();
+  renderGauges();
+
+
+
 
   renderButtons();
 
