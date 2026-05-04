@@ -3,16 +3,12 @@ function renderEnemy(){
 
   return `
 
-
     <div class="enemyBox">
 
 
       <img
-
         class="enemyImage"
-
         src="${currentEnemy.img}"
-
       >
 
 
@@ -30,24 +26,15 @@ function renderEnemy(){
 
 
 
-        <div class="hpRow">
-
+        <div>
 
           HP :
 
-
-          <span
-
-            id="enemyHpText"
-
-          >
-
+          <span id="enemyHpText">
 
             ${currentEnemy.hp}
 
-
           </span>
-
 
         </div>
 
@@ -56,11 +43,9 @@ function renderEnemy(){
 
         <div>
 
-
           攻撃速度 :
 
           ${currentEnemy.speed}
-
 
         </div>
 
@@ -70,13 +55,10 @@ function renderEnemy(){
         ${renderGauge()}
 
 
-
-
       </div>
 
 
     </div>
-
 
   `;
 
