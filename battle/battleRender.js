@@ -56,22 +56,22 @@ function renderBattle(){
     </div>
 
 
-    <div id="gaugeArea"></div>
+    <div id="gaugeArea">
+
+      ${renderGauges()}
+
+    </div>
 
 
-    <div id="buttonArea"></div>
+
+
+    <div id="buttonArea">
+
+      ${renderButtons()}
+
+    </div>
 
   `;
-
-
-
-
-  renderGauges();
-
-
-
-
-  renderButtons();
 
 
 }
