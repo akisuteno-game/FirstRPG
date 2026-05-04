@@ -26,6 +26,27 @@ function startPlayerGauge(){
 
 
 
+  const button =
+
+    document.getElementById(
+      "attackBtn"
+    );
+
+
+
+
+  if(
+    button
+  ){
+
+      button.disabled =
+        true;
+
+  }
+
+
+
+
   playerLoop =
 
     setInterval(
@@ -70,18 +91,21 @@ function startPlayerGauge(){
 
 
 
-          bar.style.width =
-            "100%";
+          clearInterval(
+            playerLoop
+          );
 
 
 
 
-          attackEnemy();
+          if(
+            button
+          ){
 
+            button.disabled =
+              false;
 
-
-
-          playerGauge = 0;
+          }
 
         }
 
@@ -123,8 +147,7 @@ function startEnemyGauge(){
 
   const speed =
 
-    currentEnemy.speed
-    * 1000;
+    currentEnemy.speed;
 
 
 
