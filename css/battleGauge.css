@@ -1,8 +1,8 @@
 .gaugeBox{
 
-  width:280px;
+  width:260px;
 
-  margin:10px auto;
+  margin:12px auto;
 
 }
 
@@ -15,9 +15,9 @@
 
   height:20px;
 
-  border:1px solid white;
+  border:2px solid white;
 
-  position:relative;
+  box-sizing:border-box;
 
   overflow:hidden;
 
@@ -34,6 +34,6 @@
 
   background:lime;
 
-  transition:0.05s;
+  transition:0.02s;
 
 }
