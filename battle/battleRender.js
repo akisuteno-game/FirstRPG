@@ -39,21 +39,13 @@ function renderBattle(){
 
     `
 
-      <div
-        class="
-          battleWrap
-        "
-      >
+      <div class="battleWrap">
 
     `
 
     +
 
     renderEnemy()
-
-    +
-
-    renderEnemyHp()
 
     +
 
