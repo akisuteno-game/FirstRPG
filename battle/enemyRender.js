@@ -3,7 +3,6 @@ function renderEnemy(){
 
   return `
 
-
     <div class="enemyBox">
 
 
@@ -18,71 +17,44 @@ function renderEnemy(){
 
 
 
-      <div class="battleInfo">
+      <h2>
 
+        ${currentEnemy.name}
 
-        <div>
-
-          ${currentEnemy.name}
-
-        </div>
+      </h2>
 
 
 
 
-        <div class="hpRow">
+      <div>
 
 
-          HP :
+        HP :
+
+        <span id="enemyHpText">
+
+          ${currentEnemy.hp}
+
+        </span>
 
 
-          <span
-
-            id="enemyHpText"
-
-          >
-
-
-            ${currentEnemy.hp}
-
-
-          </span>
-
-
-        </div>
+      </div>
 
 
 
 
-        <div>
+      <div>
 
 
-          攻撃速度 :
+        攻撃速度 :
 
-          ${
-
-            currentEnemy.speed
-            /
-            1000
-
-          }秒
-
-
-        </div>
-
-
-
-
-        ${renderGauges()}
-
-
+        ${currentEnemy.speed / 1000}秒
 
 
       </div>
 
 
     </div>
-
 
   `;
 
