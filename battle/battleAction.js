@@ -51,8 +51,8 @@ function attackEnemy(){
     button
   ){
 
-    button.disabled =
-      true;
+      button.disabled =
+        true;
 
   }
 
