@@ -20,11 +20,8 @@ function renderEnemyHp(){
 
     <div
 
-      style="
-        width:200px;
-        height:20px;
-        border:1px solid white;
-        margin:auto;
+      class="
+        hpBox
       "
 
     >
@@ -38,10 +35,8 @@ function renderEnemyHp(){
           enemyHpFill
         "
 
-        style="
-          width:100%;
-          height:100%;
-          background:lime;
+        class="
+          hpFill
         "
 
       >
@@ -51,6 +46,11 @@ function renderEnemyHp(){
 
 
     </div>
+
+
+
+
+    <br><br>
 
   `;
 
