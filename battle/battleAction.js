@@ -165,6 +165,11 @@ function enemyAttack(){
 
 
 
+  savePlayer();
+
+
+
+
   renderPlayer();
 
 
