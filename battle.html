@@ -13,16 +13,69 @@
 >
 
 <title>
-  Battle
+  Battle Test
 </title>
 
+<style>
+
+body{
+
+  margin:0;
+
+  background:black;
+
+  color:white;
+
+  font-family:sans-serif;
+
+}
 
 
 
-<link
-  rel="stylesheet"
-  href="style.css?v=9999"
->
+
+#side{
+
+  position:fixed;
+
+  left:0;
+
+  top:0;
+
+  width:180px;
+
+  height:100vh;
+
+  border-right:1px solid #333;
+
+  padding:16px;
+
+  box-sizing:border-box;
+
+}
+
+
+
+
+#main{
+
+  margin-left:180px;
+
+  min-height:100vh;
+
+}
+
+
+
+
+#battleArea{
+
+  padding-top:100px;
+
+  text-align:center;
+
+}
+
+</style>
 
 </head>
 
@@ -37,9 +90,6 @@
   <h2>
     ステータス
   </h2>
-
-  <div id="playerUI">
-  </div>
 
 </div>
 
@@ -58,43 +108,47 @@
 
 
 
-<script src="data.js?v=9999"></script>
-
-<script src="debug.js?v=9999"></script>
+<script src="debug.js?v=1"></script>
 
 
 
 
-<script src="player/playerData.js?v=9999"></script>
+<script>
 
-<script src="player/playerSave.js?v=9999"></script>
+function renderBattle(){
 
-<script src="player/playerHeal.js?v=9999"></script>
+  const area =
 
-<script src="player/materialIcon.js?v=9999"></script>
-
-<script src="player/materialRender.js?v=9999"></script>
-
-<script src="player/playerRender.js?v=9999"></script>
+    document.getElementById(
+      "battleArea"
+    );
 
 
 
 
-<script src="battle/battleData.js?v=9999"></script>
+  area.innerHTML = `
 
-<script src="battle/enemyRender.js?v=9999"></script>
+    <h1
+      style="
+        color:white;
+        font-size:48px;
+      "
+    >
 
-<script src="battle/gaugeRender.js?v=9999"></script>
+      BATTLE OK
 
-<script src="battle/buttonRender.js?v=9999"></script>
+    </h1>
 
-<script src="battle/battleRender.js?v=9999"></script>
+  `;
 
-<script src="battle/battleGauge.js?v=9999"></script>
+}
 
-<script src="battle/battleAction.js?v=9999"></script>
 
-<script src="battle/battleInit.js?v=9999"></script>
+
+
+renderBattle();
+
+</script>
 
 
 </body>
