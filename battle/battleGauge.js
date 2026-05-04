@@ -12,6 +12,13 @@ let enemyLoop = null;
 function startPlayerGauge(){
 
 
+  clearInterval(
+    playerLoop
+  );
+
+
+
+
   playerGauge = 0;
 
 
@@ -21,6 +28,15 @@ function startPlayerGauge(){
 
     document.getElementById(
       "playerGauge"
+    );
+
+
+
+
+  const button =
+
+    document.getElementById(
+      "attackBtn"
     );
 
 
@@ -38,29 +54,6 @@ function startPlayerGauge(){
 
 
 
-  const speed =
-
-    player.attackSpeed;
-
-
-
-
-  clearInterval(
-    playerLoop
-  );
-
-
-
-
-  const button =
-
-    document.getElementById(
-      "attackBtn"
-    );
-
-
-
-
   if(
     button
   ){
@@ -69,6 +62,13 @@ function startPlayerGauge(){
       true;
 
   }
+
+
+
+
+  const speed =
+
+    player.attackSpeed;
 
 
 
@@ -83,9 +83,11 @@ function startPlayerGauge(){
 
         playerGauge +=
 
-          100 / (
-            speed / 16
-          );
+          (
+            16
+            /
+            speed
+          ) * 100;
 
 
 
@@ -110,8 +112,8 @@ function startPlayerGauge(){
             button
           ){
 
-              button.disabled =
-                false;
+            button.disabled =
+              false;
 
           }
 
@@ -131,8 +133,6 @@ function startPlayerGauge(){
         }
 
 
-
-
       },
 
 
@@ -150,7 +150,35 @@ function startPlayerGauge(){
 function startEnemyGauge(){
 
 
+  clearInterval(
+    enemyLoop
+  );
+
+
+
+
   enemyGauge = 0;
+
+
+
+
+  const bar =
+
+    document.getElementById(
+      "enemyGauge"
+    );
+
+
+
+
+  if(
+    bar
+  ){
+
+    bar.style.width =
+      "0%";
+
+  }
 
 
 
@@ -158,13 +186,6 @@ function startEnemyGauge(){
   const speed =
 
     currentEnemy.speed;
-
-
-
-
-  clearInterval(
-    enemyLoop
-  );
 
 
 
@@ -177,29 +198,13 @@ function startEnemyGauge(){
       function(){
 
 
-        const bar =
-
-          document.getElementById(
-            "enemyGauge"
-          );
-
-
-
-
-        if(
-          !bar
-        ){
-          return;
-        }
-
-
-
-
         enemyGauge +=
 
-          100 / (
-            speed / 16
-          );
+          (
+            16
+            /
+            speed
+          ) * 100;
 
 
 
@@ -220,9 +225,15 @@ function startEnemyGauge(){
 
 
 
-        bar.style.width =
+        if(
+          bar
+        ){
 
-          enemyGauge + "%";
+          bar.style.width =
+
+            enemyGauge + "%";
+
+        }
 
 
       },
