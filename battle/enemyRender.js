@@ -15,7 +15,7 @@ function startBattle(enemyId){
 
 function renderEnemies(){
 
-  const area =
+  let area =
 
     document.getElementById(
       "enemyArea"
@@ -28,7 +28,17 @@ function renderEnemies(){
     !area
   ){
 
-    return;
+    area =
+      document.createElement(
+        "div"
+      );
+
+    area.id =
+      "enemyArea";
+
+    document.body.appendChild(
+      area
+    );
 
   }
 
