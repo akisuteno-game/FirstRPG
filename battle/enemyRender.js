@@ -1,11 +1,23 @@
 function startBattle(enemyId){
 
-  localStorage.setItem(
-    "selectedEnemy",
+  console.log(
+    "CLICK = ",
     enemyId
   );
 
-  location.href =
+  localStorage.setItem(
+    "selectedEnemy",
+    String(enemyId)
+  );
+
+  console.log(
+    "SAVE = ",
+    localStorage.getItem(
+      "selectedEnemy"
+    )
+  );
+
+  window.location.href =
     "../battle.html";
 
 }
@@ -15,7 +27,7 @@ function startBattle(enemyId){
 
 function renderEnemies(){
 
-  let area =
+  const area =
 
     document.getElementById(
       "enemyArea"
@@ -27,19 +39,7 @@ function renderEnemies(){
   if(
     !area
   ){
-
-    area =
-      document.createElement(
-        "div"
-      );
-
-    area.id =
-      "enemyArea";
-
-    document.body.appendChild(
-      area
-    );
-
+    return;
   }
 
 
@@ -54,44 +54,68 @@ function renderEnemies(){
 
     function(enemy){
 
-      area.innerHTML += `
+      const div =
 
-        <div
-          onclick="
-            startBattle(
-              ${enemy.id}
-            )
-          "
+        document.createElement(
+          "div"
+        );
+
+
+
+
+      div.style.cursor =
+        "pointer";
+
+      div.style.margin =
+        "20px";
+
+      div.style.textAlign =
+        "center";
+
+
+
+
+      div.onclick = function(){
+
+        startBattle(
+          enemy.id
+        );
+
+      };
+
+
+
+
+      div.innerHTML = `
+
+        <img
+          src="${enemy.image}"
           style="
-            cursor:pointer;
-            margin:20px;
-            text-align:center;
+            width:120px;
+            display:block;
+            margin:auto;
           "
         >
 
-          <img
-            src="${enemy.image}"
-            style="
-              width:120px;
-              display:block;
-              margin:auto;
-            "
-          >
+        <div
+          style="
+            color:white;
+            margin-top:10px;
+          "
+        >
 
-          <div
-            style="
-              color:white;
-              margin-top:10px;
-            "
-          >
-
-            ${enemy.name}
-
-          </div>
+          ${enemy.name}
 
         </div>
 
       `;
+
+
+
+
+      area.appendChild(
+        div
+      );
 
     }
 
