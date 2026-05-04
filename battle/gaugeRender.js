@@ -3,43 +3,57 @@ function renderGauges(){
 
   return `
 
+    <div>
 
-    <div class="gaugeBox">
+
+      自分ゲージ
 
 
-      <div
 
-        id="enemyGauge"
 
-        class="gaugeFill"
+      <div class="gaugeBox">
 
-      ></div>
+
+        <div
+
+          id="playerGauge"
+
+          class="gaugeFill"
+
+        ></div>
+
+
+      </div>
+
+
+
+
+      <br><br>
+
+
+
+
+      敵ゲージ
+
+
+
+
+      <div class="gaugeBox">
+
+
+        <div
+
+          id="enemyGauge"
+
+          class="gaugeFill"
+
+        ></div>
+
+
+      </div>
 
 
     </div>
-
-
-
-
-    <br><br>
-
-
-
-
-    <div class="gaugeBox">
-
-
-      <div
-
-        id="playerGauge"
-
-        class="gaugeFill"
-
-      ></div>
-
-
-    </div>
-
 
   `;
 
