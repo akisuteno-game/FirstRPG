@@ -1,0 +1,33 @@
+.gaugeBox{
+
+  width:300px;
+
+  height:20px;
+
+  border:1px solid white;
+
+  margin:auto;
+
+}
+
+
+
+
+.playerGaugeFill{
+
+  width:0%;
+
+  height:100%;
+
+}
+
+
+
+
+.enemyGaugeFill{
+
+  width:0%;
+
+  height:100%;
+
+}
