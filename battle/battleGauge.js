@@ -17,6 +17,27 @@ function startPlayerGauge(){
 
 
 
+  const bar =
+
+    document.getElementById(
+      "playerGauge"
+    );
+
+
+
+
+  if(
+    bar
+  ){
+
+    bar.style.width =
+      "0%";
+
+  }
+
+
+
+
   const speed =
 
     player.attackSpeed;
@@ -60,24 +81,6 @@ function startPlayerGauge(){
       function(){
 
 
-        const bar =
-
-          document.getElementById(
-            "playerGauge"
-          );
-
-
-
-
-        if(
-          !bar
-        ){
-          return;
-        }
-
-
-
-
         playerGauge +=
 
           100 / (
@@ -117,20 +120,17 @@ function startPlayerGauge(){
 
 
 
-        bar.style.width =
+        if(
+          bar
+        ){
 
-          playerGauge + "%";
+          bar.style.width =
+
+            playerGauge + "%";
+
+        }
 
 
-
-
-        debug(
-
-          Math.floor(
-            playerGauge
-          )
-
-        );
 
 
       },
