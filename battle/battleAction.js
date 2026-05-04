@@ -12,17 +12,6 @@ function attackEnemy(){
 
 
 
-  if(
-    playerGauge < 100
-  ){
-
-    return;
-
-  }
-
-
-
-
   playerGauge = 0;
 
 
@@ -43,6 +32,27 @@ function attackEnemy(){
 
     gauge.style.width =
       "0%";
+
+  }
+
+
+
+
+  const button =
+
+    document.getElementById(
+      "attackBtn"
+    );
+
+
+
+
+  if(
+    button
+  ){
+
+    button.disabled =
+      true;
 
   }
 
