@@ -6,7 +6,7 @@ function startBattle(enemyId){
   );
 
   location.href =
-    "battle.html";
+    "../battle.html";
 
 }
 
@@ -85,13 +85,6 @@ function renderEnemies(){
 
     }
 
-  );
-
-
-
-
-  console.log(
-    "enemyRender OK"
   );
 
 }
