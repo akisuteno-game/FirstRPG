@@ -6,6 +6,8 @@ const defaultPlayer = {
 
   atk:5,
 
+  attackSpeed:2000,
+
   crit:5,
 
   gold:0,
