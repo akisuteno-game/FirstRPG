@@ -5,6 +5,39 @@ console.log(
 
 
 
+const enemyId =
+
+  localStorage.getItem(
+    "selectedEnemy"
+  );
+
+
+
+
+currentEnemy =
+
+  JSON.parse(
+
+    JSON.stringify(
+
+      enemies[
+        enemyId
+      ]
+
+    )
+
+  );
+
+
+
+
+currentEnemy.maxHp =
+
+  currentEnemy.hp;
+
+
+
+
 console.log(
   "enemy =",
   currentEnemy
