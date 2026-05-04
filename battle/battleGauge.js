@@ -8,6 +8,13 @@ let enemyGauge = 0;
 function startPlayerGauge(){
 
 
+  const speed =
+
+    player.attackSpeed;
+
+
+
+
   setInterval(
 
 
@@ -32,13 +39,17 @@ function startPlayerGauge(){
 
 
 
-      playerGauge++;
+      playerGauge +=
+
+        100 / (
+          speed / 50
+        );
 
 
 
 
       if(
-        playerGauge > 100
+        playerGauge >= 100
       ){
 
         playerGauge = 0;
@@ -58,7 +69,11 @@ function startPlayerGauge(){
 
 
       debug(
-        playerGauge
+
+        Math.floor(
+          playerGauge
+        )
+
       );
 
 
@@ -77,6 +92,14 @@ function startPlayerGauge(){
 
 
 function startEnemyGauge(){
+
+
+  const speed =
+
+    currentEnemy.speed
+    * 1000;
+
+
 
 
   setInterval(
@@ -103,13 +126,17 @@ function startEnemyGauge(){
 
 
 
-      enemyGauge++;
+      enemyGauge +=
+
+        100 / (
+          speed / 50
+        );
 
 
 
 
       if(
-        enemyGauge > 100
+        enemyGauge >= 100
       ){
 
         enemyGauge = 0;
