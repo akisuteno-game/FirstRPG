@@ -1,88 +1,34 @@
-function renderGauges(){
+function renderGauge(){
 
 
   return `
 
-    自分ゲージ
-
-
-
-
-    <div
-
-      class="
-        gaugeBox
-      "
-
-    >
-
-
-
+    <div class="gaugeBox">
 
       <div
 
-        id="
-          playerGauge
-        "
+        id="enemyGauge"
 
-        class="
-          playerGaugeFill
-        "
+        class="gaugeFill"
 
-      >
-      </div>
-
-
-
+      ></div>
 
     </div>
 
 
 
 
-    <br><br>
-
-
-
-
-    敵ゲージ
-
-
-
-
-    <div
-
-      class="
-        gaugeBox
-      "
-
-    >
-
-
-
+    <div class="gaugeBox">
 
       <div
 
-        id="
-          enemyGauge
-        "
+        id="playerGauge"
 
-        class="
-          enemyGaugeFill
-        "
+        class="gaugeFill"
 
-      >
-      </div>
-
-
-
+      ></div>
 
     </div>
-
-
-
-
-    <br><br>
 
   `;
 
