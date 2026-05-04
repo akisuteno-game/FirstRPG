@@ -84,7 +84,7 @@ function startPlayerGauge(){
         playerGauge +=
 
           100 / (
-            speed / 50
+            speed / 16
           );
 
 
@@ -110,8 +110,8 @@ function startPlayerGauge(){
             button
           ){
 
-            button.disabled =
-              false;
+              button.disabled =
+                false;
 
           }
 
@@ -136,7 +136,7 @@ function startPlayerGauge(){
       },
 
 
-      50
+      16
 
 
     );
@@ -198,7 +198,7 @@ function startEnemyGauge(){
         enemyGauge +=
 
           100 / (
-            speed / 50
+            speed / 16
           );
 
 
@@ -228,7 +228,7 @@ function startEnemyGauge(){
       },
 
 
-      50
+      16
 
 
     );
