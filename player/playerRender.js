@@ -56,8 +56,7 @@ function renderPlayer(){
           width:${percent}%;
         "
 
-      >
-      </div>
+      ></div>
 
     </div>
 
