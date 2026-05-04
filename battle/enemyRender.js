@@ -14,11 +14,13 @@ function renderEnemy(){
 
     <img
 
+      class="
+        enemyImg
+      "
+
       src="${
         currentEnemy.img
       }"
-
-      width="150"
 
       onerror="
         this.style.display=
