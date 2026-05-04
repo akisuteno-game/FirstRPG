@@ -12,53 +12,6 @@ function attackEnemy(){
 
 
 
-  playerGauge = 0;
-
-
-
-
-  const gauge =
-
-    document.getElementById(
-      "playerGauge"
-    );
-
-
-
-
-  if(
-    gauge
-  ){
-
-    gauge.style.width =
-      "0%";
-
-  }
-
-
-
-
-  const button =
-
-    document.getElementById(
-      "attackBtn"
-    );
-
-
-
-
-  if(
-    button
-  ){
-
-      button.disabled =
-        true;
-
-  }
-
-
-
-
   currentEnemy.hp -=
     player.atk;
 
@@ -85,26 +38,35 @@ function attackEnemy(){
     currentEnemy.hp <= 0
   ){
 
-      savePlayer();
+    savePlayer();
 
-      localStorage.removeItem(
-        "selectedEnemy"
-      );
 
-      setTimeout(
 
-        function(){
 
-          location.href =
-            "index.html";
+    localStorage.removeItem(
+      "selectedEnemy"
+    );
 
-        },
 
-        500
 
-      );
 
-      return;
+    setTimeout(
+
+      function(){
+
+        location.href =
+          "index.html";
+
+      },
+
+      500
+
+    );
+
+
+
+
+    return;
 
   }
 
