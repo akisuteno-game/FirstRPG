@@ -14,11 +14,26 @@ const playerSpeed = 2000;
 function startPlayerGauge(){
 
 
+  console.log(
+    "player gauge start"
+  );
+
+
+
+
   const bar =
 
     document.getElementById(
       "playerGauge"
     );
+
+
+
+
+  console.log(
+    "player bar =",
+    bar
+  );
 
 
 
@@ -35,9 +50,6 @@ function startPlayerGauge(){
 
 
   playerGauge = 0;
-
-  bar.style.width =
-    "0%";
 
 
 
@@ -67,6 +79,13 @@ function startPlayerGauge(){
           playerGauge
           +
           "%";
+
+
+
+
+        debug(
+          playerGauge
+        );
 
 
 
@@ -121,9 +140,6 @@ function startEnemyGauge(){
 
   enemyGauge = 0;
 
-  bar.style.width =
-    "0%";
-
 
 
 
@@ -163,24 +179,6 @@ function startEnemyGauge(){
           clearInterval(
             enemyLoop
           );
-
-
-
-
-          enemyAttack();
-
-
-
-
-          if(
-            player.hp > 0
-            &&
-            currentEnemy.hp > 0
-          ){
-
-            startEnemyGauge();
-
-          }
 
         }
 
