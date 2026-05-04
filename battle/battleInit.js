@@ -1,118 +1,77 @@
-let currentEnemy = null;
+console.log("battleInit start");
 
+const enemyId =
+  localStorage.getItem(
+    "selectedEnemy"
+  );
 
+console.log(
+  "enemyId =",
+  enemyId
+);
 
+if(
+  !enemyId
+){
+  alert(
+    "enemyIdなし"
+  );
 
-function initBattle(){
+  location.href =
+    "../index.html";
+}
 
-
-  const enemyId =
-
-    localStorage.getItem(
-      "selectedEnemy"
-    );
-
-
-
-
-  console.log(
-    "enemyId =",
+if(
+  !enemies[
+    enemyId
+  ]
+){
+  alert(
+    "enemyデータなし : " +
     enemyId
   );
 
-
-
-
-  if(
-    !enemyId
-  ){
-
-    location.href =
-      "../index.html";
-
-    return;
-
-  }
-
-
-
-
-  if(
-    !enemies[
-      enemyId
-    ]
-  ){
-
-    location.href =
-      "../index.html";
-
-    return;
-
-  }
-
-
-
-
-  currentEnemy =
-
-    JSON.parse(
-
-      JSON.stringify(
-
-        enemies[
-          enemyId
-        ]
-
-      )
-
-    );
-
-
-
-
-  currentEnemy.maxHp =
-
-    currentEnemy.hp;
-
-
-
-
-  console.log(
-    "enemy =",
-    currentEnemy
-  );
-
-
-
-
-  renderBattle();
-
-
-
-
-  renderPlayer();
-
-
-
-
-  startPlayerGauge();
-
-
-
-
-  startEnemyGauge();
-
-
-
-
-  console.log(
-    "DEBUG OK"
-  );
-
-
+  location.href =
+    "../index.html";
 }
 
+currentEnemy =
+  JSON.parse(
+    JSON.stringify(
+      enemies[
+        enemyId
+      ]
+    )
+  );
 
+currentEnemy.maxHp =
+  currentEnemy.hp;
 
+console.log(
+  "enemy loaded",
+  currentEnemy
+);
 
-initBattle();
+renderBattle();
+
+console.log(
+  "renderBattle OK"
+);
+
+renderPlayer();
+
+console.log(
+  "renderPlayer OK"
+);
+
+startPlayerGauge();
+
+console.log(
+  "playerGauge OK"
+);
+
+startEnemyGauge();
+
+console.log(
+  "enemyGauge OK"
+);
