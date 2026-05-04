@@ -3,21 +3,29 @@ function renderGauges(){
 
   return `
 
-    <div class="gaugeBox">
+    <div style="
+      width:260px;
+      margin:12px auto;
+    ">
 
       <div>
         自分ゲージ
       </div>
 
-      <div class="gaugeBar">
+      <div style="
+        width:260px;
+        height:24px;
+        border:2px solid white;
+        background:#222;
+      ">
 
         <div
           id="playerGauge"
           style="
             width:0%;
-            height:100%;
-            background:lime;
-            display:block;
+            height:24px;
+            background:lime !important;
+            display:block !important;
           "
         ></div>
 
@@ -28,21 +36,29 @@ function renderGauges(){
 
 
 
-    <div class="gaugeBox">
+    <div style="
+      width:260px;
+      margin:12px auto;
+    ">
 
       <div>
         敵ゲージ
       </div>
 
-      <div class="gaugeBar">
+      <div style="
+        width:260px;
+        height:24px;
+        border:2px solid white;
+        background:#222;
+      ">
 
         <div
           id="enemyGauge"
           style="
             width:0%;
-            height:100%;
-            background:red;
-            display:block;
+            height:24px;
+            background:red !important;
+            display:block !important;
           "
         ></div>
 
