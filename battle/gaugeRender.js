@@ -13,7 +13,12 @@ function renderGauges(){
 
         <div
           id="playerGauge"
-          class="gaugeFill"
+          style="
+            width:0%;
+            height:100%;
+            background:lime;
+            display:block;
+          "
         ></div>
 
       </div>
@@ -33,7 +38,12 @@ function renderGauges(){
 
         <div
           id="enemyGauge"
-          class="gaugeFill"
+          style="
+            width:0%;
+            height:100%;
+            background:red;
+            display:block;
+          "
         ></div>
 
       </div>
