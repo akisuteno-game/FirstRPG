@@ -22,7 +22,7 @@ function initBattle(){
 
 
   console.log(
-    "selectedEnemy =",
+    "enemyId = ",
     enemyId
   );
 
@@ -33,13 +33,9 @@ function initBattle(){
     enemyId === null
   ){
 
-    document
-      .getElementById(
-        "battleArea"
-      )
-      .innerHTML =
-
-      "<h1>enemyId null</h1>";
+    console.log(
+      "battle page skip"
+    );
 
     return;
 
@@ -54,10 +50,18 @@ function initBattle(){
 
       function(enemy){
 
-        return String(
-          enemy.id
-        ) === String(
-          enemyId
+        return (
+
+          String(
+            enemy.id
+          )
+
+          ===
+
+          String(
+            enemyId
+          )
+
         );
 
       }
@@ -86,24 +90,53 @@ function initBattle(){
 
 
 
-  currentEnemy =
-
-    JSON.parse(
-      JSON.stringify(
-        currentEnemy
-      )
-    );
-
-
-
-
   currentEnemy.maxHp =
+
     currentEnemy.hp;
 
 
 
 
   renderBattle();
+
+
+
+
+  if(
+    typeof renderPlayer
+    ===
+    "function"
+  ){
+
+    renderPlayer();
+
+  }
+
+
+
+
+  if(
+    typeof startPlayerGauge
+    ===
+    "function"
+  ){
+
+    startPlayerGauge();
+
+  }
+
+
+
+
+  if(
+    typeof startEnemyGauge
+    ===
+    "function"
+  ){
+
+    startEnemyGauge();
+
+  }
 
 
 
