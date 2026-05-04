@@ -1,75 +1,118 @@
-const enemyId =
-
-  localStorage.getItem(
-    "selectedEnemy"
-  );
+let currentEnemy = null;
 
 
 
 
-if(
-  !enemyId
-){
-
-  location.href =
-    "index.html";
-
-}
+function initBattle(){
 
 
+  const enemyId =
+
+    localStorage.getItem(
+      "selectedEnemy"
+    );
 
 
-if(
-  !enemies[
+
+
+  console.log(
+    "enemyId =",
     enemyId
-  ]
-){
+  );
 
-  location.href =
-    "index.html";
+
+
+
+  if(
+    !enemyId
+  ){
+
+    location.href =
+      "../index.html";
+
+    return;
+
+  }
+
+
+
+
+  if(
+    !enemies[
+      enemyId
+    ]
+  ){
+
+    location.href =
+      "../index.html";
+
+    return;
+
+  }
+
+
+
+
+  currentEnemy =
+
+    JSON.parse(
+
+      JSON.stringify(
+
+        enemies[
+          enemyId
+        ]
+
+      )
+
+    );
+
+
+
+
+  currentEnemy.maxHp =
+
+    currentEnemy.hp;
+
+
+
+
+  console.log(
+    "enemy =",
+    currentEnemy
+  );
+
+
+
+
+  renderBattle();
+
+
+
+
+  renderPlayer();
+
+
+
+
+  startPlayerGauge();
+
+
+
+
+  startEnemyGauge();
+
+
+
+
+  console.log(
+    "DEBUG OK"
+  );
+
 
 }
 
 
 
 
-let currentEnemy =
-
-  JSON.parse(
-
-    JSON.stringify(
-
-      enemies[
-        enemyId
-      ]
-
-    )
-
-  );
-
-
-
-
-currentEnemy.maxHp =
-
-  currentEnemy.hp;
-
-
-
-
-renderBattle();
-
-
-
-
-renderPlayer();
-
-
-
-
-startPlayerGauge();
-
-
-
-
-startEnemyGauge();
+initBattle();
