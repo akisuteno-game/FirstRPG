@@ -53,7 +53,9 @@ function renderBattle(){
 
 
         <h2>
+
           ${currentEnemy.name}
+
         </h2>
 
 
