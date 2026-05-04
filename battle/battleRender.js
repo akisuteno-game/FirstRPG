@@ -1,3 +1,57 @@
+function renderGauges(){
+
+
+  return `
+
+    <div>
+
+      自分ゲージ
+
+      <div class="gaugeBox">
+
+        <div
+          id="playerGauge"
+          class="gaugeFill"
+          style="
+            background:lime;
+            width:0%;
+          "
+        ></div>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div>
+
+      敵ゲージ
+
+      <div class="gaugeBox">
+
+        <div
+          id="enemyGauge"
+          class="gaugeFill"
+          style="
+            background:red;
+            width:0%;
+          "
+        ></div>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+}
+
+
+
+
 function renderBattle(){
 
 
@@ -10,9 +64,21 @@ function renderBattle(){
 
 
 
+  if(
+    !area
+  ){
+
+    return;
+
+  }
+
+
+
+
   area.innerHTML = `
 
     <div class="enemyBox">
+
 
 
 
@@ -28,8 +94,11 @@ function renderBattle(){
 
 
 
+
         <h2>
+
           ${currentEnemy.name}
+
         </h2>
 
 
@@ -71,7 +140,11 @@ function renderBattle(){
 
           <div
             id="enemyHpFill"
-            class="enemyHpFill"
+            class="gaugeFill"
+            style="
+              width:100%;
+              background:lime;
+            "
           ></div>
 
         </div>
@@ -88,7 +161,9 @@ function renderBattle(){
 
 
 
+
       </div>
+
 
 
 
