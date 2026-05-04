@@ -22,7 +22,7 @@ function initBattle(){
 
 
   console.log(
-    "enemyId = ",
+    "selectedEnemy =",
     enemyId
   );
 
@@ -48,10 +48,27 @@ function initBattle(){
 
 
 
+  currentEnemy =
+
+    enemies.find(
+
+      function(enemy){
+
+        return String(
+          enemy.id
+        ) === String(
+          enemyId
+        );
+
+      }
+
+    );
+
+
+
+
   if(
-    !enemies[
-      enemyId
-    ]
+    !currentEnemy
   ){
 
     document
@@ -72,67 +89,21 @@ function initBattle(){
   currentEnemy =
 
     JSON.parse(
-
       JSON.stringify(
-
-        enemies[
-          enemyId
-        ]
-
+        currentEnemy
       )
-
     );
 
 
 
 
   currentEnemy.maxHp =
-
     currentEnemy.hp;
 
 
 
 
   renderBattle();
-
-
-
-
-  if(
-    typeof renderPlayer
-    ===
-    "function"
-  ){
-
-    renderPlayer();
-
-  }
-
-
-
-
-  if(
-    typeof startPlayerGauge
-    ===
-    "function"
-  ){
-
-    startPlayerGauge();
-
-  }
-
-
-
-
-  if(
-    typeof startEnemyGauge
-    ===
-    "function"
-  ){
-
-    startEnemyGauge();
-
-  }
 
 
 
