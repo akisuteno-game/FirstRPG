@@ -37,6 +37,18 @@ function renderBattle(){
 
   area.innerHTML =
 
+    `
+
+      <div
+        class="
+          battleWrap
+        "
+      >
+
+    `
+
+    +
+
     renderEnemy()
 
     +
@@ -49,7 +61,15 @@ function renderBattle(){
 
     +
 
-    renderButtons();
+    renderButtons()
+
+    +
+
+    `
+
+      </div>
+
+    `;
 
 
 }
