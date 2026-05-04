@@ -10,58 +10,62 @@ function renderBattle(){
 
 
 
-  if(
-    !area
-  ){
+  area.innerHTML = `
 
-    return;
-
-  }
-
+    <img
+      src="${currentEnemy.img}"
+      class="enemyImage"
+    >
 
 
-
-  if(
-    !currentEnemy
-  ){
-
-    area.innerHTML =
-      "敵がいません";
-
-    return;
-
-  }
+    <h2>
+      ${currentEnemy.name}
+    </h2>
 
 
+    <div>
+
+      HP :
+      <span id="enemyHpText">
+        ${currentEnemy.hp}
+      </span>
+
+    </div>
 
 
-  area.innerHTML =
+    <div>
+      攻撃速度 :
+      ${currentEnemy.speed}秒
+    </div>
 
-    `
 
-      <div class="battleWrap">
+    <div class="hpBar">
 
-    `
+      <div
+        id="enemyHpFill"
+        class="hpFill"
+        style="
+          width:100%;
+          background:lime;
+        "
+      ></div>
 
-    +
+    </div>
 
-    renderEnemy()
 
-    +
+    <div id="gaugeArea"></div>
 
-    renderGauges()
 
-    +
+    <div id="buttonArea"></div>
 
-    renderButtons()
+  `;
 
-    +
 
-    `
 
-      </div>
 
-    `;
+  renderGauge();
+
+  renderButtons();
 
 
 }
