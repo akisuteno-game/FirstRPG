@@ -12,6 +12,11 @@ let enemyLoop = null;
 function startPlayerGauge(){
 
 
+  playerGauge = 0;
+
+
+
+
   const speed =
 
     player.attackSpeed;
@@ -39,8 +44,8 @@ function startPlayerGauge(){
     button
   ){
 
-      button.disabled =
-        true;
+    button.disabled =
+      true;
 
   }
 
@@ -143,6 +148,11 @@ function startPlayerGauge(){
 
 
 function startEnemyGauge(){
+
+
+  enemyGauge = 0;
+
+
 
 
   const speed =
