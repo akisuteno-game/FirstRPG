@@ -2,112 +2,73 @@ let playerGauge = 0;
 
 let enemyGauge = 0;
 
-let playerLoop = null;
-
-let enemyLoop = null;
-
-const playerSpeed = 2000;
-
 
 
 
 function startPlayerGauge(){
 
 
-  console.log(
-    "player gauge start"
-  );
+  setInterval(
 
 
+    function(){
 
 
-  const bar =
+      const bar =
 
-    document.getElementById(
-      "playerGauge"
-    );
-
-
-
-
-  console.log(
-    "player bar =",
-    bar
-  );
-
-
-
-
-  if(
-    !bar
-  ){
-
-    return;
-
-  }
-
-
-
-
-  playerGauge = 0;
-
-
-
-
-  clearInterval(
-    playerLoop
-  );
-
-
-
-
-  playerLoop =
-
-    setInterval(
-
-
-      function(){
-
-
-        playerGauge++;
-
-
-
-
-        bar.style.width =
-
-          playerGauge
-          +
-          "%";
-
-
-
-
-        debug(
-          playerGauge
+        document.getElementById(
+          "playerGauge"
         );
 
 
 
 
-        if(
-          playerGauge >= 100
-        ){
-
-          clearInterval(
-            playerLoop
-          );
-
-        }
+      if(
+        !bar
+      ){
+        return;
+      }
 
 
-      },
 
 
-      playerSpeed / 100
+      playerGauge++;
 
 
-    );
+
+
+      if(
+        playerGauge > 100
+      ){
+
+        playerGauge = 0;
+
+        playerAttack();
+
+      }
+
+
+
+
+      bar.style.width =
+
+        playerGauge + "%";
+
+
+
+
+      debug(
+        playerGauge
+      );
+
+
+    },
+
+
+    50
+
+
+  );
 
 
 }
@@ -118,78 +79,60 @@ function startPlayerGauge(){
 function startEnemyGauge(){
 
 
-  const bar =
-
-    document.getElementById(
-      "enemyGauge"
-    );
+  setInterval(
 
 
+    function(){
 
 
-  if(
-    !bar
-  ){
+      const bar =
 
-    return;
-
-  }
+        document.getElementById(
+          "enemyGauge"
+        );
 
 
 
 
-  enemyGauge = 0;
+      if(
+        !bar
+      ){
+        return;
+      }
 
 
 
 
-  clearInterval(
-    enemyLoop
+      enemyGauge++;
+
+
+
+
+      if(
+        enemyGauge > 100
+      ){
+
+        enemyGauge = 0;
+
+        enemyAttack();
+
+      }
+
+
+
+
+      bar.style.width =
+
+        enemyGauge + "%";
+
+
+    },
+
+
+    50
+
+
   );
-
-
-
-
-  enemyLoop =
-
-    setInterval(
-
-
-      function(){
-
-
-        enemyGauge++;
-
-
-
-
-        bar.style.width =
-
-          enemyGauge
-          +
-          "%";
-
-
-
-
-        if(
-          enemyGauge >= 100
-        ){
-
-          clearInterval(
-            enemyLoop
-          );
-
-        }
-
-
-      },
-
-
-      currentEnemy.speed / 100
-
-
-    );
 
 
 }
