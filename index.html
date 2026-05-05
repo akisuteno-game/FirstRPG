@@ -2,188 +2,63 @@
 <html>
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>First RPG</title>
 
-<meta
-  name="viewport"
-  content="
-    width=device-width,
-    initial-scale=1.0
-  "
->
-
-<title>
-  First RPG
-</title>
-
-
-<link
-  rel="stylesheet"
-  href="style.css?v=3000"
->
+  <link rel="stylesheet" href="style.css?v=9999">
 
 </head>
 
-
 <body>
 
-
-<div id="side">
-
-  <h2>
-    ステータス
-  </h2>
-
-  <div id="playerUI">
+  <div id="side">
+    <h2>ステータス</h2>
+    <div id="playerUI"></div>
   </div>
 
-</div>
+  <div id="main">
 
+    <div id="tabs">
+      <button class="tabBtn" onclick="showTab('enemyTab')">敵選択</button>
+      <button class="tabBtn" onclick="showTab('upgradeTab')">強化</button>
+      <button class="tabBtn" onclick="showTab('materialTab')">素材</button>
+      <button class="tabBtn" onclick="showTab('settingTab')">設定</button>
+    </div>
 
+    <div id="topArea">
 
-
-<div id="main">
-
-
-  <div id="tabs">
-
-
-    <button
-      class="tabBtn"
-      onclick="showTab('enemyTab')"
-    >
-      敵選択
-    </button>
-
-
-
-
-    <button
-      class="tabBtn"
-      onclick="showTab('upgradeTab')"
-    >
-      強化
-    </button>
-
-
-
-
-    <button
-      class="tabBtn"
-      onclick="showTab('materialTab')"
-    >
-      素材
-    </button>
-
-
-
-
-    <button
-      class="tabBtn"
-      onclick="showTab('settingTab')"
-    >
-      設定
-    </button>
-
-
-  </div>
-
-
-
-
-  <div id="topArea">
-
-
-    <div
-      id="enemyTab"
-      class="
-        tabPage
-        activePage
-      "
-    >
-
-      <div id="list">
+      <div id="enemyTab" class="tabPage activePage">
+        <div id="list"></div>
       </div>
 
+      <div id="upgradeTab" class="tabPage"></div>
+
+      <div id="materialTab" class="tabPage"></div>
+
+      <div id="settingTab" class="tabPage"></div>
+
     </div>
 
-
-
-
-    <div
-      id="upgradeTab"
-      class="
-        tabPage
-      "
-    >
-    </div>
-
-
-
-
-    <div
-      id="materialTab"
-      class="
-        tabPage
-      "
-    >
-    </div>
-
-
-
-
-    <div
-      id="settingTab"
-      class="
-        tabPage
-      "
-    >
-    </div>
-
+    <div id="battleArea">放置RPG</div>
 
   </div>
 
+  <script src="data.js?v=9999"></script>
 
+  <script src="player/playerData.js?v=9999"></script>
+  <script src="player/playerSave.js?v=9999"></script>
+  <script src="player/playerHeal.js?v=9999"></script>
+  <script src="player/materialIcon.js?v=9999"></script>
+  <script src="player/materialRender.js?v=9999"></script>
+  <script src="player/playerRender.js?v=9999"></script>
 
-
-  <div id="battleArea">
-
-    放置RPG
-
-  </div>
-
-
-</div>
-
-
-
-
-<script src="data.js?v=3000"></script>
-
-<script src="player/playerData.js"></script>
-
-<script src="player/playerSave.js"></script>
-
-<script src="player/playerHeal.js"></script>
-
-<script src="player/materialIcon.js"></script>
-
-<script src="player/materialRender.js"></script>
-
-<script src="player/playerRender.js"></script>
-
-<script src="enemyTab.js?v=4000"></script>
-
-<script src="upgradeTab.js?v=5000"></script>
-
-<script src="materialTab.js"></script>
-
-<script src="settingTab.js?v=5000"></script>
-
-<script src="main.js?v=3000"></script>
-
-<script src="debug.js?v=3000"></script>
-
+  <script src="enemyTab.js?v=9999"></script>
+  <script src="upgradeTab.js?v=9999"></script>
+  <script src="materialTab.js?v=9999"></script>
+  <script src="settingTab.js?v=9999"></script>
+  <script src="main.js?v=9999"></script>
+  <script src="debug.js?v=9999"></script>
 
 </body>
 </html>
