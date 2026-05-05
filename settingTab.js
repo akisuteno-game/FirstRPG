@@ -1,80 +1,32 @@
 function renderSettingTab(){
 
-
-  const tab =
-    document.getElementById(
-      "settingTab"
-    );
-
+  const tab = document.getElementById("settingTab");
 
   if(!tab){
-
     return;
-
   }
 
-
-
-
   tab.innerHTML = `
+    <div style="padding:20px;color:white;">
 
-    <div
-      style="
-        padding:20px;
-        color:white;
-      "
-    >
-
-      <h2>
-
-        設定画面
-
-      </h2>
-
-
-
+      <h2>設定</h2><br>
 
       <button onclick="saveGame()">
-
         セーブ
-
       </button>
-
-
-
-
       <br><br>
-
-
-
 
       <button onclick="loadGame()">
-
         ロード
-
       </button>
-
-
-
-
       <br><br>
 
-
-
-
       <button onclick="resetGame()">
-
         リセット
-
       </button>
 
-
-
-
     </div>
-
   `;
-
 
 }
 
@@ -83,14 +35,8 @@ function renderSettingTab(){
 
 function saveGame(){
 
-
   savePlayer();
-
-
-  alert(
-    "セーブしました"
-  );
-
+  alert("セーブしました");
 
 }
 
@@ -99,32 +45,14 @@ function saveGame(){
 
 function loadGame(){
 
-
   loadPlayer();
-
-
   renderPlayer();
 
-
-
-
-  if(
-    typeof renderUpgradeTab
-    ===
-    "function"
-  ){
-
+  if(typeof renderUpgradeTab === "function"){
     renderUpgradeTab();
-
   }
 
-
-
-
-  alert(
-    "ロードしました"
-  );
-
+  alert("ロードしました");
 
 }
 
@@ -133,46 +61,17 @@ function loadGame(){
 
 function resetGame(){
 
-
-  if(
-    !confirm(
-      "データを消しますか？"
-    )
-  ){
-
+  if(!confirm("データを消しますか？")){
     return;
-
   }
-
-
-
 
   resetPlayer();
-
-
-
-
   renderPlayer();
 
-
-
-
-  if(
-    typeof renderUpgradeTab
-    ===
-    "function"
-  ){
-
+  if(typeof renderUpgradeTab === "function"){
     renderUpgradeTab();
-
   }
 
-
-
-
-  alert(
-    "リセットしました"
-  );
-
+  alert("リセットしました");
 
 }
