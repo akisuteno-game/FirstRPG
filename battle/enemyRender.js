@@ -5,10 +5,16 @@ function startBattle(enemyId){
     enemyId
   );
 
+
+
+
   localStorage.setItem(
     "selectedEnemy",
     String(enemyId)
   );
+
+
+
 
   console.log(
     "SAVE = ",
@@ -17,8 +23,11 @@ function startBattle(enemyId){
     )
   );
 
+
+
+
   window.location.href =
-    "../battle.html";
+    "battle.html";
 
 }
 
