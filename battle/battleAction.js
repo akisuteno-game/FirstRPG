@@ -9,92 +9,68 @@ function attackEnemy(){
   const gauge = document.getElementById("playerGauge");
   if(gauge){ gauge.style.width = "0%"; }
 
-
   // クリティカル判定
-  const isCrit =
-    Math.random() * 100 < player.crit;
-
+  const isCrit = Math.random() * 100 < player.crit;
   let dmg = player.atk;
-
-  if(isCrit){
-    dmg = Math.floor(dmg * player.critMulti);
-  }
-
+  if(isCrit){ dmg = Math.floor(dmg * player.critMulti); }
 
   currentEnemy.hp -= dmg;
+  if(currentEnemy.hp < 0){ currentEnemy.hp = 0; }
 
-  if(currentEnemy.hp < 0){
-    currentEnemy.hp = 0;
-  }
+  showDamageNumber(dmg, isCrit, "enemy");
 
-
-  // ダメージ数字を表示
-  showDamageNumber(
-    dmg,
-    isCrit,
-    "enemy"
-  );
-
-
-  // ログ
   if(isCrit){
-    addLog(`⚡クリティカル！ ${dmg} ダメージ！`);
+    addLog(`⚡ クリティカル！ ${dmg} ダメージ！`);
   } else {
     addLog(`→ ${currentEnemy.name} に ${dmg} ダメージ`);
   }
 
-
   updateEnemyUI();
 
-
-  // 敵を倒した
   if(currentEnemy.hp <= 0){
 
-    player.gold      += currentEnemy.drop || 0;
-    player.exp       += currentEnemy.exp  || 0;
+    // GOLDボーナス（スキル・転生）
+    const goldMult = 1
+      + (player.goldBonus || 0)
+      + (REBIRTH_BONUS.goldPercent / 100) * (player.rebirthCount || 0);
+
+    const goldGain = Math.floor((currentEnemy.drop || 0) * goldMult);
+
+    player.gold      += goldGain;
+    player.exp       += currentEnemy.exp || 0;
     player.killCount += 1;
 
     // 通常素材
     if(currentEnemy.material){
-
       if(!player.materials[currentEnemy.material]){
         player.materials[currentEnemy.material] = 0;
       }
-
       player.materials[currentEnemy.material]++;
-
     }
 
-    // レア素材
+    // レア素材（スキル効果でrareChanceボーナス）
+    const rareBonus = getSkillRareBonus();
     if(
       currentEnemy.rareMaterial
-      && Math.random() < (currentEnemy.rareChance || 0.1)
+      && Math.random() < (currentEnemy.rareChance || 0.1) + rareBonus
     ){
-
       if(!player.materials[currentEnemy.rareMaterial]){
         player.materials[currentEnemy.rareMaterial] = 0;
       }
-
       player.materials[currentEnemy.rareMaterial]++;
-
       addLog(`✨ レア素材「${currentEnemy.rareMaterial}」を入手！`);
-
     }
 
-
-    // レベルアップチェック
     checkLevelUp();
 
-
     savePlayer();
-
 
     clearInterval(playerLoop);
     clearInterval(enemyLoop);
 
     localStorage.removeItem("selectedEnemy");
 
-    addLog(`🏆 ${currentEnemy.name} を倒した！`);
+    addLog(`🏆 ${currentEnemy.name} を倒した！ GOLD +${goldGain}`);
 
     setTimeout(function(){
       location.href = "/FirstRPG/";
@@ -103,7 +79,6 @@ function attackEnemy(){
     return;
 
   }
-
 
   startPlayerGauge();
 
@@ -117,24 +92,17 @@ function enemyAttack(){
   const dmg = currentEnemy.atk;
 
   player.hp -= dmg;
-
-  if(player.hp < 0){
-    player.hp = 0;
-  }
+  if(player.hp < 0){ player.hp = 0; }
 
   showDamageNumber(dmg, false, "player");
-
   addLog(`← ${currentEnemy.name} の攻撃！ ${dmg} ダメージ`);
 
-
-  // プレイヤー死亡
   if(player.hp <= 0){
 
     clearInterval(playerLoop);
     clearInterval(enemyLoop);
 
     addLog("💀 やられた...");
-
     savePlayer();
 
     setTimeout(function(){
@@ -154,18 +122,13 @@ function enemyAttack(){
 
 function usePotion(){
 
-  if(player.potions <= 0){
-    return;
-  }
+  if(player.potions <= 0){ return; }
 
   const heal = Math.ceil(player.maxHp * 0.5);
 
   player.potions -= 1;
   player.hp      += heal;
-
-  if(player.hp > player.maxHp){
-    player.hp = player.maxHp;
-  }
+  if(player.hp > player.maxHp){ player.hp = player.maxHp; }
 
   addLog(`💊 ポーションを使った！ HP +${heal}`);
 
@@ -206,7 +169,10 @@ function checkLevelUp(){
     player.hp      = player.maxHp;
     player.atk    += 1;
 
-    addLog(`🌟 レベルアップ！ Lv.${player.level} になった！`);
+    // スキルポイント付与
+    player.skillPoints = (player.skillPoints || 0) + 1;
+
+    addLog(`🌟 レベルアップ！ Lv.${player.level} SP +1`);
 
   }
 
@@ -224,8 +190,7 @@ function updateEnemyUI(){
 
   hpText.innerHTML = currentEnemy.hp;
 
-  const percent =
-    (currentEnemy.hp / currentEnemy.maxHp) * 100;
+  const percent = (currentEnemy.hp / currentEnemy.maxHp) * 100;
 
   hpBar.style.width = percent + "%";
 
@@ -245,7 +210,6 @@ function updateEnemyUI(){
 function updatePlayerHpUI(){
 
   const bar = document.getElementById("battlePlayerHpFill");
-
   if(!bar){ return; }
 
   const percent = (player.hp / player.maxHp) * 100;
@@ -261,28 +225,21 @@ function updatePlayerHpUI(){
   }
 
   const txt = document.getElementById("battlePlayerHpText");
-
-  if(txt){
-    txt.textContent = `${player.hp} / ${player.maxHp}`;
-  }
+  if(txt){ txt.textContent = `${player.hp} / ${player.maxHp}`; }
 
 }
 
 
 
 
-// ダメージ数字をフワッと表示
 function showDamageNumber(dmg, isCrit, target){
 
   const area = document.getElementById("battleArea");
-
   if(!area){ return; }
 
   const el = document.createElement("div");
 
-  el.textContent = isCrit
-    ? `CRIT! ${dmg}`
-    : `-${dmg}`;
+  el.textContent = isCrit ? `CRIT! ${dmg}` : `-${dmg}`;
 
   el.style.position   = "absolute";
   el.style.color      = isCrit ? "orange" : "white";
@@ -308,7 +265,33 @@ function showDamageNumber(dmg, isCrit, target){
   }, 50);
 
   setTimeout(function(){
-    area.removeChild(el);
+    if(area.contains(el)){ area.removeChild(el); }
   }, 900);
+
+}
+
+
+
+
+// スキルによるレアドロップボーナス合計
+function getSkillRareBonus(){
+
+  let bonus = 0;
+
+  if(!player.skills){ return bonus; }
+
+  ["spc1","spc3","spc5"].forEach(function(id){
+    if(hasSkill(id)){
+      const sk = getSkillById(id);
+      if(sk && sk.effect.rareChance){
+        bonus += sk.effect.rareChance;
+      }
+    }
+  });
+
+  // 覇者の証（全ステ+10%）があればさらに加算
+  if(hasSkill("spc6")){ bonus += 0.05; }
+
+  return bonus;
 
 }
