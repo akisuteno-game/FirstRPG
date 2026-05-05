@@ -1,18 +1,23 @@
 const defaultPlayer = {
 
-  hp:30,
+  hp: 30,
+  maxHp: 30,
 
-  maxHp:30,
+  atk: 5,
+  attackSpeed: 2000,
 
-  atk:5,
+  crit: 5,
+  critMulti: 1.5,
 
-  attackSpeed:2000,
+  gold: 0,
+  exp: 0,
+  level: 1,
 
-  crit:5,
+  killCount: 0,
 
-  gold:0,
+  potions: 0,
 
-  materials:{}
+  materials: {}
 
 };
 
@@ -22,9 +27,15 @@ const defaultPlayer = {
 const player =
 
   JSON.parse(
-
-    JSON.stringify(
-      defaultPlayer
-    )
-
+    JSON.stringify(defaultPlayer)
   );
+
+
+
+
+// レベルアップに必要な経験値
+function expToNextLevel(level){
+
+  return level * 10;
+
+}
