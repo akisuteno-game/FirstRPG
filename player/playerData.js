@@ -13,9 +13,17 @@ const defaultPlayer = {
   exp: 0,
   level: 1,
 
+  skillPoints: 0,
+  usedSkillPoints: 0,
+  skills: {},
+
+  rebirthCount: 0,
+
   killCount: 0,
 
   potions: 0,
+
+  goldBonus: 0,
 
   materials: {}
 
@@ -33,9 +41,6 @@ const player =
 
 
 
-// レベルアップに必要な経験値
 function expToNextLevel(level){
-
   return level * 10;
-
 }
