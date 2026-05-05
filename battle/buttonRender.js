@@ -21,7 +21,7 @@ function renderButtons(){
 
       <button
         class="battleBtn"
-        onclick="location.href='/FirstRPG/'"
+        onclick="location.href='https://akisuteno-game.github.io/FirstRPG/index.html'"
       >
         戻る
       </button>
