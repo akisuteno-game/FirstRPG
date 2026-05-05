@@ -1,69 +1,27 @@
 function debug(text){
 
+  let box = document.getElementById("debugBox");
 
-  let box =
+  if(!box){
 
-    document.getElementById(
-      "debugBox"
-    );
+    box = document.createElement("div");
+    box.id = "debugBox";
+    box.style.position = "fixed";
+    box.style.top      = "20px";
+    box.style.right    = "20px";
+    box.style.color    = "lime";
+    box.style.zIndex   = "9999";
+    box.style.fontSize = "12px";
 
-
-
-
-  if(
-    !box
-  ){
-
-    box =
-      document.createElement(
-        "div"
-      );
-
-
-
-
-    box.id =
-      "debugBox";
-
-
-
-
-    box.style.position =
-      "fixed";
-
-    box.style.top =
-      "20px";
-
-    box.style.right =
-      "20px";
-
-    box.style.color =
-      "lime";
-
-    box.style.zIndex =
-      "9999";
-
-
-
-
-    document.body.appendChild(
-      box
-    );
+    document.body.appendChild(box);
 
   }
 
-
-
-
-  box.textContent =
-    text;
-
+  box.textContent = text;
 
 }
 
 
 
 
-debug(
-  "DEBUG OK"
-);
+debug("DEBUG OK");
