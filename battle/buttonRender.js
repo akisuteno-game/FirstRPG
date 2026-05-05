@@ -21,7 +21,7 @@ function renderButtons(){
 
       <button
         class="battleBtn"
-        onclick="location.href='index.html'"
+        onclick="location.href='../index.html'"
       >
         戻る
       </button>
