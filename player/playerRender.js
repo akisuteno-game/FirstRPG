@@ -1,166 +1,59 @@
 function renderPlayer(){
 
+  const ui = document.getElementById("playerUI");
 
-  const ui =
-    document.getElementById(
-      "playerUI"
-    );
-
-
-
-
-  if(
-    !ui
-  ){
-
+  if(!ui){
     return;
-
   }
 
+  const hpPercent =
+    (player.hp / player.maxHp) * 100;
 
-
-
-  const percent =
-
-    (
-      player.hp
-      /
-      player.maxHp
-    ) * 100;
-
-
-
+  const nextExp = expToNextLevel(player.level);
+  const expPercent =
+    Math.min((player.exp / nextExp) * 100, 100);
 
   ui.innerHTML = `
 
-    HP :
+    <div class="statusLabel">Lv. ${player.level}</div>
 
-    ${player.hp}
-
-    /
-
-    ${player.maxHp}
-
-
-
-
+    <div class="statusLabel">EXP</div>
     <div class="bar">
+      <div id="playerExpFill" class="fill" style="width:${expPercent}%;background:#88f;"></div>
+    </div>
+    <div class="statusSub">${player.exp} / ${nextExp}</div>
 
-      <div
+    <br>
 
-        id="playerHpFill"
-
-        class="fill"
-
-        style="
-          width:${percent}%;
-        "
-
-      ></div>
-
+    <div class="statusLabel">HP : ${player.hp} / ${player.maxHp}</div>
+    <div class="bar">
+      <div id="playerHpFill" class="fill" style="width:${hpPercent}%;"></div>
     </div>
 
-
-
-
     <br>
 
+    攻撃 : ${player.atk}<br><br>
+    クリ率 : ${player.crit}%<br><br>
+    攻撃速度 : ${(player.attackSpeed / 1000).toFixed(1)}秒<br><br>
+    GOLD : ${player.gold}<br><br>
+    ポーション : ${player.potions}個<br><br>
+    撃破数 : ${player.killCount}<br><br>
 
-
-
-    攻撃 :
-    ${player.atk}
-
-
-
-
-    <br><br>
-
-
-
-
-    クリ率 :
-    ${player.crit}%
-
-
-
-
-    <br><br>
-
-
-
-
-    GOLD :
-    ${player.gold}
-
-
-
-
-    <br><br>
-
-
-
-
-    素材 :
-
-    <br>
-
-
-
-
+    素材 :<br>
     ${createMaterialHTML()}
 
   `;
 
-
-
-
-  const bar =
-
-    document.getElementById(
-      "playerHpFill"
-    );
-
-
-
-
-  if(
-    !bar
-  ){
-
-    return;
-
+  // HPバー色
+  const hpBar = document.getElementById("playerHpFill");
+  if(hpBar){
+    if(hpPercent > 70){
+      hpBar.style.background = "lime";
+    } else if(hpPercent > 30){
+      hpBar.style.background = "yellow";
+    } else {
+      hpBar.style.background = "red";
+    }
   }
-
-
-
-
-  if(
-    percent > 70
-  ){
-
-    bar.style.background =
-      "lime";
-
-  }
-
-
-  else if(
-    percent > 30
-  ){
-
-    bar.style.background =
-      "yellow";
-
-  }
-
-
-  else{
-
-    bar.style.background =
-      "red";
-
-  }
-
 
 }
