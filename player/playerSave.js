@@ -5,35 +5,17 @@ loadPlayer();
 
 function loadPlayer(){
 
-
   const saved =
-
-    localStorage.getItem(
-      "playerData"
-    );
-
-
-
+    localStorage.getItem("playerData");
 
   if(!saved){
-
     return;
-
   }
 
-
-
-
   Object.assign(
-
     player,
-
-    JSON.parse(
-      saved
-    )
-
+    JSON.parse(saved)
   );
-
 
 }
 
@@ -42,17 +24,10 @@ function loadPlayer(){
 
 function savePlayer(){
 
-
   localStorage.setItem(
-
     "playerData",
-
-    JSON.stringify(
-      player
-    )
-
+    JSON.stringify(player)
   );
-
 
 }
 
@@ -61,25 +36,13 @@ function savePlayer(){
 
 function resetPlayer(){
 
-
   Object.assign(
-
     player,
-
     JSON.parse(
-
-      JSON.stringify(
-        defaultPlayer
-      )
-
+      JSON.stringify(defaultPlayer)
     )
-
   );
 
-
-
-
   savePlayer();
-
 
 }
