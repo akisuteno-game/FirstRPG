@@ -21,7 +21,7 @@ function renderButtons(){
 
       <button
         class="battleBtn"
-        onclick="location.href='/FirstRPG/index.html'"
+        onclick="location.href='/FirstRPG/'"
       >
         戻る
       </button>
