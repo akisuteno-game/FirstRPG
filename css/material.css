@@ -1,43 +1,21 @@
-.materialArea{
-
-  padding:20px;
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:20px;
-
+.materialArea {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-
-
-
-.materialCard{
-
-  width:150px;
-
-  min-height:180px;
-
-  border:2px solid white;
-
-  border-radius:12px;
-
-  text-align:center;
-
-  padding:15px;
-
-  color:white;
-
-  font-size:18px;
-
+.materialCard {
+  width: 150px;
+  min-height: 180px;
+  border: 2px solid white;
+  border-radius: 12px;
+  text-align: center;
+  padding: 15px;
+  color: white;
+  font-size: 18px;
 }
 
-
-
-
-.materialCard img{
-
-  width:64px;
-
+.materialCard img {
+  width: 64px;
 }
