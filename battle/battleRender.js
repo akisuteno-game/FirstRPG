@@ -1,47 +1,33 @@
-function renderBattle(){
-
-
-  const area =
-
-    document.getElementById(
-      "battleArea"
-    );
+// 戦闘ログ
+const battleLog = [];
 
 
 
 
-  if(
-    !area
-  ){
+function addLog(text){
 
-    return;
+  battleLog.unshift(text);
 
+  if(battleLog.length > 5){
+    battleLog.pop();
   }
 
+  const box = document.getElementById("battleLog");
 
+  if(box){
+    box.innerHTML = battleLog
+      .map(function(t){ return `<div>${t}</div>`; })
+      .join("");
+  }
 
-
-  area.innerHTML = `
-
-    <h1
-      style="
-        color:white;
-        text-align:center;
-        margin-top:120px;
-      "
-    >
-
-      RENDER OK
-
-    </h1>
-
-  `;
+}
 
 
 
 
-  console.log(
-    "RENDER OK"
-  );
+function renderBattle(){
+
+  // battleInit.js で描画するため未使用
+  console.log("renderBattle: 未使用");
 
 }
