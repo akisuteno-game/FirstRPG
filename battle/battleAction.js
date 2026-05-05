@@ -1,3 +1,5 @@
+const RETURN_URL = "https://akisuteno-game.github.io/FirstRPG/index.html";
+
 function attackEnemy(){
 
   if(!currentEnemy){ return; }
@@ -20,20 +22,18 @@ function attackEnemy(){
   showDamageNumber(dmg, isCrit, "enemy");
 
   if(isCrit){
-    addLog(`⚡ クリティカル！ ${dmg} ダメージ！`);
+    addLog("⚡ クリティカル！ " + dmg + " ダメージ！");
   } else {
-    addLog(`→ ${currentEnemy.name} に ${dmg} ダメージ`);
+    addLog("→ " + currentEnemy.name + " に " + dmg + " ダメージ");
   }
 
   updateEnemyUI();
 
   if(currentEnemy.hp <= 0){
 
-    // GOLDボーナス（スキル・転生）
-    const goldMult = 1
-      + (player.goldBonus || 0)
-      + (REBIRTH_BONUS.goldPercent / 100) * (player.rebirthCount || 0);
-
+    // GOLDボーナス（転生ボーナス）
+    const rebirthGoldBonus = 0.03 * (player.rebirthCount || 0);
+    const goldMult = 1 + (player.goldBonus || 0) + rebirthGoldBonus;
     const goldGain = Math.floor((currentEnemy.drop || 0) * goldMult);
 
     player.gold      += goldGain;
@@ -48,7 +48,7 @@ function attackEnemy(){
       player.materials[currentEnemy.material]++;
     }
 
-    // レア素材（スキル効果でrareChanceボーナス）
+    // レア素材
     const rareBonus = getSkillRareBonus();
     if(
       currentEnemy.rareMaterial
@@ -58,22 +58,19 @@ function attackEnemy(){
         player.materials[currentEnemy.rareMaterial] = 0;
       }
       player.materials[currentEnemy.rareMaterial]++;
-      addLog(`✨ レア素材「${currentEnemy.rareMaterial}」を入手！`);
+      addLog("✨ レア素材「" + currentEnemy.rareMaterial + "」を入手！");
     }
 
     checkLevelUp();
-
     savePlayer();
 
     clearInterval(playerLoop);
     clearInterval(enemyLoop);
 
-    localStorage.removeItem("selectedEnemy");
-
-    addLog(`🏆 ${currentEnemy.name} を倒した！ GOLD +${goldGain}`);
+    addLog("🏆 " + currentEnemy.name + " を倒した！ GOLD +" + goldGain);
 
     setTimeout(function(){
-      location.href = "https://akisuteno-game.github.io/FirstRPG/index.html";
+      location.href = RETURN_URL;
     }, 800);
 
     return;
@@ -95,7 +92,7 @@ function enemyAttack(){
   if(player.hp < 0){ player.hp = 0; }
 
   showDamageNumber(dmg, false, "player");
-  addLog(`← ${currentEnemy.name} の攻撃！ ${dmg} ダメージ`);
+  addLog("← " + currentEnemy.name + " の攻撃！ " + dmg + " ダメージ");
 
   if(player.hp <= 0){
 
@@ -106,7 +103,7 @@ function enemyAttack(){
     savePlayer();
 
     setTimeout(function(){
-      location.href = "https://akisuteno-game.github.io/FirstRPG/index.html";
+      location.href = RETURN_URL;
     }, 1000);
 
     return;
@@ -130,7 +127,7 @@ function usePotion(){
   player.hp      += heal;
   if(player.hp > player.maxHp){ player.hp = player.maxHp; }
 
-  addLog(`💊 ポーションを使った！ HP +${heal}`);
+  addLog("💊 ポーションを使った！ HP +" + heal);
 
   updatePlayerHpUI();
   refreshPotionButton();
@@ -146,7 +143,7 @@ function refreshPotionButton(){
 
   btns.forEach(function(btn){
     if(btn.textContent.includes("ポーション")){
-      btn.textContent = `ポーション（${player.potions}）`;
+      btn.textContent = "ポーション（" + player.potions + "）";
     }
   });
 
@@ -164,15 +161,13 @@ function checkLevelUp(){
     player.exp   -= needed;
     player.level += 1;
 
-    // レベルアップボーナス
-    player.maxHp  += 3;
-    player.hp      = player.maxHp;
-    player.atk    += 1;
+    player.maxHp += 3;
+    player.hp     = player.maxHp;
+    player.atk   += 1;
 
-    // スキルポイント付与
     player.skillPoints = (player.skillPoints || 0) + 1;
 
-    addLog(`🌟 レベルアップ！ Lv.${player.level} SP +1`);
+    addLog("🌟 レベルアップ！ Lv." + player.level + " SP +1");
 
   }
 
@@ -225,7 +220,7 @@ function updatePlayerHpUI(){
   }
 
   const txt = document.getElementById("battlePlayerHpText");
-  if(txt){ txt.textContent = `${player.hp} / ${player.maxHp}`; }
+  if(txt){ txt.textContent = player.hp + " / " + player.maxHp; }
 
 }
 
@@ -239,15 +234,15 @@ function showDamageNumber(dmg, isCrit, target){
 
   const el = document.createElement("div");
 
-  el.textContent = isCrit ? `CRIT! ${dmg}` : `-${dmg}`;
+  el.textContent = isCrit ? "CRIT! " + dmg : "-" + dmg;
 
-  el.style.position   = "absolute";
-  el.style.color      = isCrit ? "orange" : "white";
-  el.style.fontSize   = isCrit ? "28px"   : "20px";
-  el.style.fontWeight = "bold";
+  el.style.position      = "absolute";
+  el.style.color         = isCrit ? "orange" : "white";
+  el.style.fontSize      = isCrit ? "28px" : "20px";
+  el.style.fontWeight    = "bold";
   el.style.pointerEvents = "none";
-  el.style.zIndex     = "100";
-  el.style.transition = "all 0.8s ease";
+  el.style.zIndex        = "100";
+  el.style.transition    = "all 0.8s ease";
 
   if(target === "enemy"){
     el.style.left = "55%";
@@ -273,24 +268,22 @@ function showDamageNumber(dmg, isCrit, target){
 
 
 
-// スキルによるレアドロップボーナス合計
 function getSkillRareBonus(){
 
   let bonus = 0;
 
-  if(!player.skills){ return bonus; }
+  if(!player.skills || typeof getSkillById !== "function"){ return bonus; }
 
   ["spc1","spc3","spc5"].forEach(function(id){
-    if(hasSkill(id)){
+    if(player.skills[id]){
       const sk = getSkillById(id);
-      if(sk && sk.effect.rareChance){
+      if(sk && sk.effect && sk.effect.rareChance){
         bonus += sk.effect.rareChance;
       }
     }
   });
 
-  // 覇者の証（全ステ+10%）があればさらに加算
-  if(hasSkill("spc6")){ bonus += 0.05; }
+  if(player.skills["spc6"]){ bonus += 0.05; }
 
   return bonus;
 
