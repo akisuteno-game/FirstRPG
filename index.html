@@ -9,25 +9,27 @@
 <body>
 
   <div id="side">
-    <h2>ステータス</h2>
+    <h2>STATUS</h2>
     <div id="playerUI"></div>
   </div>
 
   <div id="main">
     <div id="tabs">
-      <button class="tabBtn" onclick="showTab('enemyTab')">敵選択</button>
+      <button class="tabBtn" onclick="showTab('enemyTab')">敵</button>
       <button class="tabBtn" onclick="showTab('upgradeTab')">強化</button>
       <button class="tabBtn" onclick="showTab('skillTab')">スキル</button>
+      <button class="tabBtn" onclick="showTab('craftTab')">装備</button>
       <button class="tabBtn" onclick="showTab('materialTab')">素材</button>
       <button class="tabBtn" onclick="showTab('rebirthTab')">転生</button>
       <button class="tabBtn" onclick="showTab('settingTab')">設定</button>
     </div>
 
     <div id="topArea">
-      <div id="enemyTab" class="tabPage activePage"><div id="list"></div></div>
+      <div id="enemyTab"   class="tabPage activePage"><div id="list"></div></div>
       <div id="upgradeTab" class="tabPage"></div>
-      <div id="skillTab" class="tabPage"></div>
-      <div id="materialTab" class="tabPage"></div>
+      <div id="skillTab"   class="tabPage"></div>
+      <div id="craftTab"   class="tabPage"></div>
+      <div id="materialTab"class="tabPage"></div>
       <div id="rebirthTab" class="tabPage"></div>
       <div id="settingTab" class="tabPage"></div>
     </div>
@@ -59,6 +61,10 @@
   <script src="rebirth/rebirthData.js?v=9999"></script>
   <script src="rebirth/rebirthAction.js?v=9999"></script>
   <script src="rebirth/rebirthTab.js?v=9999"></script>
+
+  <script src="craft/craftData.js?v=9999"></script>
+  <script src="craft/craftAction.js?v=9999"></script>
+  <script src="craft/craftTab.js?v=9999"></script>
 
   <script src="enemyTab.js?v=9999"></script>
   <script src="upgradeTab.js?v=9999"></script>
