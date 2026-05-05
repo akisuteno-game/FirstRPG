@@ -97,7 +97,7 @@ function attackEnemy(){
     addLog(`🏆 ${currentEnemy.name} を倒した！`);
 
     setTimeout(function(){
-      location.href = "../index.html";
+      location.href = "/FirstRPG/index.html";
     }, 800);
 
     return;
@@ -138,7 +138,7 @@ function enemyAttack(){
     savePlayer();
 
     setTimeout(function(){
-      location.href = "../index.html";
+      location.href = "/FirstRPG/index.html";
     }, 1000);
 
     return;
