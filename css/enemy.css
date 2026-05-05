@@ -1,37 +1,27 @@
-#list{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:20px;
-
-  padding:20px;
+#list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
 }
 
-
-
-.enemyCard{
-
-  background:#222;
-
-  border:1px solid #444;
-
-  padding:20px;
-
-  text-align:center;
-
-  color:white;
+.enemyCard {
+  background: #222;
+  border: 1px solid #444;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  transition: background 0.15s;
 }
 
+.enemyCard:hover {
+  background: #2a2a2a;
+  border-color: #888;
+}
 
-
-.enemyImage{
-
-  width:120px;
-
-  height:120px;
-
-  object-fit:contain;
+.enemyImage {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
 }
