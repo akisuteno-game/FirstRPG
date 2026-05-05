@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>First RPG</title>
-
   <link rel="stylesheet" href="style.css?v=9999">
-
 </head>
-
 <body>
 
   <div id="side">
@@ -18,7 +14,6 @@
   </div>
 
   <div id="main">
-
     <div id="tabs">
       <button class="tabBtn" onclick="showTab('enemyTab')">敵選択</button>
       <button class="tabBtn" onclick="showTab('upgradeTab')">強化</button>
@@ -29,25 +24,15 @@
     </div>
 
     <div id="topArea">
-
-      <div id="enemyTab" class="tabPage activePage">
-        <div id="list"></div>
-      </div>
-
+      <div id="enemyTab" class="tabPage activePage"><div id="list"></div></div>
       <div id="upgradeTab" class="tabPage"></div>
-
       <div id="skillTab" class="tabPage"></div>
-
       <div id="materialTab" class="tabPage"></div>
-
       <div id="rebirthTab" class="tabPage"></div>
-
       <div id="settingTab" class="tabPage"></div>
-
     </div>
 
     <div id="battleArea">放置RPG</div>
-
   </div>
 
   <script src="data.js?v=9999"></script>
@@ -59,7 +44,15 @@
   <script src="player/materialRender.js?v=9999"></script>
   <script src="player/playerRender.js?v=9999"></script>
 
-  <script src="skill/skillData.js?v=9999"></script>
+  <script src="skill/skillData_base.js?v=9999"></script>
+  <script src="skill/skillBranch_attack.js?v=9999"></script>
+  <script src="skill/skillBranch_defense.js?v=9999"></script>
+  <script src="skill/skillBranch_speed.js?v=9999"></script>
+  <script src="skill/skillBranch_critical.js?v=9999"></script>
+  <script src="skill/skillBranch_special.js?v=9999"></script>
+  <script src="skill/skillBranch_magic.js?v=9999"></script>
+  <script src="skill/skillBranch_poison.js?v=9999"></script>
+  <script src="skill/skillBranch_gather.js?v=9999"></script>
   <script src="skill/skillAction.js?v=9999"></script>
   <script src="skill/skillTab.js?v=9999"></script>
 
