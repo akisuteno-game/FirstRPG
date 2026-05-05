@@ -6,9 +6,7 @@ function renderEnemyHp(){
     HP :
 
     <span
-      id="
-        enemyHpText
-      "
+      id="enemyHpText"
     >
 
       ${currentEnemy.hp}
@@ -19,26 +17,15 @@ function renderEnemyHp(){
 
 
     <div
-
-      class="
-        hpBox
-      "
-
+      class="hpBox"
     >
 
 
 
 
       <div
-
-        id="
-          enemyHpFill
-        "
-
-        class="
-          hpFill
-        "
-
+        id="enemyHpFill"
+        class="hpFill"
       >
       </div>
 
