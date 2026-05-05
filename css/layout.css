@@ -1,112 +1,59 @@
-#side{
-
-  width:220px;
-
-  background:#181818;
-
-  border-right:2px solid #333;
-
-  padding:10px;
-
-  box-sizing:border-box;
-
-  overflow-y:auto;
-
+#side {
+  width: 220px;
+  background: #181818;
+  border-right: 2px solid #333;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
-
-
-
-#main{
-
-  flex:1;
-
-  display:flex;
-
-  flex-direction:column;
-
-  overflow:hidden;
-
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-
-
-
-#tabs{
-
-  display:flex;
-
-  height:80px;
-
-  border-bottom:2px solid #333;
-
+#tabs {
+  display: flex;
+  height: 80px;
+  border-bottom: 2px solid #333;
 }
 
-
-
-
-.tabBtn{
-
-  flex:1;
-
-  border:none;
-
-  background:#222;
-
-  color:white;
-
-  font-size:24px;
-
+.tabBtn {
+  flex: 1;
+  border: none;
+  background: #222;
+  color: white;
+  font-size: 20px;
+  min-width: unset;
+  min-height: unset;
 }
 
-
-
-
-#topArea{
-
-  min-height:420px;
-
-  border-bottom:2px solid #333;
-
-  overflow-y:auto;
-
+.tabBtn:hover {
+  background: #2a2a2a;
 }
 
-
-
-
-.tabPage{
-
-  display:none;
-
+#topArea {
+  min-height: 420px;
+  border-bottom: 2px solid #333;
+  overflow-y: auto;
 }
 
-
-
-
-.activePage{
-
-  display:block;
-
+.tabPage {
+  display: none;
 }
 
+.activePage {
+  display: block;
+}
 
-
-
-#battleArea{
-
-  flex:1;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  position:relative;
-
-  pointer-events:auto;
-
-  overflow:auto;
-
+#battleArea {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  pointer-events: auto;
+  overflow: auto;
 }
