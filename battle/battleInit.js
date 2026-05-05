@@ -28,27 +28,102 @@ document.addEventListener(
 
 
 
+    // localStorageから選択した敵IDを取得
+    const savedId =
+
+      parseInt(
+        localStorage.getItem(
+          "selectedEnemy"
+        )
+      );
+
+
+
+
+    // enemiesから該当する敵を探す
+    const found =
+
+      enemies.find(
+
+        function(e){
+
+          return e.id === savedId;
+
+        }
+
+      );
+
+
+
+
+    if(
+      !found
+    ){
+
+      alert(
+        "敵データが見つかりません"
+      );
+
+      return;
+
+    }
+
+
+
+
+    // currentEnemyをグローバルに設定
+    window.currentEnemy =
+
+      Object.assign(
+        {},
+        found
+      );
+
+
+
+
+    window.currentEnemy.maxHp =
+      found.hp;
+
+
+
+
+    // バトル画面を描画
     area.innerHTML = `
 
-      <h1
-        style="
-          color:white;
-          text-align:center;
-          margin-top:200px;
-        "
-      >
+      <div class="battleWrap">
 
-        BATTLE INIT OK
+        <img
+          src="${currentEnemy.img}"
+          class="enemyImg"
+        >
 
-      </h1>
+        <br><br>
+
+        ${renderEnemyHp()}
+
+        ${renderGauges()}
+
+        ${renderButtons()}
+
+      </div>
 
     `;
 
 
 
 
+    // ゲージ開始
+    startPlayerGauge();
+
+    startEnemyGauge();
+
+
+
+
     console.log(
-      "BATTLE INIT OK"
+      "BATTLE INIT OK",
+      currentEnemy.name
     );
 
   }
