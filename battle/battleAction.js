@@ -73,7 +73,7 @@ function attackEnemy(){
     addLog(`🏆 ${currentEnemy.name} を倒した！ GOLD +${goldGain}`);
 
     setTimeout(function(){
-      location.href = "/FirstRPG/";
+      location.href = "https://akisuteno-game.github.io/FirstRPG/index.html";
     }, 800);
 
     return;
@@ -106,7 +106,7 @@ function enemyAttack(){
     savePlayer();
 
     setTimeout(function(){
-      location.href = "/FirstRPG/";
+      location.href = "https://akisuteno-game.github.io/FirstRPG/index.html";
     }, 1000);
 
     return;
