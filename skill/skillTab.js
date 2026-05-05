@@ -1,115 +1,82 @@
 let currentSkillBranch = "attack";
+let selectedSkillId    = null;
 
+const NODE_W  = 110;
+const NODE_H  = 54;
+const GAP_X   = 60;
+const GAP_Y   = 80;
+
+// ─── スキルツリー描画 ───────────────────────
 function renderSkillTab(){
 
   const tab = document.getElementById("skillTab");
   if(!tab){ return; }
 
   const freeSp = getFreeSkillPoints();
+  const branch = skillTree[currentSkillBranch];
 
+  // ブランチ切り替えボタン
   let branchBtns = "";
-
   Object.keys(skillTree).forEach(function(key){
-    const branch = skillTree[key];
+    const b      = skillTree[key];
     const active = key === currentSkillBranch
-      ? "border:2px solid white;"
-      : "border:2px solid #333;";
-
+      ? "border-bottom:2px solid white;color:white;"
+      : "border-bottom:2px solid #333;color:#888;";
     branchBtns += `
       <button
         onclick="switchSkillBranch('${key}')"
         style="
           min-width:unset;min-height:unset;
-          padding:6px 4px;font-size:12px;
-          background:#1a1a1a;color:${branch.color};
-          ${active}width:100%;display:block;
-          margin-bottom:4px;
+          padding:6px 10px;font-size:12px;
+          background:#111;border:none;
+          ${active}cursor:pointer;white-space:nowrap;
         "
-      >${branch.label}</button>
+      >${b.label}</button>
     `;
   });
 
-  const branch = skillTree[currentSkillBranch];
-  let skillCards = "";
+  // SVGツリーを生成
+  const svgResult = buildTreeSVG(branch);
 
-  branch.skills.forEach(function(skill){
-
-    const learned   = hasSkill(skill.id);
-    const available = canLearnSkill(skill);
-    const reqMet    = requiresMet(skill);
-
-    let bg      = "#1a1a1a";
-    let border  = "#444";
-    let opacity = "1";
-
-    if(learned){
-      bg = "#0d200d"; border = "lime";
-    } else if(available){
-      bg = "#1a1a2e"; border = branch.color;
-    } else if(!reqMet){
-      opacity = "0.4";
-    }
-
-    const reqNames = skill.requires.map(function(id){
-      const s = getSkillById(id);
-      return s ? s.name : id;
-    }).join("、");
-
-    skillCards += `
-      <div style="
-        background:${bg};border:2px solid ${border};
-        padding:12px;margin-bottom:10px;opacity:${opacity};
-      ">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-          <span style="font-size:15px;font-weight:bold;color:${branch.color};">
-            ${skill.name}
-          </span>
-          <span style="font-size:12px;color:#aaa;">SP: ${skill.cost}</span>
-        </div>
-        <div style="font-size:13px;color:#ccc;margin-bottom:4px;">${skill.desc}</div>
-        ${reqNames
-          ? `<div style="font-size:11px;color:#666;margin-bottom:6px;">前提: ${reqNames}</div>`
-          : ""}
-        ${learned
-          ? `<div style="color:lime;font-size:13px;">✅ 習得済み</div>`
-          : `<button
-               onclick="learnSkill('${skill.id}')"
-               ${available ? "" : "disabled"}
-               style="
-                 min-width:unset;min-height:unset;
-                 width:100%;height:34px;font-size:13px;
-                 background:${available ? "#333" : "#1a1a1a"};
-                 color:${available ? "white" : "#555"};
-                 border:1px solid ${available ? "#888" : "#333"};
-               "
-             >
-               ${available ? "習得する" : (reqMet ? "SPが足りない" : "前提スキル未習得")}
-             </button>`
-        }
-      </div>
-    `;
-
-  });
+  // 詳細パネル
+  const detail = buildDetailPanel(branch);
 
   tab.innerHTML = `
-    <div style="display:flex;height:100%;color:white;">
+    <div style="
+      display:flex;flex-direction:column;
+      height:100%;color:white;background:#0d0d0d;
+    ">
 
+      <!-- タブバー -->
       <div style="
-        width:110px;min-width:110px;
-        background:#111;border-right:2px solid #333;
-        padding:8px;overflow-y:auto;
+        display:flex;overflow-x:auto;
+        background:#111;border-bottom:1px solid #333;
+        flex-shrink:0;
       ">
         ${branchBtns}
+        <span style="
+          margin-left:auto;padding:6px 12px;
+          color:gold;font-size:12px;white-space:nowrap;
+        ">残りSP: ${freeSp}</span>
       </div>
 
-      <div style="flex:1;padding:12px;overflow-y:auto;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
-          <span style="font-size:16px;font-weight:bold;color:${branch.color};">
-            ${branch.label}
-          </span>
-          <span style="color:gold;font-size:13px;">残りSP: ${freeSp}</span>
+      <!-- SVGエリア（横スクロール） -->
+      <div style="
+        flex:1;overflow:auto;
+        position:relative;min-height:0;
+      ">
+        <div id="skillSvgWrap" style="display:inline-block;padding:20px;">
+          ${svgResult.svg}
         </div>
-        ${skillCards}
+      </div>
+
+      <!-- 詳細パネル -->
+      <div id="skillDetailPanel" style="
+        flex-shrink:0;border-top:2px solid #333;
+        background:#111;padding:10px 14px;
+        min-height:90px;font-size:13px;
+      ">
+        ${detail}
       </div>
 
     </div>
@@ -117,7 +84,269 @@ function renderSkillTab(){
 
 }
 
+// ─── ノード配置計算 ───────────────────────────
+function buildTreeSVG(branch){
+
+  const skills  = branch.skills;
+  const color   = branch.color;
+
+  // 各スキルの列（depth）を計算
+  function getDepth(skill, memo){
+    if(memo[skill.id] !== undefined){ return memo[skill.id]; }
+    if(skill.requires.length === 0){
+      memo[skill.id] = 0;
+      return 0;
+    }
+    const maxParentDepth = Math.max.apply(null,
+      skill.requires.map(function(rid){
+        const parent = skills.find(function(s){ return s.id === rid; });
+        return parent ? getDepth(parent, memo) : 0;
+      })
+    );
+    memo[skill.id] = maxParentDepth + 1;
+    return memo[skill.id];
+  }
+
+  const depthMemo = {};
+  skills.forEach(function(s){ getDepth(s, depthMemo); });
+
+  // 列ごとにスキルをグループ
+  const columns = {};
+  skills.forEach(function(s){
+    const d = depthMemo[s.id];
+    if(!columns[d]){ columns[d] = []; }
+    columns[d].push(s);
+  });
+
+  const maxDepth = Math.max.apply(null, Object.keys(columns).map(Number));
+
+  // 各ノードのXY座標を決定
+  const pos = {};
+  const colKeys = Object.keys(columns).map(Number).sort(function(a,b){ return a-b; });
+
+  colKeys.forEach(function(col){
+    const group = columns[col];
+    group.forEach(function(s, i){
+      pos[s.id] = {
+        x: col * (NODE_W + GAP_X) + 10,
+        y: i   * (NODE_H + GAP_Y) + 10
+      };
+    });
+  });
+
+  // SVG全体サイズ
+  const svgW = (maxDepth + 1) * (NODE_W + GAP_X) + 20;
+  const maxRowCount = Math.max.apply(null,
+    Object.values(columns).map(function(g){ return g.length; })
+  );
+  const svgH = maxRowCount * (NODE_H + GAP_Y) + 20;
+
+  // エッジ（線）を描画
+  let edges = "";
+  skills.forEach(function(s){
+    s.requires.forEach(function(rid){
+      if(!pos[rid] || !pos[s.id]){ return; }
+      const px = pos[rid].x + NODE_W;
+      const py = pos[rid].y + NODE_H / 2;
+      const cx = pos[s.id].x;
+      const cy = pos[s.id].y + NODE_H / 2;
+      const learned = hasSkill(s.id) && hasSkill(rid);
+      const lineColor = learned ? color : "#444";
+      const mx = (px + cx) / 2;
+      edges += `
+        <path
+          d="M${px},${py} C${mx},${py} ${mx},${cy} ${cx},${cy}"
+          stroke="${lineColor}" stroke-width="2"
+          fill="none" stroke-dasharray="${learned ? "none" : "6,4"}"
+        />
+      `;
+    });
+  });
+
+  // ノードを描画
+  let nodes = "";
+  skills.forEach(function(s){
+    const p        = pos[s.id];
+    const learned  = hasSkill(s.id);
+    const available= canLearnSkill(s);
+    const selected = s.id === selectedSkillId;
+
+    let fill    = "#1a1a1a";
+    let stroke  = "#444";
+    let opacity = 1;
+
+    if(learned){
+      fill   = "#0d2b0d";
+      stroke = "lime";
+    } else if(available){
+      fill   = "#1a1a2e";
+      stroke = color;
+    } else if(!requiresMet(s)){
+      opacity = 0.4;
+    }
+
+    if(selected){
+      stroke = "white";
+    }
+
+    // テキストを折り返す（最大10文字で折り返し）
+    const nameLines = wrapText(s.name, 9);
+
+    let nameText = "";
+    const lineH  = 14;
+    const startY = p.y + NODE_H / 2 - (nameLines.length - 1) * lineH / 2 - 6;
+
+    nameLines.forEach(function(line, li){
+      nameText += `
+        <text
+          x="${p.x + NODE_W / 2}"
+          y="${startY + li * lineH}"
+          text-anchor="middle"
+          font-size="11"
+          fill="white"
+          font-family="monospace"
+        >${line}</text>
+      `;
+    });
+
+    nodes += `
+      <g
+        onclick="selectSkillNode('${s.id}')"
+        style="cursor:pointer;"
+        opacity="${opacity}"
+      >
+        <rect
+          x="${p.x}" y="${p.y}"
+          width="${NODE_W}" height="${NODE_H}"
+          rx="6" ry="6"
+          fill="${fill}" stroke="${stroke}" stroke-width="2"
+        />
+        ${nameText}
+        <text
+          x="${p.x + NODE_W - 6}" y="${p.y + NODE_H - 5}"
+          text-anchor="end" font-size="10"
+          fill="${learned ? "lime" : "#aaa"}"
+          font-family="monospace"
+        >${learned ? "✓" : "SP:" + s.cost}</text>
+      </g>
+    `;
+
+  });
+
+  const svg = `
+    <svg
+      width="${svgW}" height="${Math.max(svgH, 200)}"
+      xmlns="http://www.w3.org/2000/svg"
+      style="display:block;"
+    >
+      ${edges}
+      ${nodes}
+    </svg>
+  `;
+
+  return { svg: svg };
+
+}
+
+// テキスト折り返し
+function wrapText(text, maxLen){
+  if(text.length <= maxLen){ return [text]; }
+  const lines = [];
+  for(let i = 0; i < text.length; i += maxLen){
+    lines.push(text.slice(i, i + maxLen));
+  }
+  return lines;
+}
+
+// ─── ノードクリック ───────────────────────────
+function selectSkillNode(skillId){
+
+  selectedSkillId = skillId;
+
+  const branch = skillTree[currentSkillBranch];
+  const detail = buildDetailPanel(branch);
+
+  const panel = document.getElementById("skillDetailPanel");
+  if(panel){ panel.innerHTML = detail; }
+
+  // SVGの選択状態を更新
+  renderSkillTab();
+
+}
+
+// ─── 詳細パネル ───────────────────────────────
+function buildDetailPanel(branch){
+
+  if(!selectedSkillId){
+    return `<div style="color:#666;padding:10px;">
+      スキルノードをタップすると詳細が表示されます
+    </div>`;
+  }
+
+  const skill = branch.skills.find(function(s){
+    return s.id === selectedSkillId;
+  });
+
+  if(!skill){
+    return `<div style="color:#666;padding:10px;">
+      スキルノードをタップすると詳細が表示されます
+    </div>`;
+  }
+
+  const learned   = hasSkill(skill.id);
+  const available = canLearnSkill(skill);
+  const reqMet    = requiresMet(skill);
+  const freeSp    = getFreeSkillPoints();
+
+  const reqNames = skill.requires.map(function(id){
+    const s = branch.skills.find(function(x){ return x.id === id; });
+    return s ? s.name : id;
+  }).join("、");
+
+  let btnHtml = "";
+
+  if(learned){
+    btnHtml = `<span style="color:lime;">✅ 習得済み</span>`;
+  } else if(available){
+    btnHtml = `
+      <button
+        onclick="learnSkill('${skill.id}')"
+        style="
+          min-width:unset;min-height:unset;
+          padding:6px 20px;font-size:14px;
+          background:#333;color:white;
+          border:1px solid ${branch.color};
+        "
+      >習得する（SP: ${skill.cost}）</button>
+    `;
+  } else if(!reqMet){
+    btnHtml = `<span style="color:#666;">前提スキルが未習得です</span>`;
+  } else {
+    btnHtml = `<span style="color:#888;">SPが足りません（必要: ${skill.cost} / 残り: ${freeSp}）</span>`;
+  }
+
+  return `
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:15px;font-weight:bold;color:${branch.color};margin-bottom:4px;">
+          ${skill.name}
+        </div>
+        <div style="color:#ccc;margin-bottom:4px;">${skill.desc}</div>
+        ${reqNames
+          ? `<div style="font-size:11px;color:#666;">前提: ${reqNames}</div>`
+          : ""}
+      </div>
+      <div style="margin-left:auto;">
+        ${btnHtml}
+      </div>
+    </div>
+  `;
+
+}
+
+// ─── ブランチ切り替え ─────────────────────────
 function switchSkillBranch(key){
   currentSkillBranch = key;
+  selectedSkillId    = null;
   renderSkillTab();
 }
