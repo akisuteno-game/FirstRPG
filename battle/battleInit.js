@@ -34,7 +34,7 @@ function initBattle(){
   ){
 
     console.log(
-      "battle page skip"
+      "enemyId none"
     );
 
     return;
@@ -52,13 +52,13 @@ function initBattle(){
 
         return (
 
-          String(
+          Number(
             enemy.id
           )
 
           ===
 
-          String(
+          Number(
             enemyId
           )
 
@@ -71,9 +71,24 @@ function initBattle(){
 
 
 
+  console.log(
+    "FOUND = ",
+    currentEnemy
+  );
+
+
+
+
   if(
     !currentEnemy
   ){
+
+    localStorage.removeItem(
+      "selectedEnemy"
+    );
+
+
+
 
     document
       .getElementById(
@@ -81,7 +96,10 @@ function initBattle(){
       )
       .innerHTML =
 
-      "<h1>enemy not found</h1>";
+      "<h1 style='color:white'>enemy not found</h1>";
+
+
+
 
     return;
 
@@ -107,9 +125,7 @@ function initBattle(){
     ===
     "function"
   ){
-
     renderPlayer();
-
   }
 
 
@@ -120,9 +136,7 @@ function initBattle(){
     ===
     "function"
   ){
-
     startPlayerGauge();
-
   }
 
 
@@ -133,9 +147,7 @@ function initBattle(){
     ===
     "function"
   ){
-
     startEnemyGauge();
-
   }
 
 
