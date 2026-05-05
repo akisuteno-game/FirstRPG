@@ -1,16 +1,4 @@
-.battleWrap{
-
-  width:100%;
-
-  text-align:center;
-
-}
-
-
-
-
-.enemyImg{
-
-  width:150px;
-
+.enemyImg {
+  width: 150px;
+  image-rendering: pixelated;
 }
