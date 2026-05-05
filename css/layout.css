@@ -16,8 +16,9 @@
 
 #tabs {
   display: flex;
-  height: 80px;
+  height: 60px;
   border-bottom: 2px solid #333;
+  flex-wrap: nowrap;
 }
 
 .tabBtn {
@@ -25,9 +26,10 @@
   border: none;
   background: #222;
   color: white;
-  font-size: 20px;
+  font-size: 14px;
   min-width: unset;
   min-height: unset;
+  padding: 0 4px;
 }
 
 .tabBtn:hover {
