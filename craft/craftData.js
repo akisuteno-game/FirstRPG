@@ -1,199 +1,244 @@
-// 装備の種類
-const equipSlots = ["weapon", "armor", "accessory"];
-
-// 装備データ
+// 装備レシピ
+// effectRange: {stat: [min, max]} でランダム幅を定義
 const craftEquipments = [
 
-  // ─── 武器 ───────────────────────────
+  // ─── 武器（序盤〜終盤） ───────────────
   {
-    id: "ironSword",
+    id: "boneSword",
     slot: "weapon",
-    name: "鉄の剣",
-    desc: "ATK +8",
-    effect: { atk: 8 },
-    materials: { "骨のかけら": 3, "鉄の欠片": 2 }
+    tier: 0,
+    name: "骨の剣",
+    desc: "ATK +{atk}",
+    materials: { "骨のかけら": 3, "スライムゼリー": 2 },
+    effectRange: { atk: [5, 10] }
   },
   {
-    id: "poisonBlade",
+    id: "poisonDagger",
     slot: "weapon",
+    tier: 0,
     name: "毒の短剣",
-    desc: "ATK +15、クリ率 +3%",
-    effect: { atk: 15, crit: 3 },
-    materials: { "毒の鱗": 3, "影の短剣": 1 }
+    desc: "ATK +{atk}、クリ率 +{crit}%",
+    materials: { "毒の鱗": 2, "コウモリの羽": 2 },
+    effectRange: { atk: [8, 15], crit: [2, 5] }
+  },
+  {
+    id: "wolfFangSword",
+    slot: "weapon",
+    tier: 0,
+    name: "狼牙の剣",
+    desc: "ATK +{atk}、速度 -{attackSpeed}ms",
+    materials: { "狼の毛皮": 3, "銀の牙": 1 },
+    effectRange: { atk: [12, 20], attackSpeed: [50, 150] }
+  },
+  {
+    id: "cursedBlade",
+    slot: "weapon",
+    tier: 1,
+    name: "呪いの刃",
+    desc: "ATK +{atk}、クリダメ +{critMulti}倍",
+    materials: { "呪われた骨": 2, "呪いの心臓": 1 },
+    effectRange: { atk: [18, 30], critMulti: [0.2, 0.5] }
   },
   {
     id: "flameSword",
     slot: "weapon",
+    tier: 1,
     name: "炎の剣",
-    desc: "ATK +25、クリダメ +0.2倍",
-    effect: { atk: 25, critMulti: 0.2 },
-    materials: { "炎の結晶": 3, "炎の皮": 2 }
+    desc: "ATK +{atk}、クリダメ +{critMulti}倍",
+    materials: { "炎の結晶": 3, "毒トカゲ素材": 0, "腐った肉": 2 },
+    effectRange: { atk: [25, 40], critMulti: [0.2, 0.6] }
   },
   {
     id: "darkSword",
     slot: "weapon",
+    tier: 2,
     name: "闇の大剣",
-    desc: "ATK +40",
-    effect: { atk: 40 },
-    materials: { "闇の鎧片": 3, "闇の剣": 1 }
+    desc: "ATK +{atk}、クリ率 +{crit}%",
+    materials: { "闇の鎧片": 3, "幽霊の布": 2 },
+    effectRange: { atk: [40, 65], crit: [3, 8] }
   },
   {
     id: "dragonSword",
     slot: "weapon",
+    tier: 2,
     name: "竜殺しの剣",
-    desc: "ATK +60、クリ率 +5%",
-    effect: { atk: 60, crit: 5 },
-    materials: { "竜のウロコ": 5, "紅竜の心臓": 1 }
+    desc: "ATK +{atk}、クリ率 +{crit}%、クリダメ +{critMulti}倍",
+    materials: { "竜のウロコ": 4, "紅竜の心臓": 1 },
+    effectRange: { atk: [55, 80], crit: [4, 10], critMulti: [0.3, 0.7] }
   },
   {
-    id: "voidBlade",
+    id: "voidSword",
     slot: "weapon",
+    tier: 3,
     name: "虚無の刃",
-    desc: "ATK +90、クリダメ +0.5倍",
-    effect: { atk: 90, critMulti: 0.5 },
-    materials: { "虚無の欠片": 5, "虚無の刃": 2 }
+    desc: "ATK +{atk}、速度 -{attackSpeed}ms、クリダメ +{critMulti}倍",
+    materials: { "虚無の欠片": 4, "影の短剣": 2 },
+    effectRange: { atk: [80, 120], attackSpeed: [100, 300], critMulti: [0.5, 1.0] }
   },
   {
-    id: "godSlayerSword",
+    id: "godSword",
     slot: "weapon",
+    tier: 4,
     name: "神滅の剣",
-    desc: "ATK +150、クリ率 +10%、クリダメ +1.0倍",
-    effect: { atk: 150, crit: 10, critMulti: 1.0 },
-    materials: { "神滅の鱗": 3, "神滅龍の心臓": 1, "混沌の核": 2 }
+    desc: "ATK +{atk}、クリ率 +{crit}%、クリダメ +{critMulti}倍",
+    materials: { "神滅の鱗": 3, "神滅龍の心臓": 1 },
+    effectRange: { atk: [130, 200], crit: [8, 15], critMulti: [0.8, 1.5] }
   },
 
-  // ─── 鎧 ───────────────────────────
+  // ─── 鎧（序盤〜終盤） ─────────────────
   {
-    id: "leatherArmor",
+    id: "slimeArmor",
     slot: "armor",
-    name: "皮の鎧",
-    desc: "MaxHP +20",
-    effect: { maxHp: 20 },
-    materials: { "狼の毛皮": 3, "腐った肉": 2 }
+    tier: 0,
+    name: "スライムの鎧",
+    desc: "MaxHP +{maxHp}",
+    materials: { "スライムゼリー": 5 },
+    effectRange: { maxHp: [15, 30] }
   },
   {
-    id: "boneArmor",
+    id: "batArmor",
     slot: "armor",
-    name: "骨の鎧",
-    desc: "MaxHP +40",
-    effect: { maxHp: 40 },
-    materials: { "骨のかけら": 5, "呪われた骨": 2 }
+    tier: 0,
+    name: "コウモリの鎧",
+    desc: "MaxHP +{maxHp}、速度 -{attackSpeed}ms",
+    materials: { "コウモリの羽": 3, "漆黒の羽": 1 },
+    effectRange: { maxHp: [20, 40], attackSpeed: [30, 100] }
   },
   {
     id: "orcArmor",
     slot: "armor",
+    tier: 0,
     name: "オークの鎧",
-    desc: "MaxHP +65",
-    effect: { maxHp: 65 },
-    materials: { "オークの皮": 5, "古代の皮": 2 }
+    desc: "MaxHP +{maxHp}、ATK +{atk}",
+    materials: { "オークの皮": 4, "古代の皮": 1 },
+    effectRange: { maxHp: [40, 70], atk: [3, 8] }
   },
   {
-    id: "ironArmor",
+    id: "boneArmor",
     slot: "armor",
-    name: "鉄の鎧",
-    desc: "MaxHP +100",
-    effect: { maxHp: 100 },
-    materials: { "鉄の欠片": 5, "魔鉄の核": 1 }
+    tier: 1,
+    name: "骨の鎧",
+    desc: "MaxHP +{maxHp}",
+    materials: { "骨のかけら": 4, "呪われた骨": 2 },
+    effectRange: { maxHp: [60, 100] }
   },
   {
     id: "dragonArmor",
     slot: "armor",
+    tier: 2,
     name: "竜鱗の鎧",
-    desc: "MaxHP +180、ATK +10",
-    effect: { maxHp: 180, atk: 10 },
-    materials: { "竜のウロコ": 5, "氷竜のウロコ": 3 }
+    desc: "MaxHP +{maxHp}、ATK +{atk}",
+    materials: { "竜のウロコ": 4, "氷竜のウロコ": 2 },
+    effectRange: { maxHp: [150, 250], atk: [8, 18] }
   },
   {
     id: "phoenixArmor",
     slot: "armor",
+    tier: 3,
     name: "不死鳥の鎧",
-    desc: "MaxHP +300",
-    effect: { maxHp: 300 },
-    materials: { "雷鳥の羽": 3, "不死鳥の核": 2 }
+    desc: "MaxHP +{maxHp}、ATK +{atk}",
+    materials: { "雷鳥の羽": 3, "不死鳥の核": 1 },
+    effectRange: { maxHp: [250, 400], atk: [15, 30] }
   },
   {
     id: "godArmor",
     slot: "armor",
+    tier: 4,
     name: "神滅の鎧",
-    desc: "MaxHP +600、ATK +30",
-    effect: { maxHp: 600, atk: 30 },
-    materials: { "神滅の鱗": 5, "神滅龍の心臓": 2 }
+    desc: "MaxHP +{maxHp}、ATK +{atk}",
+    materials: { "神滅の鱗": 4, "神滅龍の心臓": 1 },
+    effectRange: { maxHp: [500, 800], atk: [30, 60] }
   },
 
-  // ─── アクセサリー ───────────────────
+  // ─── アクセサリー（序盤〜終盤） ────────
   {
-    id: "luckRing",
+    id: "slimeRing",
     slot: "accessory",
-    name: "幸運の指輪",
-    desc: "レアドロップ率 +8%",
-    effect: { rareChance: 0.08 },
-    materials: { "スライムゼリー": 5, "キングゼリー": 1 }
+    tier: 0,
+    name: "スライムの指輪",
+    desc: "GOLD取得 +{goldBonus}%",
+    materials: { "スライムゼリー": 3, "キングゼリー": 1 },
+    effectRange: { goldBonus: [0.05, 0.15] }
   },
   {
-    id: "goldAmulet",
+    id: "fangNecklace",
     slot: "accessory",
-    name: "黄金のお守り",
-    desc: "GOLD取得 +20%",
-    effect: { goldBonus: 0.2 },
-    materials: { "王の印章": 2, "黄金の王冠": 1 }
+    tier: 0,
+    name: "牙のネックレス",
+    desc: "クリ率 +{crit}%",
+    materials: { "ゴブリンの牙": 3, "銀の牙": 1 },
+    effectRange: { crit: [3, 8] }
   },
   {
-    id: "critGem",
+    id: "scaleAmulet",
     slot: "accessory",
-    name: "必殺の宝石",
-    desc: "クリ率 +8%、クリダメ +0.3倍",
-    effect: { crit: 8, critMulti: 0.3 },
-    materials: { "魔眼の結晶": 3, "血の宝石": 2 }
+    tier: 1,
+    name: "鱗のお守り",
+    desc: "レアドロップ率 +{rareChance}%",
+    materials: { "毒の鱗": 3, "骨のかけら": 3 },
+    effectRange: { rareChance: [0.03, 0.08] }
   },
   {
-    id: "speedRing",
+    id: "crystalRing",
     slot: "accessory",
-    name: "疾風の指輪",
-    desc: "攻撃速度 -200ms",
-    effect: { attackSpeed: -200 },
-    materials: { "銀の牙": 3, "月の牙": 2 }
+    tier: 1,
+    name: "魔法石の指輪",
+    desc: "クリ率 +{crit}%、クリダメ +{critMulti}倍",
+    materials: { "魔法石": 2, "魔眼の結晶": 1 },
+    effectRange: { crit: [4, 10], critMulti: [0.1, 0.4] }
   },
   {
-    id: "soulOrb",
+    id: "soulRing",
     slot: "accessory",
-    name: "魂の宝珠",
-    desc: "ATK +20、MaxHP +50",
-    effect: { atk: 20, maxHp: 50 },
-    materials: { "魂の結晶": 3, "魂の宝珠": 1 }
+    tier: 2,
+    name: "魂の指輪",
+    desc: "ATK +{atk}、MaxHP +{maxHp}",
+    materials: { "魂の結晶": 3, "幽霊の布": 2 },
+    effectRange: { atk: [10, 25], maxHp: [30, 80] }
   },
   {
-    id: "voidCrystal",
+    id: "dragonHeart",
     slot: "accessory",
+    tier: 2,
+    name: "竜の心臓",
+    desc: "ATK +{atk}、クリ率 +{crit}%、GOLD +{goldBonus}%",
+    materials: { "紅竜の心臓": 1, "竜のウロコ": 3 },
+    effectRange: { atk: [20, 40], crit: [3, 8], goldBonus: [0.05, 0.15] }
+  },
+  {
+    id: "voidCrystalRing",
+    slot: "accessory",
+    tier: 3,
     name: "虚空の結晶",
-    desc: "全ステータス +8%相当（ATK+30、HP+80、速度-150ms）",
-    effect: { atk: 30, maxHp: 80, attackSpeed: -150 },
-    materials: { "虚空の結晶": 3, "奈落の核": 2 }
+    desc: "ATK +{atk}、速度 -{attackSpeed}ms、クリダメ +{critMulti}倍",
+    materials: { "虚空の結晶": 3, "虚無の欠片": 3 },
+    effectRange: { atk: [30, 60], attackSpeed: [100, 250], critMulti: [0.3, 0.8] }
   },
   {
     id: "godHeart",
     slot: "accessory",
+    tier: 4,
     name: "神滅龍の心臓",
-    desc: "ATK +80、MaxHP +200、クリ率 +15%",
-    effect: { atk: 80, maxHp: 200, crit: 15 },
-    materials: { "神滅龍の心臓": 1, "混沌の核": 3, "奈落の核": 2 }
+    desc: "ATK +{atk}、MaxHP +{maxHp}、クリ率 +{crit}%",
+    materials: { "神滅龍の心臓": 1, "混沌の核": 2 },
+    effectRange: { atk: [60, 120], maxHp: [150, 300], crit: [8, 18] }
   }
 
 ];
 
-// アイテムデータ（消費アイテム）
+// 消費アイテムレシピ
 const craftItems = [
-
   {
     id: "potion",
     name: "回復ポーション",
-    desc: "HP 50%回復",
+    desc: "HP 50%回復 ×1",
     materials: { "スライムゼリー": 3 }
   },
   {
     id: "bigPotion",
     name: "大回復ポーション",
-    desc: "HP 100%回復",
-    materials: { "キングゼリー": 2, "スライムゼリー": 5 }
+    desc: "HP 100%回復 ×1（ポーション+3相当）",
+    materials: { "キングゼリー": 1, "スライムゼリー": 5 }
   },
   {
     id: "expScroll",
@@ -207,5 +252,18 @@ const craftItems = [
     desc: "GOLD +200",
     materials: { "黄金の王冠": 1, "黄金の角": 1 }
   }
-
 ];
+
+// レシピの説明文にランダム値を埋め込む
+function buildEquipDesc(recipe, effect){
+  let desc = recipe.desc;
+  Object.keys(effect).forEach(function(k){
+    const val = effect[k];
+    const display = k === "goldBonus"   ? Math.round(val * 100)
+                  : k === "rareChance"  ? Math.round(val * 100)
+                  : k === "critMulti"   ? val.toFixed(1)
+                  : val;
+    desc = desc.replace("{" + k + "}", display);
+  });
+  return desc;
+}
