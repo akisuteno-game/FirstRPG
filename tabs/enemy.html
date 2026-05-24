@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tab_base.css">
+  <style>
+    .areaHeader { padding:3px 10px; background:#0f1520; border-bottom:1px solid #1a1a2a; color:#4466aa; font-size:10px; display:flex; align-items:center; gap:5px; }
+    .areaHeader.locked { color:#2a2a2a; background:#0a0a0a; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px; }
+    .card { background:#0d0d0d; border:1px solid #1e1e1e; padding:8px; cursor:pointer; text-align:center; }
+    .card:hover { background:#111; }
+    .card.boss { border-color:#554400; background:#0d0900; }
+    .card img { display:block; margin:0 auto 4px; width:60px; }
+    .card .cname { font-size:11px; font-weight:bold; color:white; margin-bottom:3px; }
+    .card .cname.bossname { color:gold; }
+    .card .info { font-size:9px; color:#666; line-height:1.6; text-align:left; }
+    .hidden-card { background:#0a0a0a; border:1px solid #1a1a1a; padding:10px; text-align:center; color:#555; font-size:11px; }
+    .locked-area { padding:8px 10px; color:#2a2a2a; font-size:10px; text-align:center; }
+  </style>
+</head>
+<body>
+  <div id="list"></div>
+  <script src="../data.js?v=9999"></script>
+  <script src="../js/player_data.js?v=9999"></script>
+  <script>
+    function refreshTab(){ loadPlayer(); renderEnemyTab(); }
+
+    function isEnemyRevealed(enemy){
+      if(!enemy){ return false; }
+      if(enemy.material     && (player.materials[enemy.material]    ||0) > 0){ return true; }
+      if(enemy.rareMaterial && (player.materials[enemy.rareMaterial]||0) > 0){ return true; }
+      return false;
+    }
+
+    function renderEnemyTab(){
+      loadPlayer();
+      const list = document.getElementById("list");
+      if(!list){ return; }
+      const rc = player.rebirthCount || 0;
+      const groups = {};
+      enemies.forEach(function(e){
+        const r = e.rebirthRequired||0;
+        if(!groups[r]){ groups[r]=[]; }
+        groups[r].push(e);
+      });
+      let html = "";
+      Object.keys(groups).map(Number).sort(function(a,b){return a-b;}).forEach(function(r){
+        const unlocked = rc >= r;
+        const label = r===0 ? "はじまりの地" : "転生"+r+"回 解放エリア";
+        html += `<div class="areaHeader ${unlocked?"":"locked"}">
+          ${unlocked?"🔓":"🔒"} ${label}
+          ${!unlocked?`<span style="margin-left:auto;font-size:9px;color:#222;">転生${r}回で解放</span>`:""}
+        </div>`;
+        if(!unlocked){ html += `<div class="locked-area">🔒 転生${r}回で解放</div>`; return; }
+        html += `<div class="grid">`;
+        groups[r].forEach(function(enemy, idx){
+          const revealed = idx===0 || isEnemyRevealed(groups[r][idx-1]);
+          if(!revealed){
+            html += `<div class="hidden-card"><div style="font-size:22px;margin-bottom:4px;">？</div><div style="font-size:9px;">前の敵を倒すと解放</div></div>`;
+            return;
+          }
+          html += `<div class="card ${enemy.isBoss?"boss":""}" onclick="location.href='../battle.html?id=${enemy.id}'">
+            ${enemy.isBoss?`<div style="color:gold;font-size:9px;margin-bottom:2px;">👑 BOSS</div>`:""}
+            <img src="../${enemy.img}" onerror="this.style.display='none'">
+            <div class="cname ${enemy.isBoss?"bossname":""}">${enemy.name}</div>
+            <div class="info">HP:${enemy.hp} ATK:${enemy.atk}<br>速:${(enemy.speed/1000).toFixed(1)}s G:${enemy.drop}<br>通:${enemy.material||"なし"}<br>レア:${enemy.rareMaterial||"なし"}</div>
+          </div>`;
+        });
+        html += `</div>`;
+      });
+      list.innerHTML = html;
+    }
+    renderEnemyTab();
+  </script>
+</body>
+</html>
