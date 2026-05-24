@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tab_base.css">
+  <style>
+    #rWrap{display:flex;flex-direction:column;height:100vh;}
+    #rInfo{padding:12px;border-bottom:1px solid #1a1a1a;flex-shrink:0;}
+    #rInfo h2{font-size:15px;color:white;margin-bottom:8px;}
+    .ibox{background:#0d0d1a;border:1px solid #333;padding:10px;font-size:12px;line-height:2;margin-bottom:10px;}
+    .rbtn{min-width:unset;min-height:unset;padding:10px 24px;font-size:15px;background:#1a0a2a;color:white;border:2px solid #8844cc;font-family:monospace;cursor:pointer;}
+    .rbtn:disabled{opacity:0.4;cursor:default;}
+    #mapLabel{padding:6px 12px;font-size:11px;color:#555;border-bottom:1px solid #1a1a1a;flex-shrink:0;display:flex;justify-content:space-between;}
+    #mapScroll{flex:1;overflow:auto;background:#03030a;}
+    #nodeDetail{flex-shrink:0;border-top:1px solid #1a1a1a;padding:10px 12px;min-height:70px;font-size:12px;background:#0a0a0a;}
+    .lbtn{min-width:unset;min-height:unset;padding:5px 16px;font-size:12px;background:#111827;color:#88aaff;border:1px solid #334466;font-family:monospace;cursor:pointer;}
+  </style>
+</head>
+<body>
+<div id="rWrap">
+  <div id="rInfo">
+    <h2>転生</h2>
+    <div class="ibox" id="infoBox"></div>
+    <div id="rStatus" style="font-size:12px;color:#888;margin-bottom:8px;"></div>
+    <button class="rbtn" id="rBtn" onclick="doRebirth()">転生する</button>
+  </div>
+  <div id="mapLabel">
+    <span>転生スキルマップ</span>
+    <span id="rpLabel" style="color:#ff88ff;">残りRP: 0</span>
+  </div>
+  <div id="mapScroll"><div id="mapInner"></div></div>
+  <div id="nodeDetail"><span style="color:#333;">ノードをタップしてください</span></div>
+</div>
+
+<script src="../data.js?v=9999"></script>
+<script src="../js/player_data.js?v=9999"></script>
+<script src="../js/skill_data.js?v=9999"></script>
+<script src="../js/skill_logic.js?v=9999"></script>
+<script src="../js/rebirth_data.js?v=9999"></script>
+<script src="../js/rebirth_logic.js?v=9999"></script>
+<script>
+  function refreshTab(){ loadPlayer(); renderTab(); }
+
+  function renderTab(){
+    loadPlayer();
+    const count=player.rebirthCount||0;
+    const canDo=player.level>=REBIRTH_LEVEL;
+    const freeRp=(player.rebirthPoints||0)-(player.usedRebirthPoints||0);
+    document.getElementById("infoBox").innerHTML=`転生回数 : <span style="color:gold;">${count}回</span><br>称号 : <span style="color:orange;">${getRebirthTitle(count)}</span><br>転生ポイント : <span style="color:#ff88ff;">${freeRp} / ${player.rebirthPoints||0}</span>`;
+    document.getElementById("rStatus").textContent=canDo?"✅ Lv.20達成！転生可能！":"🔒 Lv."+REBIRTH_LEVEL+"で転生可能（現在 Lv."+player.level+"）";
+    document.getElementById("rStatus").style.color=canDo?"lime":"#555";
+    document.getElementById("rBtn").disabled=!canDo;
+    document.getElementById("rpLabel").textContent="残りRP: "+freeRp;
+    renderMap();
+  }
+
+  function doRebirth(){
+    if(player.level<REBIRTH_LEVEL)return;
+    showScreen();
+  }
+
+  function confirmRebirth(){
+    doConfirmRebirth();
+    const s=document.getElementById("rScreen");
+    if(s)s.remove();
+    parent.notifyPlayerUpdate&&parent.notifyPlayerUpdate();
+    renderTab();
+    alert("転生完了！称号："+getRebirthTitle(player.rebirthCount)+"\n転生ポイント +3");
+  }
+
+  function renderMap(){
+    const CX=560,CY=560;
+    let edges="",nodes="";
+    rebirthSkillMap.forEach(function(skill){
+      skill.requires.forEach(function(rid){
+        const par=rebirthSkillMap.find(function(s){return s.id===rid;});
+        if(!par)return;
+        const px=CX+Math.cos(par.angle*Math.PI/180)*par.radius,py=CY+Math.sin(par.angle*Math.PI/180)*par.radius;
+        const cx=CX+Math.cos(skill.angle*Math.PI/180)*skill.radius,cy=CY+Math.sin(skill.angle*Math.PI/180)*skill.radius;
+        const both=hasRebirthSkill(skill.id)&&hasRebirthSkill(rid);
+        edges+=`<line x1="${px}" y1="${py}" x2="${cx}" y2="${cy}" stroke="${both?"#4488ff":"#1a1a2a"}" stroke-width="${both?2:1}"/>`;
+      });
+    });
+    rebirthSkillMap.forEach(function(skill){
+      const nx=CX+Math.cos(skill.angle*Math.PI/180)*skill.radius;
+      const ny=CY+Math.sin(skill.angle*Math.PI/180)*skill.radius;
+      const learned=hasRebirthSkill(skill.id);
+      const freeRp=(player.rebirthPoints||0)-(player.usedRebirthPoints||0);
+      const reqMet=skill.requires.every(function(r){return hasRebirthSkill(r);});
+      const available=!learned&&reqMet&&freeRp>=skill.cost;
+      const isCore=skill.id==="r_core",R=isCore?30:22;
+      let fill="#0a0a0a",stroke="#222";
+      if(isCore){fill="#1a0a3a";stroke="#aa66ff";}
+      else if(learned){fill="#0a1a0a";stroke="#44ff44";}
+      else if(available){fill="#0a0a1a";stroke="#4488ff";}
+      const sname=skill.name.length>7?skill.name.slice(0,6)+"…":skill.name;
+      nodes+=`<g onclick="selectNode('${skill.id}')" style="cursor:pointer;"><circle cx="${nx}" cy="${ny}" r="${R}" fill="${fill}" stroke="${stroke}" stroke-width="2"/><text x="${nx}" y="${ny+4}" text-anchor="middle" font-size="9" fill="white" font-family="monospace">${sname}</text>${learned?`<text x="${nx+R-2}" y="${ny-R+8}" font-size="10" fill="lime">✓</text>`:""}</g>`;
+    });
+    document.getElementById("mapInner").innerHTML=`<svg width="${CX*2}" height="${CY*2}" xmlns="http://www.w3.org/2000/svg">${edges}${nodes}</svg>`;
+  }
+
+  function selectNode(id){
+    const skill=rebirthSkillMap.find(function(s){return s.id===id;});
+    if(!skill)return;
+    const panel=document.getElementById("nodeDetail");
+    const learned=hasRebirthSkill(id);
+    const freeRp=(player.rebirthPoints||0)-(player.usedRebirthPoints||0);
+    const reqMet=skill.requires.every(function(r){return hasRebirthSkill(r);});
+    const available=!learned&&reqMet&&freeRp>=skill.cost;
+    const reqNames=skill.requires.map(function(r){const s=rebirthSkillMap.find(function(x){return x.id===r;});return s?s.name:r;}).join("、");
+    let btn="";
+    if(skill.id==="r_core"){btn=`<span style="color:#aa66ff;">★ コア</span>`;}
+    else if(learned){btn=`<span style="color:lime;">✅ 取得済み</span>`;}
+    else if(available){btn=`<button class="lbtn" onclick="doLearn('${id}')">取得（RP:${skill.cost}）</button>`;}
+    else if(!reqMet){btn=`<span style="color:#444;">前提ノード未取得</span>`;}
+    else{btn=`<span style="color:#555;">RP不足（必要:${skill.cost} 残:${freeRp}）</span>`;}
+    panel.innerHTML=`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><div><div style="font-size:13px;font-weight:bold;color:#88aaff;margin-bottom:3px;">${skill.name}</div><div style="color:#aaa;margin-bottom:2px;">${skill.desc}</div>${reqNames?`<div style="font-size:10px;color:#444;">前提: ${reqNames}</div>`:""}</div><div style="margin-left:auto;">${btn}</div></div>`;
+  }
+
+  function doLearn(id){
+    learnRebirthSkill(id);
+    savePlayer();
+    parent.notifyPlayerUpdate&&parent.notifyPlayerUpdate();
+    renderTab();
+  }
+
+  function showScreen(){
+    const s=document.createElement("div");
+    s.id="rScreen";
+    s.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;font-family:monospace;";
+    const next=(player.rebirthCount||0)+1;
+    s.innerHTML=`<div style="text-align:center;"><div style="font-size:11px;color:#666;margin-bottom:8px;">転生 ${next}回目</div><canvas id="rc" width="260" height="260" style="display:block;margin:0 auto 16px;"></canvas><div style="font-size:24px;color:gold;margin-bottom:8px;letter-spacing:3px;">${getRebirthTitle(next)}</div><div style="font-size:12px;color:#aaa;margin-bottom:4px;">転生ポイント +3</div><div style="font-size:11px;color:#444;margin-bottom:24px;">Lv・GOLD・スキルはリセット</div><div style="display:flex;gap:12px;justify-content:center;"><button onclick="confirmRebirth()" style="min-width:unset;min-height:unset;padding:10px 24px;font-size:16px;background:#2a0a4a;color:white;border:2px solid #8844cc;font-family:monospace;">転生する</button><button onclick="document.getElementById('rScreen').remove()" style="min-width:unset;min-height:unset;padding:10px 24px;font-size:16px;background:#111;color:#666;border:1px solid #333;font-family:monospace;">戻る</button></div></div>`;
+    document.body.appendChild(s);
+    startParticles();
+  }
+
+  function startParticles(){
+    const c=document.getElementById("rc");
+    if(!c)return;
+    const ctx=c.getContext("2d"),W=c.width,H=c.height,CX=W/2,CY=H/2,pts=[];
+    for(let i=0;i<60;i++){const a=Math.random()*Math.PI*2,sp=0.4+Math.random()*1.2;pts.push({x:CX,y:CY,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,decay:0.006+Math.random()*0.01,size:1+Math.random()*3,hue:Math.floor(Math.random()*60)+240});}
+    function draw(){
+      if(!document.getElementById("rc"))return;
+      ctx.fillStyle="rgba(0,0,0,0.12)";ctx.fillRect(0,0,W,H);
+      pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;if(p.life<=0){const a=Math.random()*Math.PI*2,sp=0.4+Math.random()*1.2;p.x=CX;p.y=CY;p.vx=Math.cos(a)*sp;p.vy=Math.sin(a)*sp;p.life=1;p.hue=Math.floor(Math.random()*60)+240;}ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=`hsla(${p.hue},100%,70%,${p.life})`;ctx.fill();});
+      const g=ctx.createRadialGradient(CX,CY,0,CX,CY,35);g.addColorStop(0,"rgba(160,80,255,0.5)");g.addColorStop(1,"rgba(0,0,0,0)");ctx.beginPath();ctx.arc(CX,CY,35,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  renderTab();
+</script>
+</body>
+</html>
