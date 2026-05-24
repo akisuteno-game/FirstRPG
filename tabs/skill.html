@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tab_base.css">
+  <style>
+    #skillWrap { display:flex; flex-direction:column; height:100vh; }
+    #branchBar { display:flex; overflow-x:auto; flex-shrink:0; background:#0d0d0d; border-bottom:1px solid #1a1a1a; }
+    .branchBtn { min-width:unset; min-height:unset; padding:8px 10px; font-size:11px; background:#0d0d0d; border:none; white-space:nowrap; cursor:pointer; border-bottom:2px solid transparent; }
+    .branchBtn.active { border-bottom-color:white; color:white; }
+    #spBar { padding:4px 10px; font-size:11px; color:gold; background:#0a0a0a; border-bottom:1px solid #1a1a1a; flex-shrink:0; }
+    #svgScroll { flex:1; overflow:auto; background:#050508; }
+    #detailPanel { flex-shrink:0; border-top:1px solid #1a1a1a; padding:10px 12px; min-height:80px; font-size:12px; background:#0d0d0d; }
+    .learnBtn { min-width:unset; min-height:unset; padding:6px 16px; font-size:13px; background:#1a2a1a; color:#88ff88; border:1px solid #336633; font-family:monospace; cursor:pointer; }
+  </style>
+</head>
+<body>
+<div id="skillWrap">
+  <div id="branchBar"></div>
+  <div id="spBar">残りSP: 0</div>
+  <div id="svgScroll"><div id="svgInner"></div></div>
+  <div id="detailPanel"><span style="color:#444;">ノードをタップしてください</span></div>
+</div>
+<script src="../data.js?v=9999"></script>
+<script src="../js/player_data.js?v=9999"></script>
+<script src="../js/skill_data.js?v=9999"></script>
+<script src="../js/skill_logic.js?v=9999"></script>
+<script>
+  function refreshTab(){ loadPlayer(); renderSkillTab(); }
+  let curBranch = "attack", selId = null;
+  const NW=110,NH=54,GX=60,GY=80;
+
+  function renderSkillTab(){
+    loadPlayer();
+    const freeSp=(player.skillPoints||0)-(player.usedSkillPoints||0);
+    document.getElementById("spBar").textContent="残りSP: "+freeSp;
+    const bar=document.getElementById("branchBar");
+    bar.innerHTML=Object.keys(skillTree).map(function(k){
+      const b=skillTree[k];
+      return `<button class="branchBtn ${k===curBranch?"active":""}" style="color:${b.color};" onclick="switchBranch('${k}')">${b.label}</button>`;
+    }).join("");
+    buildSVG(); buildDetail();
+  }
+
+  function switchBranch(k){ curBranch=k; selId=null; renderSkillTab(); }
+
+  function buildSVG(){
+    const branch=skillTree[curBranch], skills=branch.skills, color=branch.color;
+    const dm={};
+    function gd(s){ if(dm[s.id]!==undefined)return dm[s.id]; if(!s.requires.length)return(dm[s.id]=0); return(dm[s.id]=Math.max.apply(null,s.requires.map(function(r){const p=skills.find(function(x){return x.id===r;});return p?gd(p):0;}))+1); }
+    skills.forEach(gd);
+    const cols={};
+    skills.forEach(function(s){ const d=dm[s.id]; if(!cols[d])cols[d]=[]; cols[d].push(s); });
+    const maxD=Math.max.apply(null,Object.keys(cols).map(Number));
+    const pos={};
+    Object.keys(cols).map(Number).sort(function(a,b){return a-b;}).forEach(function(col){
+      cols[col].forEach(function(s,i){ pos[s.id]={x:col*(NW+GX)+10,y:i*(NH+GY)+10}; });
+    });
+    const svgW=(maxD+1)*(NW+GX)+20;
+    const maxRow=Math.max.apply(null,Object.values(cols).map(function(g){return g.length;}));
+    const svgH=maxRow*(NH+GY)+20;
+    let edges="",nodes="";
+    skills.forEach(function(s){
+      s.requires.forEach(function(rid){
+        if(!pos[rid]||!pos[s.id])return;
+        const px=pos[rid].x+NW,py=pos[rid].y+NH/2,cx=pos[s.id].x,cy=pos[s.id].y+NH/2,mx=(px+cx)/2;
+        const learned=hasSkill(s.id)&&hasSkill(rid);
+        edges+=`<path d="M${px},${py} C${mx},${py} ${mx},${cy} ${cx},${cy}" stroke="${learned?color:"#333"}" stroke-width="2" fill="none" stroke-dasharray="${learned?"none":"6,3"}"/>`;
+      });
+    });
+    skills.forEach(function(s){
+      const p=pos[s.id],learned=hasSkill(s.id),available=canLearnSkill(s),reqMet=requiresMet(s),sel=s.id===selId;
+      let fill="#111",stroke="#333",op=1;
+      if(learned){fill="#0a1a0a";stroke="lime";}else if(available){fill="#0a0a1a";stroke=color;}else if(!reqMet){op=0.4;}
+      if(sel){stroke="white";}
+      const lines=s.name.length>9?[s.name.slice(0,9),s.name.slice(9)]:[s.name];
+      const sy=p.y+NH/2-(lines.length-1)*7-6;
+      const nt=lines.map(function(l,li){return `<text x="${p.x+NW/2}" y="${sy+li*14}" text-anchor="middle" font-size="11" fill="white" font-family="monospace">${l}</text>`;}).join("");
+      nodes+=`<g onclick="selectNode('${s.id}')" style="cursor:pointer;" opacity="${op}">
+        <rect x="${p.x}" y="${p.y}" width="${NW}" height="${NH}" rx="5" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+        ${nt}
+        <text x="${p.x+NW-5}" y="${p.y+NH-5}" text-anchor="end" font-size="10" fill="${learned?"lime":"#888"}" font-family="monospace">${learned?"✓":"SP:"+s.cost}</text>
+      </g>`;
+    });
+    document.getElementById("svgInner").innerHTML=`<svg width="${svgW}" height="${Math.max(svgH,200)}" xmlns="http://www.w3.org/2000/svg">${edges}${nodes}</svg>`;
+  }
+
+  function selectNode(id){ selId=id; buildSVG(); buildDetail(); }
+
+  function buildDetail(){
+    const panel=document.getElementById("detailPanel");
+    if(!selId){panel.innerHTML=`<span style="color:#444;">ノードをタップしてください</span>`;return;}
+    const branch=skillTree[curBranch];
+    const skill=branch.skills.find(function(s){return s.id===selId;});
+    if(!skill){return;}
+    const learned=hasSkill(skill.id),available=canLearnSkill(skill),reqMet=requiresMet(skill);
+    const freeSp=(player.skillPoints||0)-(player.usedSkillPoints||0);
+    const reqNames=skill.requires.map(function(r){const s=branch.skills.find(function(x){return x.id===r;});return s?s.name:r;}).join("、");
+    let btn="";
+    if(learned){btn=`<span style="color:lime;">✅ 習得済み</span>`;}
+    else if(available){btn=`<button class="learnBtn" onclick="doLearn('${skill.id}')">習得する（SP:${skill.cost}）</button>`;}
+    else if(!reqMet){btn=`<span style="color:#444;">前提未習得</span>`;}
+    else{btn=`<span style="color:#666;">SP不足（必要:${skill.cost} 残:${freeSp}）</span>`;}
+    panel.innerHTML=`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px;font-weight:bold;color:${branch.color};margin-bottom:3px;">${skill.name}</div>
+        <div style="color:#aaa;margin-bottom:3px;">${skill.desc}</div>
+        ${reqNames?`<div style="font-size:10px;color:#555;">前提: ${reqNames}</div>`:""}
+      </div>
+      <div style="margin-left:auto;">${btn}</div>
+    </div>`;
+  }
+
+  function doLearn(id){ learnSkill(id); savePlayer(); parent.notifyPlayerUpdate&&parent.notifyPlayerUpdate(); renderSkillTab(); }
+
+  renderSkillTab();
+</script>
+</body>
+</html>
