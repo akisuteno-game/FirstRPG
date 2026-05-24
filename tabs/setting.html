@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tab_base.css">
+  <style>
+    .wrap { padding:20px; }
+    h2 { font-size:16px; color:white; margin-bottom:16px; }
+    .sbtn { display:block; width:100%; min-width:unset; min-height:unset; height:52px; font-size:15px; margin-bottom:10px; background:#111; border:1px solid #2a2a2a; color:white; font-family:monospace; cursor:pointer; }
+    .sbtn:hover { background:#1a1a1a; }
+    .sbtn.danger { border-color:#441111; color:#ff6666; }
+    .sbtn.danger:hover { background:#1a0a0a; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>設定</h2>
+    <button class="sbtn" onclick="doSave()">💾 セーブ</button>
+    <button class="sbtn" onclick="doLoad()">📂 ロード</button>
+    <button class="sbtn danger" onclick="doReset()">🗑️ リセット</button>
+  </div>
+  <script src="../data.js?v=9999"></script>
+  <script src="../js/player_data.js?v=9999"></script>
+  <script>
+    function refreshTab(){}
+
+    function doSave(){
+      loadPlayer(); savePlayer();
+      alert("セーブしました");
+    }
+    function doLoad(){
+      loadPlayer();
+      parent.notifyPlayerUpdate && parent.notifyPlayerUpdate();
+      alert("ロードしました");
+    }
+    function doReset(){
+      if(!confirm("データを全て消しますか？")){ return; }
+      resetPlayer();
+      parent.notifyPlayerUpdate && parent.notifyPlayerUpdate();
+      alert("リセットしました");
+    }
+  </script>
+</body>
+</html>
