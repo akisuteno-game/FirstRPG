@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tab_base.css">
+  <style>
+    .wrap { padding:16px; }
+    h2 { font-size:16px; color:white; margin-bottom:14px; }
+    .ubtn { display:block; width:100%; min-width:unset; min-height:unset; height:52px; font-size:14px; margin-bottom:10px; background:#111; border:1px solid #2a2a2a; color:white; text-align:left; padding:0 14px; }
+    .ubtn:hover:not(:disabled) { background:#1a1a1a; }
+    .cost { float:right; color:#ffcc44; }
+    .cost.limit { color:#444; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>強化</h2>
+    <div id="upgradeList"></div>
+  </div>
+  <script src="../data.js?v=9999"></script>
+  <script src="../js/player_data.js?v=9999"></script>
+  <script>
+    function refreshTab(){ loadPlayer(); render(); }
+    function cost(base, lv){ return base + Math.floor(lv*1.5); }
+    function notify(){ savePlayer(); parent.notifyPlayerUpdate&&parent.notifyPlayerUpdate(); render(); }
+
+    function render(){
+      loadPlayer();
+      const el = document.getElementById("upgradeList");
+      const ac = cost(10, player.atk);
+      const hc = cost(10, Math.floor(player.maxHp/5));
+      const cc = cost(15, player.crit);
+      const sl = Math.floor((2000-player.attackSpeed)/100);
+      const sc = cost(20, sl);
+      el.innerHTML = `
+        <button class="ubtn" onclick="upAtk()">⚔️ 攻撃 +1　現在:${player.atk}<span class="cost">${ac}G</span></button>
+        <button class="ubtn" onclick="upHp()">❤️ 最大HP +5　現在:${player.maxHp}<span class="cost">${hc}G</span></button>
+        <button class="ubtn" onclick="upCrit()" ${player.crit>=80?"disabled":""}>💥 クリ率 +1%　現在:${player.crit}%<span class="cost ${player.crit>=80?"limit":""}">${player.crit>=80?"上限":cc+"G"}</span></button>
+        <button class="ubtn" onclick="upSpd()" ${player.attackSpeed<=400?"disabled":""}>⚡ 速度 -100ms　現在:${(player.attackSpeed/1000).toFixed(1)}s<span class="cost ${player.attackSpeed<=400?"limit":""}">${player.attackSpeed<=400?"上限":sc+"G"}</span></button>
+      `;
+    }
+
+    function upAtk(){
+      const c=cost(10,player.atk); if(player.gold<c)return;
+      player.gold-=c; player.atk+=1; notify();
+    }
+    function upHp(){
+      const c=cost(10,Math.floor(player.maxHp/5)); if(player.gold<c)return;
+      player.gold-=c; player.maxHp+=5; player.hp+=5; notify();
+    }
+    function upCrit(){
+      const c=cost(15,player.crit); if(player.gold<c||player.crit>=80)return;
+      player.gold-=c; player.crit+=1; notify();
+    }
+    function upSpd(){
+      const c=cost(20,Math.floor((2000-player.attackSpeed)/100));
+      if(player.gold<c||player.attackSpeed<=400)return;
+      player.gold-=c; player.attackSpeed-=100;
+      if(player.attackSpeed<400)player.attackSpeed=400;
+      notify();
+    }
+    render();
+  </script>
+</body>
+</html>
