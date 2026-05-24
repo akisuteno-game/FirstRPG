@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tab_base.css">
+  <style>
+    #craftWrap{display:flex;flex-direction:column;height:100vh;}
+    #sectionBar{display:flex;flex-shrink:0;border-bottom:1px solid #1a1a1a;}
+    .secBtn{flex:1;min-width:unset;min-height:unset;height:36px;font-size:11px;background:#0a0a0a;border:none;color:#444;cursor:pointer;border-bottom:2px solid transparent;font-family:monospace;}
+    .secBtn.active{color:white;border-bottom-color:#88aaff;}
+    #craftContent{flex:1;overflow-y:auto;padding:10px;}
+    .card{background:#0f0f0f;border:1px solid #1e1e1e;padding:10px;margin-bottom:6px;}
+    .card.equipped{background:#0a1a0a;border-color:#336633;}
+    .dim{background:#080808;border-color:#111;opacity:0.45;}
+    .si{background:#0d0d0d;border:1px solid #1a1a1a;padding:10px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+    .si.equipped{background:#0a1a0a;border-color:#336633;}
+    .sb{display:flex;flex-direction:column;gap:4px;}
+    .cbtn{min-width:unset;min-height:unset;padding:4px 10px;font-size:11px;font-family:monospace;cursor:pointer;}
+    .cbtn.eq{background:#1a2a1a;color:#88ff88;border:1px solid #336633;}
+    .cbtn.ueq{background:#1a1a1a;color:#888;border:1px solid #333;}
+    .cbtn.del{background:#1a0a0a;color:#ff6666;border:1px solid #441111;}
+    .crbtn{min-width:unset;min-height:unset;width:100%;height:32px;font-size:13px;font-family:monospace;cursor:pointer;}
+    .crbtn.ok{background:#1a2a1a;color:#88ff88;border:1px solid #336633;}
+    .crbtn.ng{background:#0d0d0d;color:#333;border:1px solid #1a1a1a;}
+    .sec-label{font-size:10px;color:#444;padding:8px 0 4px;border-top:1px solid #1a1a1a;margin-top:4px;}
+  </style>
+</head>
+<body>
+<div id="craftWrap">
+  <div id="sectionBar">
+    <button class="secBtn active" onclick="switchSec('weapon',this)">⚔️ 武器</button>
+    <button class="secBtn" onclick="switchSec('armor',this)">🛡️ 鎧</button>
+    <button class="secBtn" onclick="switchSec('accessory',this)">💍 アクセ</button>
+    <button class="secBtn" onclick="switchSec('item',this)">🧪 アイテム</button>
+  </div>
+  <div id="craftContent"></div>
+</div>
+<script src="../data.js?v=9999"></script>
+<script src="../js/player_data.js?v=9999"></script>
+<script src="../js/craft_data.js?v=9999"></script>
+<script src="../js/craft_logic.js?v=9999"></script>
+<script>
+  function refreshTab(){ loadPlayer(); render(); }
+  let curSec="weapon";
+
+  function switchSec(s,btn){
+    curSec=s;
+    document.querySelectorAll(".secBtn").forEach(function(b){b.classList.remove("active");});
+    if(btn)btn.classList.add("active");
+    render();
+  }
+
+  function mstr(mats){
+    return Object.keys(mats).map(function(name){
+      const have=player.materials[name]||0,need=mats[name];
+      return `<span style="color:${have>=need?"#88ff88":"#552222"};">${name} ${have}/${need}</span>`;
+    }).join("　");
+  }
+
+  function rngStr(r){
+    const L={atk:"ATK",maxHp:"HP",crit:"クリ%",critMulti:"クリダメ",attackSpeed:"速度ms",goldBonus:"GOLD%",rareChance:"ドロ%"};
+    return Object.keys(r.effectRange).map(function(k){const rv=r.effectRange[k];return `${L[k]||k}:${rv[0]}〜${rv[1]}`;}).join("　");
+  }
+
+  function notify(){ savePlayer(); parent.notifyPlayerUpdate&&parent.notifyPlayerUpdate(); render(); }
+
+  function render(){
+    loadPlayer(); initEquipment();
+    const el=document.getElementById("craftContent");
+    if(!el)return;
+    if(curSec==="item"){
+      const ok=craftItems.filter(canCraft),ng=craftItems.filter(function(i){return !canCraft(i);});
+      let html=ok.map(function(item){
+        return `<div class="card"><div style="font-size:13px;font-weight:bold;color:white;margin-bottom:3px;">${item.name}</div><div style="font-size:11px;color:#888;margin-bottom:5px;">${item.desc}</div><div style="font-size:10px;margin-bottom:6px;">${mstr(item.materials)}</div><button class="crbtn ok" onclick="doCraftItem('${item.id}')">作成する</button></div>`;
+      }).join("")||`<div style="color:#333;font-size:12px;padding:16px;text-align:center;">素材が揃ったアイテムがありません</div>`;
+      if(ng.length){html+=`<div class="sec-label">── 素材不足 ──</div>`+ng.map(function(i){return `<div class="card dim"><div style="font-size:12px;color:#555;">${i.name}</div><div style="font-size:10px;margin-top:4px;">${mstr(i.materials)}</div></div>`;}).join("");}
+      el.innerHTML=html; return;
+    }
+    const slot=curSec,stack=player.equipStack[slot]||[],MAX=EQUIP_STACK_MAX;
+    let html=`<div style="font-size:11px;color:#555;margin-bottom:6px;">所持品 ${stack.length}/${MAX}</div>`;
+    if(!stack.length){html+=`<div style="color:#333;font-size:12px;padding:4px 0 10px;">なし</div>`;}
+    else{stack.forEach(function(item,idx){
+      html+=`<div class="si ${item.equipped?"equipped":""}">
+        <div style="flex:1;"><div style="font-size:13px;font-weight:bold;color:${item.rarityColor};">${item.rarity} ${item.name} ${item.equipped?"✅":""}</div><div style="font-size:11px;color:#aaa;margin-top:2px;">${item.desc}</div></div>
+        <div class="sb">${item.equipped?`<button class="cbtn ueq" onclick="doUneq('${slot}')">外す</button>`:`<button class="cbtn eq" onclick="doEq('${slot}',${idx})">装備</button>`}<button class="cbtn del" onclick="doDel('${slot}',${idx})">捨てる</button></div>
+      </div>`;
+    });}
+    const recOk=craftEquipments.filter(function(r){return r.slot===slot&&canCraft(r);}),recNg=craftEquipments.filter(function(r){return r.slot===slot&&!canCraft(r);});
+    html+=`<div class="sec-label" style="margin-top:8px;">── クラフト可能 ──</div>`;
+    if(!recOk.length){html+=`<div style="color:#333;font-size:12px;padding:4px 0 8px;">素材が揃った装備がありません</div>`;}
+    else{html+=recOk.map(function(r){
+      const full=stack.length>=MAX;
+      return `<div class="card"><div style="font-size:13px;font-weight:bold;color:white;margin-bottom:3px;">${r.name}</div><div style="font-size:11px;color:#6688aa;margin-bottom:3px;">${rngStr(r)}</div><div style="font-size:10px;margin-bottom:6px;">${mstr(r.materials)}</div><button class="crbtn ${full?"ng":"ok"}" onclick="doCraft('${r.id}')" ${full?"disabled":""}>${full?"所持品が満杯":"クラフトする"}</button></div>`;
+    }).join("");}
+    html+=`<div class="sec-label">── 素材不足 ──</div>`+recNg.map(function(r){return `<div class="card dim"><div style="font-size:12px;color:#555;">${r.name}</div><div style="font-size:10px;margin-top:4px;">${mstr(r.materials)}</div></div>`;}).join("");
+    el.innerHTML=html;
+  }
+
+  function doCraft(id){ craftEquipment(id); notify(); }
+  function doCraftItem(id){ craftItem(id); notify(); }
+  function doEq(s,i){ equipFromStack(s,i); notify(); }
+  function doUneq(s){ unequipCurrent(s); notify(); }
+  function doDel(s,i){ if(!confirm("捨てますか？"))return; removeFromStack(s,i); notify(); }
+
+  render();
+</script>
+</body>
+</html>
