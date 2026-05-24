@@ -1,6 +1,5 @@
 const RETURN_URL = "https://akisuteno-game.github.io/FirstRPG/";
 
-// ─── ゲージ ──────────────────────────────────
 let playerGauge = 0, enemyGauge = 0;
 let playerLoop  = null, enemyLoop = null;
 
@@ -9,16 +8,16 @@ function startPlayerGauge(){
   playerGauge = 0;
   const bar    = document.getElementById("playerGauge");
   const button = document.getElementById("attackBtn");
-  if(bar)   { bar.style.width    = "0%"; }
-  if(button){ button.disabled    = true; }
+  if(bar)   { bar.style.width   = "0%"; }
+  if(button){ button.disabled   = true; }
   playerLoop = setInterval(function(){
-    playerGauge += (16/player.attackSpeed)*100;
+    playerGauge += (16 / player.attackSpeed) * 100;
     if(playerGauge >= 100){
       playerGauge = 100;
       clearInterval(playerLoop);
       if(button){ button.disabled = false; }
     }
-    if(bar){ bar.style.width = playerGauge+"%"; }
+    if(bar){ bar.style.width = playerGauge + "%"; }
   }, 16);
 }
 
@@ -28,16 +27,15 @@ function startEnemyGauge(){
   const bar = document.getElementById("enemyGauge");
   if(bar){ bar.style.width = "0%"; }
   enemyLoop = setInterval(function(){
-    enemyGauge += (16/currentEnemy.speed)*100;
+    enemyGauge += (16 / currentEnemy.speed) * 100;
     if(enemyGauge >= 100){
       enemyGauge = 0;
       enemyAttack();
     }
-    if(bar){ bar.style.width = enemyGauge+"%"; }
+    if(bar){ bar.style.width = enemyGauge + "%"; }
   }, 16);
 }
 
-// ─── 攻撃 ────────────────────────────────────
 function attackEnemy(){
   if(!currentEnemy){ return; }
   const button = document.getElementById("attackBtn");
@@ -46,7 +44,7 @@ function attackEnemy(){
   const gauge = document.getElementById("playerGauge");
   if(gauge){ gauge.style.width = "0%"; }
 
-  const isCrit = Math.random()*100 < player.crit;
+  const isCrit = Math.random() * 100 < player.crit;
   let dmg = player.atk;
   if(isCrit){ dmg = Math.floor(dmg * player.critMulti); }
 
@@ -57,17 +55,14 @@ function attackEnemy(){
   addLog(isCrit ? "⚡ CRIT! " + dmg + " ダメージ！" : "→ " + dmg + " ダメージ");
   updateEnemyUI();
 
-  if(currentEnemy.hp <= 0){
-    onEnemyDefeated();
-    return;
-  }
+  if(currentEnemy.hp <= 0){ onEnemyDefeated(); return; }
   startPlayerGauge();
 }
 
 function onEnemyDefeated(){
-  const rebirthGoldBonus = 0.03 * (player.rebirthCount||0);
-  const goldMult = 1 + (player.goldBonus||0) + rebirthGoldBonus;
-  const goldGain = Math.floor((currentEnemy.drop||0) * goldMult);
+  const rebirthGoldBonus = 0.03 * (player.rebirthCount || 0);
+  const goldMult = 1 + (player.goldBonus || 0) + rebirthGoldBonus;
+  const goldGain = Math.floor((currentEnemy.drop || 0) * goldMult);
 
   player.gold      += goldGain;
   player.exp       += currentEnemy.exp || 0;
@@ -79,10 +74,10 @@ function onEnemyDefeated(){
   }
 
   const rareBonus = (typeof getSkillRareBonus === "function") ? getSkillRareBonus() : 0;
-  if(currentEnemy.rareMaterial && Math.random() < (currentEnemy.rareChance||0.1) + rareBonus){
+  if(currentEnemy.rareMaterial && Math.random() < (currentEnemy.rareChance || 0.1) + rareBonus){
     if(!player.materials[currentEnemy.rareMaterial]){ player.materials[currentEnemy.rareMaterial] = 0; }
     player.materials[currentEnemy.rareMaterial]++;
-    addLog("✨ レア素材「"+currentEnemy.rareMaterial+"」を入手！");
+    addLog("✨ レア素材「" + currentEnemy.rareMaterial + "」を入手！");
   }
 
   checkLevelUp();
@@ -90,18 +85,15 @@ function onEnemyDefeated(){
   clearInterval(playerLoop);
   clearInterval(enemyLoop);
   addLog("🏆 " + currentEnemy.name + " を倒した！ GOLD +" + goldGain);
-
   setTimeout(function(){ location.href = RETURN_URL; }, 800);
 }
 
-// ─── 敵攻撃 ──────────────────────────────────
 function enemyAttack(){
   const dmg = currentEnemy.atk;
   player.hp -= dmg;
   if(player.hp < 0){ player.hp = 0; }
   showDamageNumber(dmg, false, "player");
   addLog("← " + currentEnemy.name + " の攻撃！ " + dmg + " ダメージ");
-
   if(player.hp <= 0){
     clearInterval(playerLoop);
     clearInterval(enemyLoop);
@@ -113,7 +105,6 @@ function enemyAttack(){
   updatePlayerHpUI();
 }
 
-// ─── ポーション ──────────────────────────────
 function usePotion(){
   if(player.potions <= 0){ return; }
   const heal = Math.ceil(player.maxHp * 0.5);
@@ -122,10 +113,11 @@ function usePotion(){
   addLog("💊 ポーション使用！ HP +" + heal);
   updatePlayerHpUI();
   const btns = document.querySelectorAll(".battleBtn");
-  btns.forEach(function(b){ if(b.textContent.includes("ポーション")){ b.textContent = "ポーション（"+player.potions+"）"; } });
+  btns.forEach(function(b){
+    if(b.textContent.includes("ポーション")){ b.textContent = "ポーション（" + player.potions + "）"; }
+  });
 }
 
-// ─── レベルアップ ────────────────────────────
 function checkLevelUp(){
   const needed = expToNextLevel(player.level);
   if(player.exp >= needed){
@@ -134,7 +126,7 @@ function checkLevelUp(){
     player.maxHp += 3;
     player.hp     = player.maxHp;
     player.atk   += 1;
-    player.skillPoints = (player.skillPoints||0) + 1;
+    player.skillPoints = (player.skillPoints || 0) + 1;
     addLog("🌟 レベルアップ！ Lv." + player.level + " SP +1");
   }
 }
