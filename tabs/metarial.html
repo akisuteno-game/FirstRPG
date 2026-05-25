@@ -4,21 +4,25 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="tab_base.css">
   <style>
-    .wrap { padding:12px; }
-    h2 { font-size:14px; color:#555; margin-bottom:10px; }
-    .matRow { display:flex; align-items:center; gap:8px; padding:6px 8px; background:#0f0f0f; border:1px solid #1a1a1a; margin-bottom:4px; }
-    .matRow img { width:20px; height:20px; object-fit:contain; }
-    .matRow .emoji { font-size:16px; width:20px; text-align:center; }
-    .matRow .name { flex:1; font-size:12px; color:#ccc; }
-    .matRow .count { font-size:12px; color:#666; }
-    .empty { color:#333; font-size:12px; padding:20px; text-align:center; }
+    body { padding: 14px; }
+    h2 { font-size: 16px; color: #888; margin-bottom: 12px; }
+    .matRow {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px;
+      background: #0f0f0f; border: 1px solid #1a1a1a;
+      margin-bottom: 5px;
+    }
+    .matRow .icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+    .matRow img  { width: 24px; height: 24px; object-fit: contain; flex-shrink: 0; }
+    .matRow .name  { flex: 1; font-size: 14px; color: #ccc; }
+    .matRow .count { font-size: 14px; color: #888; }
+    .empty { color: #444; font-size: 14px; padding: 30px; text-align: center; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h2>── 素材 ──</h2>
-    <div id="matList"></div>
-  </div>
+  <h2>── 素材 ──</h2>
+  <div id="matList"></div>
+
   <script src="../data.js?v=9999"></script>
   <script src="../js/player_data.js?v=9999"></script>
   <script src="../js/player_material.js?v=9999"></script>
@@ -29,9 +33,32 @@
       loadPlayer();
       const el = document.getElementById("matList");
       if(!el){ return; }
-      const html = createMaterialHTML();
-      el.innerHTML = html ||
-        `<div class="empty">素材がありません<br><span style="font-size:10px;color:#222;">敵を倒すと素材が手に入ります</span></div>`;
+
+      if(!player.materials || Object.keys(player.materials).length === 0){
+        el.innerHTML = `<div class="empty">素材がありません<br><span style="font-size:12px;color:#333;">敵を倒すと素材が手に入ります</span></div>`;
+        return;
+      }
+
+      let html = "";
+      Object.keys(materialEmoji).forEach(function(name){
+        const amount = player.materials[name];
+        if(!amount || amount <= 0){ return; }
+
+        const path  = getMaterialPath(name);
+        const emoji = getMaterialEmoji(name);
+
+        const iconHtml = path
+          ? `<img src="../${path}" onerror="this.outerHTML='<span class=\\"icon\\">${emoji}</span>'">`
+          : `<span class="icon">${emoji}</span>`;
+
+        html += `<div class="matRow">
+          ${iconHtml}
+          <span class="name">${name}</span>
+          <span class="count">× ${amount}</span>
+        </div>`;
+      });
+
+      el.innerHTML = html || `<div class="empty">素材がありません</div>`;
     }
 
     render();
