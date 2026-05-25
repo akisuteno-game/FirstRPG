@@ -7,33 +7,41 @@ let enemyRafId   = null;
 let lastPlayerTs = null;
 let lastEnemyTs  = null;
 
+// ゲージバーをtransform:scaleXで動かす（widthより高速）
+function setGaugeBar(id, pct){
+  const bar = document.getElementById(id);
+  if(!bar){ return; }
+  const scale = Math.min(Math.max(pct / 100, 0), 1);
+  bar.style.transform       = "scaleX(" + scale + ")";
+  bar.style.transformOrigin = "left center";
+}
+
 // ─── プレイヤーゲージ ────────────────────────
 function startPlayerGauge(){
-  if(playerRafId){ cancelAnimationFrame(playerRafId); }
+  if(playerRafId){ cancelAnimationFrame(playerRafId); playerRafId = null; }
   playerGauge  = 0;
   lastPlayerTs = null;
 
-  const bar    = document.getElementById("playerGauge");
   const button = document.getElementById("attackBtn");
-  if(bar)   { bar.style.width   = "0%"; }
-  if(button){ button.disabled   = true; }
+  if(button){ button.disabled = true; }
+  setGaugeBar("playerGauge", 0);
 
   function step(ts){
-    if(!lastPlayerTs){ lastPlayerTs = ts; }
-    const delta = ts - lastPlayerTs;
+    if(lastPlayerTs === null){ lastPlayerTs = ts; }
+    const delta  = Math.min(ts - lastPlayerTs, 100); // 最大100msにクランプ
     lastPlayerTs = ts;
 
     playerGauge += (delta / player.attackSpeed) * 100;
 
     if(playerGauge >= 100){
       playerGauge = 100;
-      if(bar)   { bar.style.width   = "100%"; }
-      if(button){ button.disabled   = false; }
+      setGaugeBar("playerGauge", 100);
+      if(button){ button.disabled = false; }
       playerRafId = null;
       return;
     }
 
-    if(bar){ bar.style.width = playerGauge.toFixed(1) + "%"; }
+    setGaugeBar("playerGauge", playerGauge);
     playerRafId = requestAnimationFrame(step);
   }
 
@@ -46,33 +54,33 @@ function stopPlayerGauge(){
 
 // ─── 敵ゲージ ────────────────────────────────
 function startEnemyGauge(){
-  if(enemyRafId){ cancelAnimationFrame(enemyRafId); }
+  if(enemyRafId){ cancelAnimationFrame(enemyRafId); enemyRafId = null; }
   enemyGauge  = 0;
   lastEnemyTs = null;
 
-  const bar = document.getElementById("enemyGauge");
-  if(bar){ bar.style.width = "0%"; }
+  setGaugeBar("enemyGauge", 0);
 
   function step(ts){
-    if(!lastEnemyTs){ lastEnemyTs = ts; }
-    const delta = ts - lastEnemyTs;
+    if(lastEnemyTs === null){ lastEnemyTs = ts; }
+    const delta = Math.min(ts - lastEnemyTs, 100);
     lastEnemyTs = ts;
 
     enemyGauge += (delta / currentEnemy.speed) * 100;
 
     if(enemyGauge >= 100){
-      enemyGauge = 0;
+      enemyGauge  = 0;
       lastEnemyTs = null;
-      if(bar){ bar.style.width = "0%"; }
+      setGaugeBar("enemyGauge", 0);
+
       enemyAttack();
-      // 死亡してなければ再開
+
       if(player.hp > 0){
         enemyRafId = requestAnimationFrame(step);
       }
       return;
     }
 
-    if(bar){ bar.style.width = enemyGauge.toFixed(1) + "%"; }
+    setGaugeBar("enemyGauge", enemyGauge);
     enemyRafId = requestAnimationFrame(step);
   }
 
@@ -89,10 +97,8 @@ function attackEnemy(){
 
   const button = document.getElementById("attackBtn");
   if(button){ button.disabled = true; }
-
   playerGauge = 0;
-  const gauge = document.getElementById("playerGauge");
-  if(gauge){ gauge.style.width = "0%"; }
+  setGaugeBar("playerGauge", 0);
 
   const isCrit = Math.random() * 100 < player.crit;
   var dmg = player.atk;
@@ -171,7 +177,9 @@ function usePotion(){
   addLog("💊 ポーション使用！ HP +" + heal);
   updatePlayerHpUI();
   document.querySelectorAll(".battleBtn").forEach(function(b){
-    if(b.textContent.includes("ポーション")){ b.textContent = "ポーション（" + player.potions + "）"; }
+    if(b.textContent.includes("ポーション")){
+      b.textContent = "ポーション（" + player.potions + "）";
+    }
   });
 }
 
