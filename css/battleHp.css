@@ -1,14 +1,1 @@
-.hpBox {
-  width: 260px;
-  height: 16px;
-  border: 1px solid white;
-  margin: 6px auto;
-  overflow: hidden;
-}
-
-.hpFill {
-  width: 100%;
-  height: 100%;
-  background: lime;
-  transition: width 0.15s linear;
-}
+/* battle.cssに統合 */
