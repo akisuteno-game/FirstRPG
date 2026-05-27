@@ -7,13 +7,9 @@ let enemyRafId   = null;
 let lastPlayerTs = null;
 let lastEnemyTs  = null;
 
-// ゲージバーをtransform:scaleXで動かす（widthより高速）
-function setGaugeBar(id, pct){
-  const bar = document.getElementById(id);
-  if(!bar){ return; }
-  const scale = Math.min(Math.max(pct / 100, 0), 1);
-  bar.style.transform       = "scaleX(" + scale + ")";
-  bar.style.transformOrigin = "left center";
+function setBar(id, pct){
+  const el = document.getElementById(id);
+  if(el){ el.style.width = Math.min(Math.max(pct, 0), 100) + "%"; }
 }
 
 // ─── プレイヤーゲージ ────────────────────────
@@ -21,27 +17,27 @@ function startPlayerGauge(){
   if(playerRafId){ cancelAnimationFrame(playerRafId); playerRafId = null; }
   playerGauge  = 0;
   lastPlayerTs = null;
+  setBar("playerGauge", 0);
 
   const button = document.getElementById("attackBtn");
   if(button){ button.disabled = true; }
-  setGaugeBar("playerGauge", 0);
 
   function step(ts){
     if(lastPlayerTs === null){ lastPlayerTs = ts; }
-    const delta  = Math.min(ts - lastPlayerTs, 100); // 最大100msにクランプ
+    const delta  = Math.min(ts - lastPlayerTs, 100);
     lastPlayerTs = ts;
 
     playerGauge += (delta / player.attackSpeed) * 100;
 
     if(playerGauge >= 100){
       playerGauge = 100;
-      setGaugeBar("playerGauge", 100);
+      setBar("playerGauge", 100);
       if(button){ button.disabled = false; }
       playerRafId = null;
       return;
     }
 
-    setGaugeBar("playerGauge", playerGauge);
+    setBar("playerGauge", playerGauge);
     playerRafId = requestAnimationFrame(step);
   }
 
@@ -57,8 +53,7 @@ function startEnemyGauge(){
   if(enemyRafId){ cancelAnimationFrame(enemyRafId); enemyRafId = null; }
   enemyGauge  = 0;
   lastEnemyTs = null;
-
-  setGaugeBar("enemyGauge", 0);
+  setBar("enemyGauge", 0);
 
   function step(ts){
     if(lastEnemyTs === null){ lastEnemyTs = ts; }
@@ -70,17 +65,15 @@ function startEnemyGauge(){
     if(enemyGauge >= 100){
       enemyGauge  = 0;
       lastEnemyTs = null;
-      setGaugeBar("enemyGauge", 0);
-
+      setBar("enemyGauge", 0);
       enemyAttack();
-
       if(player.hp > 0){
         enemyRafId = requestAnimationFrame(step);
       }
       return;
     }
 
-    setGaugeBar("enemyGauge", enemyGauge);
+    setBar("enemyGauge", enemyGauge);
     enemyRafId = requestAnimationFrame(step);
   }
 
@@ -98,7 +91,7 @@ function attackEnemy(){
   const button = document.getElementById("attackBtn");
   if(button){ button.disabled = true; }
   playerGauge = 0;
-  setGaugeBar("playerGauge", 0);
+  setBar("playerGauge", 0);
 
   const isCrit = Math.random() * 100 < player.crit;
   var dmg = player.atk;
