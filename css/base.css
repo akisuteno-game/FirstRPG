@@ -5,17 +5,16 @@
 }
 
 html, body {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   background: #111;
   color: #eee;
   font-family: monospace;
-  display: flex;
   font-size: 14px;
+  /* display:flex は index.html で個別に設定 */
 }
 
 button {
@@ -31,34 +30,5 @@ button {
   font-family: monospace;
 }
 
-button:hover { background: #444; }
+button:hover    { background: #444; }
 button:disabled { opacity: 0.4; cursor: default; }
-
-.statusLabel {
-  font-size: 13px;
-  margin-bottom: 3px;
-  color: #ccc;
-}
-
-.statusSub {
-  font-size: 11px;
-  color: #666;
-  margin-bottom: 5px;
-}
-
-.bar {
-  width: 100%;
-  height: 8px;
-  background: #222;
-  border: 1px solid #444;
-  overflow: hidden;
-  box-sizing: border-box;
-  margin-bottom: 5px;
-}
-
-.fill {
-  width: 100%;
-  height: 100%;
-  background: lime;
-  transition: width 0.2s linear;
-}
