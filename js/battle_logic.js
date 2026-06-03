@@ -1,4 +1,4 @@
-const RETURN_URL = "https://akisuteno-game.github.io/FirstRPG/";
+const RETURN_URL = "https://akisuteno-game.github.io/FirstRPG/index.html";
 
 let playerGauge  = 0;
 let enemyGauge   = 0;
