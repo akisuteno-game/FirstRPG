@@ -32,6 +32,11 @@
       return false;
     }
 
+    function startBattle(id){
+      // iframeの外（親ページ）でbattle.htmlに遷移する
+      parent.location.href = "battle.html?id=" + id;
+    }
+
     function renderEnemyTab(){
       loadPlayer();
       const list = document.getElementById("list");
@@ -59,7 +64,7 @@
             html += `<div class="hidden-card"><div style="font-size:22px;margin-bottom:4px;">？</div><div style="font-size:9px;">前の敵を倒すと解放</div></div>`;
             return;
           }
-          html += `<div class="card ${enemy.isBoss?"boss":""}" onclick="location.href='../battle.html?id=${enemy.id}'">
+          html += `<div class="card ${enemy.isBoss?"boss":""}" onclick="startBattle(${enemy.id})">
             ${enemy.isBoss?`<div style="color:gold;font-size:9px;margin-bottom:2px;">👑 BOSS</div>`:""}
             <img src="../${enemy.img}" onerror="this.style.display='none'">
             <div class="cname ${enemy.isBoss?"bossname":""}">${enemy.name}</div>
@@ -70,6 +75,7 @@
       });
       list.innerHTML = html;
     }
+
     renderEnemyTab();
   </script>
 </body>
